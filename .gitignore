@@ -4,3 +4,6 @@
 .prod.env
 .vscode
 .vscode/*
+node_modules
+node_modules/*
+commands.txt
