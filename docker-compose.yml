@@ -1,0 +1,32 @@
+services:
+  operations:
+    image: postgres:17
+    container_name: operations
+    environment:
+      POSTGRES_USER: ${OPERATIONS_ROOT_USER}
+      POSTGRES_PASSWORD: ${OPERATIONS_ROOT_PASSWORD}
+      POSTGRES_DB: ${OPERATIONS_ROOT_DB}
+    ports: 
+      - ${OPERATIONS_PORT_MAPPING:-}
+    volumes:
+      - operations-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  
+  platform:
+    build:
+      context: ${PLATFORM_PATH}
+      dockerfile: Dockerfile
+    container_name: platform
+    volumes:
+      - ${PLATFORM_PATH}:/app
+    ports:
+      - "8000:8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  operations-db-volume:
