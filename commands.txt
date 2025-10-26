@@ -1,0 +1,5 @@
+npx esbuild platform/static/ts/**/*.ts --outdir=platform/static/js --outbase=platform/static/ts \
+    --format=esm --sourcemap --bundle --splitting --watch
+
+
+npx tailwindcss -i ./tailwind.css -o ./platform/static/styles.css --watch
