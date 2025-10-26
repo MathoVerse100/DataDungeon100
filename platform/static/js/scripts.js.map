@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../ts/scripts.ts"],
-  "sourcesContent": ["import { wow } from \"./types\";\n\nfunction click_alert(input: wow): void {\n  window.alert(input.person);\n}\n\ndocument.querySelector(\"#notify\")!.addEventListener(\"click\", () => {\n  const wow_element: wow = {\n    person: \"human\",\n  };\n\n  click_alert(wow_element);\n});\n"],
-  "mappings": ";AAEA,SAAS,YAAY,OAAkB;AACrC,SAAO,MAAM,MAAM,MAAM;AAC3B;AAEA,SAAS,cAAc,SAAS,EAAG,iBAAiB,SAAS,MAAM;AACjE,QAAM,cAAmB;AAAA,IACvB,QAAQ;AAAA,EACV;AAEA,cAAY,WAAW;AACzB,CAAC;",
-  "names": []
-}
