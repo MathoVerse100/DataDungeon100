@@ -1,0 +1,26 @@
+@import url("https://fonts.cdnfonts.com/css/roboto");
+@import url("https://fonts.cdnfonts.com/css/inter");
+
+.font-roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+.font-roboto-thin {
+  font-family: "Roboto Thin", sans-serif;
+}
+
+.font-roboto-light {
+  font-family: "Roboto Light", sans-serif;
+}
+
+.font-roboto-medium {
+  font-family: "Roboto Medium", sans-serif;
+}
+
+.font-roboto-black {
+  font-family: "Roboto Black", sans-serif;
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
+}

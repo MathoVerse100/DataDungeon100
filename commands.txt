@@ -2,4 +2,4 @@ npx esbuild platform/static/ts/**/*.ts --outdir=platform/static/js --outbase=pla
     --format=esm --sourcemap --bundle --splitting --watch
 
 
-npx tailwindcss -i ./tailwind.css -o ./platform/static/styles.css --watch
+npx tailwindcss -i ./tailwind.css -o ./platform/static/tailwind.css --minify --watch
