@@ -8,10 +8,164 @@
 </head>
 <body class="bg-black">
     <div class="flex flex-row justify-stretch items-stretch">
-        <div class="flex flex-col justify-start items-stretch gap-[2em] h-[100vh] w-[15rem] bg-gray-800 bg-opacity-25 border-r-[1px] border-r-gray-500 p-[2em]">
-            <div class="w-[100%] aspect-[1/1] h-auto bg-white bg-opacity-50 rounded-[50%]"></div>
-            <section class="w-[100%] border-[1px] border-red-500">
-                <header class="text-white font-inter text-xl">Discovery</header>
+        <div
+            class="flex flex-col justify-start items-center gap-[2em] p-[2em] h-[100vh] w-[15rem] 
+                bg-gray-800 bg-opacity-25 border-r-[1px] border-r-gray-500
+                overflow-y-auto overflow-x-hidden scrollbar-hide"
+            >
+            <div class="w-[50%] aspect-[1/1] h-auto bg-white bg-opacity-50 rounded-[50%]"></div>
+            <section class="w-[100%] flex flex-col justify-start items-stretch">
+                <header class="mb-[0.5em] text-white font-inter text-xs uppercase tracking-wide opacity-70">Discovery</header>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">H</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Home</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">E</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Explore</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">M</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">MonK</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">C</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Community</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">L</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Library</span>
+                    </div>
+                </button>
+            </section>
+            <section class="w-[100%] flex flex-col justify-start items-stretch">
+                <header class="mb-[0.5em] text-white font-inter text-xs uppercase tracking-wide opacity-70">Personal</header>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">P</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Projects</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">S</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Storage</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">SZ</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Study Zone</span>
+                    </div>
+                </button>
+            </section>
+            <section class="w-[100%] flex flex-col justify-start items-stretch">
+                <header class="mb-[0.5em] text-white font-inter text-xs uppercase tracking-wide opacity-70">Configuration</header>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">HT</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">History</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">HP</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Help</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">ST</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">Settings</span>
+                    </div>
+                </button>
+                <button
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                        transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
+                        active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+                    >
+                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
+                        <h1 class="text-white">ToS</h1>
+                    </div>
+                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                        <span class="text-white font-inter">ToS</span>
+                    </div>
+                </button>
             </section>
         </div>
         <div class="flex flex-col justify-stretch items-stretch flex-1">
