@@ -56,12 +56,8 @@
                 <div
                     class="bg-white h-[75%] max-w-[50ch] flex-1 rounded-[1rem] flex flex-row items-center text-black"
                 >
-                    {{ nav_button(content='', icon_path='search.png', icon_size='50%', type='circle') }}
-                    <input
-                        type="text"
-                        placeholder="Search Statista..."    
-                        class="p-[1em] h-full flex-1 rounded-r-[1em] p-[1em] min-w-[30ch] text-black placeholder-gray-400 outline-none"
-                    >
+                    {{ nav_button(content='', icon_path='search.png', icon_size='50%', type='circle', hover=False) }}
+                    {% include 'components/search_bar.jinja' %}
                 </div>
                 <div class="flex-1"></div>
                 {{ nav_button(content='', icon_path='chats.png', icon_size='75%', type='circle') }}
