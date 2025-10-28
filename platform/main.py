@@ -24,9 +24,28 @@ templates = Jinja2Templates(
 )
 
 
-@app.get('/home/', response_class=HTMLResponse)
+@app.get('/home/', response_class=HTMLResponse, name="home")
 async def home(request: Request):
     return templates.TemplateResponse(
         "pages/home/page.html",
         {"request": request, "generate_uuid": generate_uuid},
     )
+
+@app.get('/explore/', response_class=HTMLResponse, name='explore')
+async def items(request: Request):
+    return templates.TemplateResponse(
+        "pages/explore/page.html",
+        {"request": request, "generate_uuid": generate_uuid},
+    )
+
+@app.get('/monk/', name='monk')
+async def items():
+    return {"message": "Hello, MONK!"}
+
+@app.get('/community/', name='community')
+async def items():
+    return {"message": "Hello, COMMUNITY!"}
+
+@app.get('/library/', name='library')
+async def items():
+    return {"message": "Hello, LIBRARY!"}

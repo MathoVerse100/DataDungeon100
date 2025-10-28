@@ -1,2 +1,14 @@
-{% extends "pages/base.html" %}
+{% extends "layouts/main.html" %}
+{% from "components/nav_button.jinja" import nav_button with context %}
 
+
+{% block title %}Dungeon - Home{% endblock %}
+
+{% block inner_sidebar %}
+    <h1 class="text-yellow-500 font-bold">This is something</h1>
+    {{ nav_button('HomeButton1', 'home.png') }}
+{% endblock %}
+
+{% block main_body %}
+    <h1 class="text-yellow-500 font-bold">Some home inner sidebar buttons</h1>
+{% endblock %}

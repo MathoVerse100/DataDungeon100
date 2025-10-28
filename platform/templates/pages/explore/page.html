@@ -1,0 +1,19 @@
+{% extends "layouts/main.html" %}
+{% from "components/sidebar_menu_group.jinja" import sidebar_menu_group with context %}
+
+
+{% block title %}Dungeon - Explore{% endblock %}
+
+{% block inner_sidebar %}
+    {{ sidebar_menu_group(
+        header_content='',
+        buttons=[
+            {"content": "ExploreButton1", "icon_path": "home.png"},
+            {"content": "ExploreButton2", "icon_path": "explore.png"}
+        ]
+    ) }}
+{% endblock %}
+
+{% block main_body %}
+    <h1 class="text-yellow-500 font-bold">Some explore inner sidebar buttons</h1>
+{% endblock %}

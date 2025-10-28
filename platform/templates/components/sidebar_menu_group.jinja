@@ -16,7 +16,8 @@
                 content=button['content'], 
                 icon_path=button['icon_path'],
                 icon_size=button['icon_size'] | default('cover'),
-                events=button['events'] | default(None)
+                events=button['events'] | default(None),
+                href=button['href'] | default(None)
             )
             }}
         {% endfor %}

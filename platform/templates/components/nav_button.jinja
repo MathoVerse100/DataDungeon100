@@ -8,7 +8,8 @@
     hover=True,
     class_names=None,
     button_id=None,
-    events=None
+    events=None,
+    href=None
 ) %}
     {% if type | lower == 'circle' %}
         {% set button_exterior_classes = 'h-[100%] aspect-[1/1] rounded-[50%]' %}
@@ -20,16 +21,19 @@
         {% set button_id = generate_uuid() %}
     {% endif %}
 
-    <button
+    <a
         class="
             {{ class_names }}
             {{ button_exterior_classes }}
             transition-all duration-[200ms]
             {% if hover %}
-            hover:bg-gray-900 hover:bg-opacity-50
+            hover:bg-gray-900 hover:bg-opacity-50 cursor-pointer
             active:bg-gray-800 active:duration-[0ms] active:scale-[0.95] overflow-hidden
             {% endif %}"
         id="{{ button_id }}"
+        {% if href %}
+        href="{{ href }}"
+        {% endif %}
     >
         <div
             class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
@@ -46,7 +50,7 @@
             <span class="text-white font-inter">{{ content }}</span>
         </div>
         {% endif %}
-    </button>
+    </a>
 
     {{
         event_binder(
