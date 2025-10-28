@@ -17,62 +17,92 @@
             <section class="w-[100%] flex flex-col justify-start items-stretch">
                 <header class="mb-[0.5em] text-white font-inter text-xs uppercase tracking-wide opacity-70">Discovery</header>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">H</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='home.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Home</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">E</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='explore.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Explore</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">M</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='monk.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">MonK</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">C</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='community.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Community</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">L</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='library.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Library</span>
                     </div>
                 </button>
@@ -80,38 +110,56 @@
             <section class="w-[100%] flex flex-col justify-start items-stretch">
                 <header class="mb-[0.5em] text-white font-inter text-xs uppercase tracking-wide opacity-70">Personal</header>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">P</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='projects.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Projects</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">S</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='storage.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Storage</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">SZ</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='study_zone.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Study Zone</span>
                     </div>
                 </button>
@@ -119,50 +167,74 @@
             <section class="w-[100%] flex flex-col justify-start items-stretch">
                 <header class="mb-[0.5em] text-white font-inter text-xs uppercase tracking-wide opacity-70">Configuration</header>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">HT</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='history.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">History</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">HP</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='help.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Help</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">ST</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='settings.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">Settings</span>
                     </div>
                 </button>
                 <button
-                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center rounded-[1rem] 
+                    class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
                         transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
                     >
-                    <div class="h-[100%] aspect-[1/1] flex flex-row justify-center items-center">
-                        <span class="text-white">ToS</span>
-                    </div>
-                    <div class="pl-[1em] flex-1 flex flex-row justify-start items-center">
+                    <div 
+                        class="p-[1em] h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
+                        style="
+                            background-image: url('{{ url_for('assets', path='tos.png') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    ></div>
+                    <div class="flex-1 flex flex-row justify-start items-center">
                         <span class="text-white font-inter">ToS</span>
                     </div>
                 </button>
@@ -177,8 +249,13 @@
                     class="h-[100%] aspect-[1/1] transition-all duration-[200ms]
                         rounded-[50%] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms]"
+                    style="
+                        background-image: url('{{ url_for('assets', path='menu.png') }}');
+                        background-size: 50%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    "
                 >
-                    E
                 </button>
                 <div
                     class="bg-white h-[75%] max-w-[50ch] flex-1 rounded-[1rem] flex flex-row items-center p-[1em] text-black"
@@ -195,30 +272,46 @@
                     class="h-[100%] aspect-[1/1] transition-all duration-[200ms]
                         rounded-[50%] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms]"
-                >
-                    i
-                </button>
+                    style="
+                        background-image: url('{{ url_for('assets', path='chats.png') }}');
+                        background-size: 75%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    "
+                ></button>
                 <button
                     class="h-[100%] aspect-[1/1] transition-all duration-[200ms]
                         rounded-[50%] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms]"
-                >
-                    L/D
-                </button>
+                    style="
+                        background-image: url('{{ url_for('assets', path='light_dark_mode.png') }}');
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    "
+                ></button>
                 <button
                     class="h-[100%] aspect-[1/1] transition-all duration-[200ms]
                         rounded-[50%] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms]"
-                >
-                    LG
-                </button>
+                    style="
+                        background-image: url('{{ url_for('assets', path='language.png') }}');
+                        background-size: 75%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    "
+                ></button>
                 <button
                     class="h-[100%] aspect-[1/1] transition-all duration-[200ms]
                         rounded-[50%] hover:bg-gray-900 hover:bg-opacity-50
                         active:bg-gray-800 active:duration-[0ms]"
-                >
-                    B
-                </button>
+                    style="
+                        background-image: url('{{ url_for('assets', path='bell.png') }}');
+                        background-size: 75%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    "
+                ></button>
                 <button
                     class="h-[100%] aspect-[1/1] transition-all duration-[200ms]
                         rounded-[50%] hover:bg-gray-900 hover:bg-opacity-50
