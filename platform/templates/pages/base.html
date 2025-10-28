@@ -1,0 +1,55 @@
+{% extends "pages/layout.html" %}
+{% from "components/sidebar_menu_group.jinja" import sidebar_menu_group with context %}
+{% from "components/nav_button.jinja" import nav_button with context %}
+
+
+{% block title %}Dungeon - Home{% endblock %}
+
+{% block outer_sidebar %}
+    <div class="w-[50%] aspect-[1/1] h-auto bg-white bg-opacity-50 rounded-[50%]"></div>
+    {{ sidebar_menu_group(
+        "Discovery",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Community", "icon_path": "community.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        "Personal",
+        buttons=[
+            {"content": "Projects", "icon_path": "projects.png"},
+            {"content": "Storage", "icon_path": "storage.png"},
+            {"content": "Study Zone", "icon_path": "study_zone.png"},
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        "Configuration",
+        buttons=[
+            {"content": "History", "icon_path": "history.png"},
+            {"content": "Help", "icon_path": "help.png"},
+            {"content": "Settings", "icon_path": "settings.png"},
+            {"content": "ToS", "icon_path": "tos.png"},
+        ]
+    ) }}
+{% endblock %}
+
+{% block top_navbar %}
+    {{ nav_button(content='', icon_path='menu.png', icon_size='50%', type='circle') }}
+    <div
+        class="bg-white h-[75%] max-w-[50ch] flex-1 rounded-[1rem] flex flex-row items-center text-black"
+    >
+        {{ nav_button(content='', icon_path='search.png', icon_size='50%', type='circle', hover=False) }}
+        {% include 'components/search_bar.jinja' %}
+    </div>
+    <div class="flex-1"></div>
+    {{ nav_button(content='', icon_path='chats.png', icon_size='50%', type='circle') }}
+    {{ nav_button(content='', icon_path='light_dark_mode.png', icon_size='75%', type='circle') }}
+    {{ nav_button(content='', icon_path='language.png', icon_size='50%', type='circle') }}
+    {{ nav_button(content='', icon_path='bell.png', icon_size='50%', type='circle') }}
+    {{ nav_button(content='', icon_path='example_profile_pic.jpg', icon_size='cover', type='circle') }}
+{% endblock %}

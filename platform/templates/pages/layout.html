@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dungeon{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}" />
+    <script src="{{ url_for('static', path='js/example_event.js') }}"></script>
+</head>
+<body class="bg-black">
+    <div class="flex flex-row justify-stretch items-stretch">
+        <div
+            class="flex flex-col justify-start items-center gap-[2em] p-[2em] h-[100vh] w-[15rem] 
+                bg-gray-800 bg-opacity-25 border-r-[1px] border-r-gray-500
+                overflow-y-auto overflow-x-hidden scrollbar-hide"
+        >
+            {% block outer_sidebar %}{% endblock %}
+        </div>
+        <div class="flex flex-col justify-stretch items-stretch flex-1">
+            <div
+                class="h-[4.6875rem] w-full bg-gray-800 bg-opacity-25 border-b-[1px] border-b-gray-500
+                    p-[0.75em] flex flex-row justify-stretch items-center gap-[1em] text-white"
+            >
+                {% block top_navbar %}{% endblock %}
+            </div>
+            <div class="flex flex-row justify-stretch items-stretch flex-1">
+                <div 
+                    class="flex flex-col justify-start items-center gap-[2em] p-[2em] h-[100%] w-[15rem] 
+                        bg-gray-800 bg-opacity-25 border-r-[1px] border-r-gray-500
+                        overflow-y-auto overflow-x-hidden scrollbar-hide"
+                >
+                    {% block inner_sidebar %}{% endblock %}
+                </div>
+                <div class="flex-1">
+                    {% block main_body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
