@@ -1,10 +1,16 @@
-{% macro sidebar_button(content, icon_path, icon_size='cover') %}
+{% macro nav_button(content, icon_path, icon_size='cover', type='expand') %}
+    {% if type | lower == 'circle' %}
+        {% set button_exterior_classes = 'h-[100%] aspect-[1/1] rounded-[50%]' %}
+    {% else %}
+        {% set button_exterior_classes = 'px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem]' %}
+    {% endif %}
+    
     <button
-        class="px-4 py-2.5 w-[100%] flex flex-row justify-start items-center gap-[1em] rounded-[1rem] 
+        class="{{ button_exterior_classes }}
             transition-all duration-[200ms] hover:bg-gray-900 hover:bg-opacity-50
-            active:bg-gray-800 active:duration-[0ms] active:scale-[0.95]"
+            active:bg-gray-800 active:duration-[0ms] active:scale-[0.95] overflow-hidden"
     >
-        <div 
+        <div
             class="h-[100%] aspect-[1/1] flex flex-row justify-start items-center"
             style="
                 background-image: url('{{ url_for('assets', path=icon_path) }}');
@@ -13,8 +19,11 @@
                 background-repeat: no-repeat;
             "
         ></div>
+
+        {% if type | lower  != 'circle' %}
         <div class="flex-1 flex flex-row justify-start items-center">
             <span class="text-white font-inter">{{ content }}</span>
         </div>
+        {% endif %}
     </button>
 {% endmacro %}

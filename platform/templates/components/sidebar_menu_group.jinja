@@ -1,4 +1,4 @@
-{% from "components/sidebar_button.jinja" import sidebar_button with context %}
+{% from "components/nav_button.jinja" import nav_button with context %}
 
 {% macro sidebar_menu_group(
     header_content,
@@ -13,7 +13,7 @@
         {% endif %}
 
         {% for button in buttons %}
-            {{ sidebar_button(
+            {{ nav_button(
                 content=button['content'], 
                 icon_path=button['icon_path'],
                 icon_size=button['icon_size'] | default('cover'),
