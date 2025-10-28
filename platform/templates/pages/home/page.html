@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dungeon - Home</title>
     <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}" />
+    <script src="{{ url_for('static', path='js/example_event.js') }}"></script>
 </head>
 <body class="bg-black">
     <div class="flex flex-row justify-stretch items-stretch">
@@ -60,10 +61,10 @@
                     {% include 'components/search_bar.jinja' %}
                 </div>
                 <div class="flex-1"></div>
-                {{ nav_button(content='', icon_path='chats.png', icon_size='75%', type='circle') }}
-                {{ nav_button(content='', icon_path='light_dark_mode.png', icon_size='cover', type='circle') }}
-                {{ nav_button(content='', icon_path='language.png', icon_size='75%', type='circle') }}
-                {{ nav_button(content='', icon_path='bell.png', icon_size='75%', type='circle') }}
+                {{ nav_button(content='', icon_path='chats.png', icon_size='50%', type='circle') }}
+                {{ nav_button(content='', icon_path='light_dark_mode.png', icon_size='75%', type='circle') }}
+                {{ nav_button(content='', icon_path='language.png', icon_size='50%', type='circle') }}
+                {{ nav_button(content='', icon_path='bell.png', icon_size='50%', type='circle') }}
                 {{ nav_button(content='', icon_path='example_profile_pic.jpg', icon_size='cover', type='circle') }}
             </div>
             <div class="flex flex-row justify-stretch items-stretch flex-1">

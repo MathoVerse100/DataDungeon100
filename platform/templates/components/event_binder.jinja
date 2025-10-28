@@ -1,0 +1,15 @@
+{% macro event_binder(selector=None, events=None) %}
+    {% if selector and events %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const element = document.querySelector({{ selector | tojson }});
+
+            {% for event_name, event_functions in events.items() %}
+                {% for event_function in event_functions %}
+                    element.addEventListener("{{ event_name }}", {{ event_function }});
+                {% endfor %}
+            {% endfor %}
+        });
+    </script>
+    {% endif %}
+{% endmacro %}

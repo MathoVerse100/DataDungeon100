@@ -2,6 +2,10 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+import uuid
+
+def generate_uuid():
+    return 'a' + str(uuid.uuid4())
 
 app = FastAPI()
 app.mount(
@@ -24,5 +28,5 @@ templates = Jinja2Templates(
 async def home(request: Request):
     return templates.TemplateResponse(
         "pages/home/page.html",
-        {"request": request},
+        {"request": request, "generate_uuid": generate_uuid},
     )

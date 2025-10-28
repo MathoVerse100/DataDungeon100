@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../ts/example_event.ts"],
+  "sourcesContent": ["function just_console_log(): void {\n  console.log(\"This is just an event!\");\n}\n"],
+  "mappings": ";AAAA,SAAS,mBAAyB;AAChC,UAAQ,IAAI,wBAAwB;AACtC;",
+  "names": []
+}

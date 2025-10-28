@@ -2,8 +2,7 @@
 
 {% macro sidebar_menu_group(
     header_content,
-    buttons=None,
-    request=request
+    buttons=None
 ) %}
     <section class="w-[100%] flex flex-col justify-start items-stretch">
         <header class="mb-[0.5em] text-white font-inter text-xs uppercase tracking-wide opacity-70">{{ header_content }}</header>
@@ -17,6 +16,7 @@
                 content=button['content'], 
                 icon_path=button['icon_path'],
                 icon_size=button['icon_size'] | default('cover'),
+                events=button['events'] | default(None)
             )
             }}
         {% endfor %}
