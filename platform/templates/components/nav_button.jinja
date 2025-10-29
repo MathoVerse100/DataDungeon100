@@ -26,10 +26,18 @@
             {{ class_names }}
             {{ button_exterior_classes }}
             transition-all duration-[200ms]
+            {% if outer_sidebar_button_clicked == content | lower %}
+            bg-amber-600 bg-opacity-20
+            {% endif %}
             {% if hover %}
-            hover:bg-gray-900 hover:bg-opacity-50 cursor-pointer
-            active:bg-gray-800 active:duration-[0ms] active:scale-[0.95] overflow-hidden
-            {% endif %}"
+            hover:bg-opacity-50 cursor-pointer active:duration-[0ms] active:scale-[0.95] overflow-hidden
+                {% if outer_sidebar_button_clicked != (content | lower) %}
+                hover:bg-gray-900 active:bg-gray-900 
+                {% else %}
+                hover:bg-amber-800 active:bg-amber-800 active:bg-opacity-50
+                {% endif %}
+            {% endif %}
+            "
         id="{{ button_id }}"
         {% if href %}
         href="{{ href }}"

@@ -32,14 +32,14 @@ templates.env.globals.update({
 async def home(request: Request):
     return templates.TemplateResponse(
         "pages/home/page.html",
-        {"request": request},
+        {"request": request, "outer_sidebar_button_clicked": 'home'},
     )
 
 @app.get('/explore/', response_class=HTMLResponse, name='explore')
 async def explore(request: Request):
     return templates.TemplateResponse(
         "pages/explore/page.html",
-        {"request": request},
+        {"request": request, "outer_sidebar_button_clicked": 'explore'},
     )
 
 @app.get('/monk/', name='monk')
@@ -50,7 +50,7 @@ async def monk():
 async def communities(request: Request):
     return templates.TemplateResponse(
         "pages/communities/page.html",
-        {"request": request},
+        {"request": request, "outer_sidebar_button_clicked": 'communities'},
     )
 
 @app.get('/library/', name='library')

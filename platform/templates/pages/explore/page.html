@@ -4,11 +4,11 @@
 
 {% block title %}Dungeon - Explore{% endblock %}
 
-{% block inner_sidebar %}
+{% block inner_sidebar_content %}
     {{ sidebar_menu_group(
         header_content='Sections',
         buttons=[
-            {"content": "Blogs", "icon_path": "home.png"},
+            {"content": "Blogs", "icon_path": "home.png", "href": url_for('home')},
             {"content": "Communities", "icon_path": "explore.png"},
             {"content": "Courses", "icon_path": "study_zone.png"},
             {"content": "Games", "icon_path": "community.png"},
