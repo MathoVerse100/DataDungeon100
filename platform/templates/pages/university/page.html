@@ -1,0 +1,17 @@
+{% extends "layouts/main.html" %}
+{% from "components/sidebar_menu_group.jinja" import sidebar_menu_group with context %}
+
+
+{% block title %}Dungeon - University{% endblock %}
+
+{% block inner_sidebar_content %}
+    {{ sidebar_menu_group(
+        "Non-Fiction",
+        buttons=[
+            {"content": "Non-Fiction1", "icon_path": "home.png"},
+            {"content": "Non-Fiction2", "icon_path": "explore.png"},
+            {"content": "Non-Fiction3", "icon_path": "monk.png"},
+            {"content": "Non-Fiction4", "icon_path": "library.png"},
+        ]
+    ) }}
+{% endblock %}

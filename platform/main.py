@@ -64,6 +64,12 @@ async def communities(request: Request):
         {"request": request, "outer_sidebar_button_clicked": 'communities'},
     )
 
+@app.get('/university/', response_class=HTMLResponse, name='university')
+async def university(request: Request):
+    return templates.TemplateResponse(
+        "pages/university/page.html",
+        {"request": request, "outer_sidebar_button_clicked": 'university'},
+    )
 
 @app.get('/projects/', response_class=HTMLResponse, name='projects')
 async def projects(request: Request):

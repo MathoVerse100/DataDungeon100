@@ -5,19 +5,26 @@
 {% block outer_sidebar_content %}
     <div class="w-[50%] aspect-[1/1] h-auto bg-white bg-opacity-50 rounded-[50%]"></div>
     {{ sidebar_menu_group(
-        "Discovery",
+        "",
         buttons=[
             {"content": "Home", "icon_path": "home.png", "href": url_for('home')},
             {"content": "Explore", "icon_path": "explore.png", "href": url_for('explore')},
-            {"content": "MonK", "icon_path": "monk.png", "href": url_for('monk')},
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        "Discovery",
+        buttons=[
             {"content": "Library", "icon_path": "library.png", "href": url_for('library')},
+            {"content": "Communities", "icon_path": "community.png", "href": url_for('communities')},
+            {"content": "University", "icon_path": "university.png", "href": url_for('university')},
+            {"content": "MonK", "icon_path": "monk.png", "href": url_for('monk')},
         ]
     ) }}
 
     {{ sidebar_menu_group(
         "Personal",
         buttons=[
-            {"content": "Communities", "icon_path": "community.png", "href": url_for('communities')},
             {"content": "Projects", "icon_path": "projects.png", "href": url_for('projects')},
             {"content": "Storage", "icon_path": "storage.png", "href": url_for('storage')},
             {"content": "Study Zone", "icon_path": "study_zone.png", "href": url_for('study_zone')},
