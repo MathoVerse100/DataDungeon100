@@ -18,19 +18,19 @@
         "Personal",
         buttons=[
             {"content": "Communities", "icon_path": "community.png", "href": url_for('communities')},
-            {"content": "Projects", "icon_path": "projects.png"},
-            {"content": "Storage", "icon_path": "storage.png"},
-            {"content": "Study Zone", "icon_path": "study_zone.png"},
+            {"content": "Projects", "icon_path": "projects.png", "href": url_for('projects')},
+            {"content": "Storage", "icon_path": "storage.png", "href": url_for('storage')},
+            {"content": "Study Zone", "icon_path": "study_zone.png", "href": url_for('study_zone')},
         ]
     ) }}
 
     {{ sidebar_menu_group(
         "Configuration",
         buttons=[
-            {"content": "History", "icon_path": "history.png"},
-            {"content": "Help", "icon_path": "help.png"},
-            {"content": "Settings", "icon_path": "settings.png"},
-            {"content": "ToS", "icon_path": "tos.png"},
+            {"content": "History", "icon_path": "history.png", "href": url_for('history')},
+            {"content": "Help", "icon_path": "help.png", "href": url_for('help')},
+            {"content": "Settings", "icon_path": "settings.png", "href": url_for('settings')},
+            {"content": "ToS", "icon_path": "tos.png", "href": url_for('tos')},
         ]
     ) }}
 {% endblock %}

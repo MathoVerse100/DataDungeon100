@@ -1,0 +1,84 @@
+{% extends "layouts/main.html" %}
+{% from "components/sidebar_menu_group.jinja" import sidebar_menu_group with context %}
+
+
+{% block title %}Dungeon - Library{% endblock %}   
+
+{% block inner_sidebar_content %}
+    {{ sidebar_menu_group(
+        "Non-Fiction",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+    {{ sidebar_menu_group(
+        "Fiction",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+    {{ sidebar_menu_group(
+        "Graphic Works",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+    {{ sidebar_menu_group(
+        "Reference",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+    {{ sidebar_menu_group(
+        "Periodicals",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+    {{ sidebar_menu_group(
+        "Media & Digital",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+    {{ sidebar_menu_group(
+        "Special Collections",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+    {{ sidebar_menu_group(
+        "Encyclopedia",
+        buttons=[
+            {"content": "Home", "icon_path": "home.png"},
+            {"content": "Explore", "icon_path": "explore.png"},
+            {"content": "MonK", "icon_path": "monk.png"},
+            {"content": "Library", "icon_path": "library.png"},
+        ]
+    ) }}
+{% endblock %}
+
+{% block main_body %}
+    <h1 class="text-yellow-500 font-bold">Some home inner sidebar buttons</h1>
+{% endblock %}
