@@ -23,29 +23,36 @@ templates = Jinja2Templates(
     directory='templates',
 )
 
+templates.env.globals.update({
+    "generate_uuid": generate_uuid
+})
+
 
 @app.get('/home/', response_class=HTMLResponse, name="home")
 async def home(request: Request):
     return templates.TemplateResponse(
         "pages/home/page.html",
-        {"request": request, "generate_uuid": generate_uuid},
+        {"request": request},
     )
 
 @app.get('/explore/', response_class=HTMLResponse, name='explore')
-async def items(request: Request):
+async def explore(request: Request):
     return templates.TemplateResponse(
         "pages/explore/page.html",
-        {"request": request, "generate_uuid": generate_uuid},
+        {"request": request},
     )
 
 @app.get('/monk/', name='monk')
-async def items():
+async def monk():
     return {"message": "Hello, MONK!"}
 
-@app.get('/community/', name='community')
-async def items():
-    return {"message": "Hello, COMMUNITY!"}
+@app.get('/communities/', response_class=HTMLResponse, name='communities')
+async def communities(request: Request):
+    return templates.TemplateResponse(
+        "pages/communities/page.html",
+        {"request": request},
+    )
 
 @app.get('/library/', name='library')
-async def items():
+async def library():
     return {"message": "Hello, LIBRARY!"}

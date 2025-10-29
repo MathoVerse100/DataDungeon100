@@ -1,0 +1,34 @@
+{% extends "layouts/main.html" %}
+{% from "components/sidebar_menu_group.jinja" import sidebar_menu_group with context %}
+
+
+{% block title %}Dungeon - Communities{% endblock %}
+
+{% block inner_sidebar %}
+    {{ sidebar_menu_group(
+        header_content='Currently On',
+        buttons=[
+            {"content": "Community 1", "icon_path": "home.png"}
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        header_content='Joined',
+        buttons=[
+            {"content": "Community 1", "icon_path": "home.png"},
+            {"content": "Community 2", "icon_path": "explore.png"},
+            {"content": "Community 3", "icon_path": "help.png"}
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        header_content='Recent',
+        buttons=[
+            {"content": "Community 2", "icon_path": "library.png"}
+        ]
+    ) }}    
+{% endblock %}
+
+{% block main_body %}
+    <h1 class="text-yellow-500 font-bold">Some explore inner sidebar buttons</h1>
+{% endblock %}

@@ -6,12 +6,22 @@
 
 {% block inner_sidebar %}
     {{ sidebar_menu_group(
-        header_content='',
+        header_content='Sections',
         buttons=[
-            {"content": "ExploreButton1", "icon_path": "home.png"},
-            {"content": "ExploreButton2", "icon_path": "explore.png"}
+            {"content": "Blogs", "icon_path": "home.png"},
+            {"content": "Communities", "icon_path": "explore.png"},
+            {"content": "Courses", "icon_path": "study_zone.png"},
+            {"content": "Games", "icon_path": "community.png"},
+            {"content": "Books", "icon_path": "projects.png"}
         ]
     ) }}
+
+    {{ sidebar_menu_group(
+        header_content='Recent',
+        buttons=[
+            {"content": "Courses", "icon_path": "library.png"}
+        ]
+    ) }}    
 {% endblock %}
 
 {% block main_body %}
