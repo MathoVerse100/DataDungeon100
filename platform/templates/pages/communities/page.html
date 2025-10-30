@@ -6,29 +6,70 @@
 
 {% block inner_sidebar_content %}
     {{ sidebar_menu_group(
-        header_content='Currently On',
+        header_content='Actions',
+        buttons=[
+            {"content": "Browse", "icon_path": "light_dark_mode.png"},
+            {"content": "Create Community", "icon_path": "library.png"},
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        header_content='Last Opened',
         buttons=[
             {"content": "Community 1", "icon_path": "home.png"}
         ]
     ) }}
 
     {{ sidebar_menu_group(
-        header_content='Joined',
+        header_content='Pinned',
         buttons=[
-            {"content": "Community 1", "icon_path": "home.png"},
-            {"content": "Community 2", "icon_path": "explore.png"},
-            {"content": "Community 3", "icon_path": "help.png"}
+            {"content": "Community 1", "icon_path": "home.png"}
         ]
     ) }}
 
     {{ sidebar_menu_group(
-        header_content='Recent',
+        header_content='Environments',
         buttons=[
-            {"content": "Community 2", "icon_path": "library.png"}
+            {"content": "Following", "icon_path": "home.png"},
+            {"content": "Creations", "icon_path": "explore.png"},
+            {"content": "Starred", "icon_path": "help.png"}
         ]
-    ) }}    
+    ) }}
 {% endblock %}
 
 {% block main_body %}
-    <h1 class="text-yellow-500 font-bold">Some explore inner sidebar buttons</h1>
+    <div class="flex-1 min-w-[15rem] border-r-[1px] border-r-gray-800">
+        <section 
+            class="
+                pl-[2em] w-[100%] h-[10rem] bg-gray-500
+                "
+                style="
+                    background-image: url('{{ url_for('assets', path='example_banner.png') }}');
+                    background-size: cover;
+                    background-position: center 70%;
+                    background-repeat: no-repeat;
+                "
+            >
+            <div class="h-[100%] flex flex-row justify-start items-center gap-[1em] translate-y-[50%]">
+                <div class="
+                    h-[75%] aspect-[1/1] overflow-hidden rounded-[50%]
+                    {# shadow-[0_0_5px_rgb(176,111,255),0_0_10px_rgb(176,111,255),0_0_20px_rgb(176,111,255)] #}
+                    border-[5px] border-black"
+                    style="
+                        background-image: url('{{ url_for('assets', path='example_profile_pic.jpg') }}');
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    "
+                ></div>
+                <div class="translate-y-[3rem] pr-[2em] flex-1">
+                    <span class="text-white text-3xl font-bold text-gray-200 leading-[2em]">Analytics</span>
+                    <p class="text-gray-400 text-[0.75rem]">
+                    The best, uncontested community for learning, sharing ideas and asking questions related to Mathematics, Physics and Computer Science.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="w-[15rem]"></div>
 {% endblock %}

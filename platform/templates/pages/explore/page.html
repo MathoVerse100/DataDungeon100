@@ -4,24 +4,29 @@
 
 {% block title %}Dungeon - Explore{% endblock %}
 
+{% block search_bar %}{% endblock %}
+
 {% block inner_sidebar_content %}
     {{ sidebar_menu_group(
-        header_content='Sections',
+        header_content='Blogs',
         buttons=[
-            {"content": "Blogs", "icon_path": "home.png", "href": url_for('home')},
-            {"content": "Communities", "icon_path": "explore.png"},
-            {"content": "Courses", "icon_path": "study_zone.png"},
-            {"content": "Games", "icon_path": "community.png"},
-            {"content": "Books", "icon_path": "projects.png"}
+            {"content": "Topic1", "icon_path": "home.png"},
+            {"content": "Topic2", "icon_path": "explore.png"},
+            {"content": "Topic3", "icon_path": "study_zone.png"},
+            {"content": "Topic4", "icon_path": "community.png"},
+            {"content": "Topic5", "icon_path": "projects.png"}
         ]
     ) }}
 
     {{ sidebar_menu_group(
-        header_content='Recent',
+        header_content='Communities',
         buttons=[
-            {"content": "Courses", "icon_path": "library.png"}
+            {"content": "Science", "icon_path": "library.png"},
+            {"content": "Philosophy", "icon_path": "library.png"},
+            {"content": "Technology", "icon_path": "library.png"},
+            {"content": "Work", "icon_path": "library.png"},
         ]
-    ) }}    
+    ) }}
 {% endblock %}
 
 {% block main_body %}

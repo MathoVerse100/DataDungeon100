@@ -1,6 +1,7 @@
 {% extends "layouts/base.html" %}
 {% from "components/sidebar_menu_group.jinja" import sidebar_menu_group with context %}
 {% from "components/nav_button.jinja" import nav_button with context %}
+{% from "components/search_bar.jinja" import search_bar with context %}
 
 {% block outer_sidebar_content %}
     <div class="w-[50%] aspect-[1/1] h-auto bg-white bg-opacity-50 rounded-[50%]"></div>
@@ -44,12 +45,11 @@
 
 {% block top_navbar %}
     {{ nav_button(content='', icon_path='menu.png', icon_size='50%', type='circle') }}
-    <div
-        class="bg-white h-[75%] max-w-[50ch] flex-1 rounded-[1rem] flex flex-row items-center text-black"
-    >
-        {{ nav_button(content='', icon_path='search.png', icon_size='50%', type='circle', hover=False) }}
-        {% include 'components/search_bar.jinja' %}
-    </div>
+
+    {% block search_bar %}
+        {{ search_bar() }}
+    {% endblock %}
+
     <div class="flex-1"></div>
     {{ nav_button(content='', icon_path='chats.png', icon_size='50%', type='circle') }}
     {{ nav_button(content='', icon_path='light_dark_mode.png', icon_size='75%', type='circle') }}
