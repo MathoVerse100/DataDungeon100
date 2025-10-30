@@ -13,7 +13,7 @@
         <div class="flex flex-row justify-stretch items-stretch">
             {% block outer_sidebar_skeleton %}
             <div
-                class="flex flex-col justify-start items-center gap-[2em] p-[2em] h-[100vh] w-[15rem] 
+                class="hidden xl:flex flex-col justify-start items-center gap-[1em] p-[1em] h-[100vh] w-[12rem]
                     bg-gray-800 bg-opacity-25 border-r-[1px] border-r-gray-500
                     overflow-y-auto overflow-x-hidden scrollbar-hide"
             >
@@ -30,7 +30,7 @@
                 <div class="flex flex-row justify-stretch items-stretch flex-1">
                     {% block inner_sidebar_skeleton %}
                     <div
-                        class="flex flex-col justify-start items-center gap-[2em] p-[1em] h-[calc(100vh-4.6875rem)] w-[15rem] 
+                        class="hidden md:flex flex-col justify-start items-center gap-[2em] p-[1em] h-[calc(100vh-4.6875rem)] w-[12rem]  
                             bg-gray-800 bg-opacity-25 border-r-[1px] border-r-gray-500
                             overflow-y-auto overflow-x-hidden scrollbar-hide"
                     >

@@ -53,8 +53,9 @@
             <div class="h-[100%] flex flex-row justify-start items-center gap-[1em] translate-y-[50%]">
                 <div class="
                     h-[75%] aspect-[1/1] overflow-hidden rounded-[50%]
-                    {# shadow-[0_0_5px_rgb(176,111,255),0_0_10px_rgb(176,111,255),0_0_20px_rgb(176,111,255)] #}
-                    border-[5px] border-black"
+                    border-[5px] border-black transition-all duration-[100ms] hover:cursor-pointer
+                    hover:shadow-[0_0_5px_rgb(176,111,255),0_0_10px_rgb(176,111,255),0_0_20px_rgb(176,111,255)]
+                    "
                     style="
                         background-image: url('{{ url_for('assets', path='example_profile_pic.jpg') }}');
                         background-size: cover;
@@ -62,14 +63,14 @@
                         background-repeat: no-repeat;
                     "
                 ></div>
-                <div class="translate-y-[3rem] pr-[2em] flex-1">
+                <div class="relative top-[2rem] pr-[2em] flex-1">
                     <span class="text-white text-3xl font-bold text-gray-200 leading-[2em]">Analytics</span>
-                    <p class="text-gray-400 text-[0.75rem]">
+                    <p class="absolute text-gray-400 text-[0.75rem] w-[calc(100%-5em)] break-words text-wrap">
                     The best, uncontested community for learning, sharing ideas and asking questions related to Mathematics, Physics and Computer Science.
                     </p>
                 </div>
             </div>
         </section>
     </div>
-    <div class="w-[15rem]"></div>
+    <div class="w-[15rem] hidden lg:block"></div>
 {% endblock %}
