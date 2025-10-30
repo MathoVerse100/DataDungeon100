@@ -1,19 +1,18 @@
 {% from "components/nav_button.jinja" import nav_button with context %}
-
+{# max-w-[50ch] min-w-[30ch] #}
 {% macro search_bar(
     icon_path='search.png',
     icon_size='50%',
-    type='circle',
     hover=False
 ) %}
     <div
-        class="bg-white h-[75%] max-w-[50ch] flex-1 rounded-[1rem] flex flex-row justify-start items-center text-black"
+        class="bg-white h-[75%] rounded-[1rem] flex-[2] flex flex-row justify-start items-center text-black"
     >
-        {{ nav_button(content='', icon_path=icon_path, icon_size=icon_size, type=type, hover=hover) }}
+        {{ nav_button(content='', icon_path=icon_path, icon_size=icon_size, type='circle', hover=hover, class_names='hidden [@media(min-width:480px)]:block') }}
         <input
             type="text"
             placeholder="Search Statista..."    
-            class="p-[1em] h-full rounded-r-[1em] min-w-[30ch] text-black placeholder-gray-400 outline-none"
+            class="p-[1em] h-full w-full [@media(max-width:480px)]:rounded-l-[1em] rounded-r-[1em] text-black placeholder-gray-400 outline-none"e
         / >
     </div>
 {% endmacro %}

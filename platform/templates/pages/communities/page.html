@@ -9,7 +9,7 @@
         header_content='Actions',
         buttons=[
             {"content": "Browse", "icon_path": "light_dark_mode.png"},
-            {"content": "Create Community", "icon_path": "library.png"},
+            {"content": "Create", "icon_path": "library.png"},
         ]
     ) }}
 
@@ -69,23 +69,35 @@
                     "
                 ></div>
                 <div class="relative top-[2rem] pr-[2em] flex-1">
-                    <span class="text-white text-3xl font-bold text-gray-200 leading-[2em]">Analytics</span>
-                    <p class="absolute text-gray-400 text-[0.75rem] w-[calc(100%-5em)] break-words text-wrap">
+                    <span class="text-white text-3xl font-bold text-gray-200 leading-[2em] hidden [@media(min-width:480px)]:block">Analytics</span>
+                    <p class="hidden sm:block absolute text-gray-400 text-[0.75rem] w-[calc(100%-5em)] break-words text-wrap">
                     The best, uncontested community for learning, sharing ideas and asking questions related to Mathematics, Physics and Computer Science.
                     </p>
                 </div>
             </div>
         </section>
 
-        <div class="p-[1em] mt-[10rem] w-[100%] border-[1px] border-red-500">
-            
-            <a class="w-[100%] flex flex-row justify-start items-center gap-[0.5em] border-[1px] border-red-500">
+        <section class="mt-[4rem] p-[1em]">
+            <span class="text-white text-3xl font-bold text-gray-200 leading-[2em] [@media(min-width:480px)]:hidden">Analytics</span>
+            <p class="block sm:hidden text-gray-400 text-[0.75rem] break-words text-wrap">
+                The best, uncontested community for learning, sharing ideas and asking questions related to Mathematics, Physics and Computer Science.
+            </p>
+        </section>
+
+        <div 
+            class="
+                p-[2em] [@media(min-width:480px)]:mt-[2rem] sm:mt-[10rem] w-[100%]
+                transition-all duration-[200ms] hover:cursor-pointer hover:bg-gray-900 hover:bg-opacity-25
+                hover:rounded-[5rem]
+                "
+            >
+            <a class="w-[100%] flex flex-row justify-start items-center gap-[0.5em]">
                 <div 
                     class="
-                        text-white h-[3rem] aspect-[1/1] rounded-[50%] border-[1px] border-red-500
+                        text-white h-[3rem] aspect-[1/1] rounded-[50%] bg-gray-500
                         "
                         styles="
-                            background-image: url('{{ url_for('assets', path='example_profile_pic.jpg') }}');
+                            background-image: url('{{ url_for('assets', path='explore.png') }}');
                             background-size: cover;
                             background-position: center;
                             background-repeat: no-repeat;
@@ -97,8 +109,23 @@
                     <span class="text-white text-[0.55rem] text-gray-500">User Nickname</span>
                 </div>
             </a>
-
+            <section class="py-[1em] flex flex-col justify-start items-start gap-[1em] max-h-[15rem]">
+                <header class="text-white font-bold text-xl font-roboto">Show that, for all positive integers N, sqrt(N) is an integer or an irrational number. How do I prove this?</header>
+                <span class="px-2 py-1 rounded-[1rem] bg-yellow-600 text-white font-inter text-xs font-bold">Mathematics</span>
+                <pre 
+                    class="
+                        text-sm text-gray-500 font-sans break-words text-wrap truncate
+                    "
+                >
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+                </pre>
+            </section>
         </div>
+            <div class="mt-[10rem] text-white">NICEEEEE</div>
 
     </div>
     <div class="w-[15rem] hidden lg:block"></div>
