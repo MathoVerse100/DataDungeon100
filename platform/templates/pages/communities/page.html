@@ -38,7 +38,12 @@
 {% endblock %}
 
 {% block main_body %}
-    <div class="flex-1 min-w-[15rem] border-r-[1px] border-r-gray-800">
+    <div 
+        class="
+            flex-1 min-w-[15rem] border-r-[1px] border-r-gray-800
+            h-[calc(100vh-4.6875rem)] overflow-y-auto overflow-x-hidden scrollbar-hide
+            "
+        >
         <section 
             class="
                 pl-[2em] w-[100%] h-[10rem] bg-gray-500
@@ -71,6 +76,30 @@
                 </div>
             </div>
         </section>
+
+        <div class="p-[1em] mt-[10rem] w-[100%] border-[1px] border-red-500">
+            
+            <a class="w-[100%] flex flex-row justify-start items-center gap-[0.5em] border-[1px] border-red-500">
+                <div 
+                    class="
+                        text-white h-[3rem] aspect-[1/1] rounded-[50%] border-[1px] border-red-500
+                        "
+                        styles="
+                            background-image: url('{{ url_for('assets', path='example_profile_pic.jpg') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    >
+                </div>
+                <div class="flex-1 flex flex-col justify-start items-start">
+                    <span class="text-white text-[0.75rem] font-bold">User's Name</span>
+                    <span class="text-white text-[0.55rem] text-gray-500">User Nickname</span>
+                </div>
+            </a>
+
+        </div>
+
     </div>
     <div class="w-[15rem] hidden lg:block"></div>
 {% endblock %}
