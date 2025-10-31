@@ -81,7 +81,7 @@
             <button
                 class="
                     px-[1em] py-[0.25em] text-white text-sm font-bold font-inter bg-red-500 rounded-[1rem]
-                    transition-all duration-[100ms] hover:bg-red-800 {# hidden sm:block #}
+                    transition-all duration-[100ms] hover:bg-red-800 hidden [@media(min-width:300px)]:block
                 "
             >
                 Join
@@ -172,7 +172,7 @@
                         <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">Physics</option>
                         <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">CS</option>
                     </select>
-                    <span class="text-[0.75rem] text-white -translate-x-[calc(0.75em+150%)]">
+                    <span class="text-[0.75rem] text-white translate-y-[15%] -translate-x-[calc(0.75em+150%)]">
                         ▼
                     </span>
                 </div>
