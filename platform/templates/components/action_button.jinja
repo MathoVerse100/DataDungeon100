@@ -1,0 +1,38 @@
+{% from "components/event_binder.jinja" import event_binder with context %}
+
+{% macro action_button(
+    content,
+    class_names=None,
+    banner_id=None,
+    styles=None,
+    events=None
+) %}
+
+    {% if not banner_id %}
+        {% set banner_id = generate_uuid() %}
+    {% endif %}
+
+    <button
+        class="
+            {{ class_names }}
+            px-[1em] py-[0.25em] text-white text-sm font-bold font-inter bg-red-500 rounded-[1rem]
+            transition-all duration-[100ms] hover:bg-red-800 hidden sm:block
+        "
+        id="{{ banner_id }}"
+        {% if styles %}
+        style="
+            {% for key, value in styles.items()%}
+                {{ key }}: {{ value }};
+            {% endfor %}
+        "
+        {% endif %}
+    >
+        {{ content }}
+    </button>
+
+    {{ event_binder(
+        selector='#' ~ button_id,
+        events=events
+    ) }}
+
+{% endmacro %}

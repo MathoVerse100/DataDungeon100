@@ -1,0 +1,34 @@
+{% from "components/event_binder.jinja" import event_binder with context %}
+
+
+{% macro dropdown(
+    selections=None
+) %}
+
+    {% if not selections %}
+        {% set selections = {
+            "Popularity": [
+                {
+                    "name": "Hot",
+                    "events": ["event1", "event2"]
+                },
+                {
+                    "name": "New",
+                    "events": ["event3", "event4"]
+                }
+            ],
+            "Method": [
+                {
+                    "name": "Ascending",
+                    "events": ["event5"],
+                },
+                {
+                    "name": "Descending",
+                    "events": ["event6"],
+                },
+            ],
+        } %}
+    {% endif %}
+
+    <h1>Not yet implemented</h1>
+{% endmacro %}

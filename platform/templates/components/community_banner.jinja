@@ -1,0 +1,78 @@
+{% from "components/nav_button.jinja" import nav_button with context %}
+{% from "components/action_button.jinja" import action_button with context %}
+{% from "components/event_binder.jinja" import event_binder with context %}
+
+{% macro community_banner(
+    banner_background_path,
+    community_profile_picture,
+    community_name,
+    community_description,
+    banner_background_size='cover',
+    banner_background_coordinates=('center', '70%'),
+    class_names=None,
+    banner_id=None,
+    events=None
+) %}
+
+    {% if not banner_id %}
+        {% set banner_id = generate_uuid() %}
+    {% endif %}
+
+    <section
+        class="
+            {{ class_names }}
+            pl-[2em] w-[100%] h-[10rem] bg-gray-500
+        "
+        id="{{ banner_id }}"
+        style="
+            background-image: url('{{ url_for('assets', path=banner_background_path) }}');
+            background-size: {{ banner_background_size }};
+            background-position: {{ banner_background_coordinates[0] }} {{ banner_background_coordinates[1] }};
+            background-repeat: no-repeat;
+        "
+    >
+        <div class="h-[100%] flex flex-row justify-start items-center gap-[1em] translate-y-[50%]">
+            <div 
+                class="
+                    h-[75%] aspect-[1/1] overflow-hidden rounded-[50%]
+                    border-[5px] border-black transition-all duration-[100ms] hover:cursor-pointer
+                    hover:shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)]
+                "
+                style="
+                    background-image: url('{{ url_for('assets', path=community_profile_picture) }}');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                "
+            ></div>
+            <div class="relative top-[2rem] pr-[2em] flex-1">
+                <span class="text-white text-3xl font-bold text-gray-200 leading-[2em] hidden [@media(min-width:480px)]:block">{{ community_name }}</span>
+                <p class="hidden sm:block absolute text-gray-400 text-[0.75rem] w-[calc(100%-5em)] break-words text-wrap">{{ community_description }}</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="absolute right-[2em] sm:right-0 mt-2 p-2 flex flex-row justify-end items-center gap-[1em]">            
+        {{ action_button('Join') }}
+        {{ action_button('On') }}
+
+        {{ nav_button(
+            content='',
+            type='circle',
+            icon_path='more_options.png',
+            icon_size='75%',
+            class_names='h-[2em]'
+        )}}
+    </section>
+
+    <section class="mt-[3rem] px-[2em] py-[1em]">
+        <span class="text-white text-3xl font-bold text-gray-200 leading-[2em] [@media(min-width:480px)]:hidden">{{ community_name }}</span>
+        <p class="block sm:hidden text-gray-400 text-[0.75rem] break-words text-wrap">{{ community_description }}</p>
+    </section>
+
+    {{ event_binder(
+        selector='#' ~ button_id,
+        events=events
+    ) }}
+
+{% endmacro %}

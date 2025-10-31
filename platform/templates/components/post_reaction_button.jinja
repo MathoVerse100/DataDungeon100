@@ -1,0 +1,45 @@
+{% from "components/event_binder.jinja" import event_binder with context %}
+
+{% macro post_reaction_button(
+    reaction_name,
+    reaction_value,
+    icon_path,
+    icon_coordinates=('50%', '40%'),
+    class_names=None,
+    button_id=None,
+    events=None
+) %}
+
+    {% if not button_id %}
+        {% set button_id = generate_uuid() %}
+    {% endif %}
+
+    <div 
+        class="
+            {{ class_names }}
+            h-[1.5em] [@media(min-width:480px)]:h-[2em] flex flex-row justify-stretch items-stretch gap-[0.5em]
+        "
+        id="{{ button_id }}"
+    >
+        <button 
+            class="
+                aspect-[1/1] rounded-[50%] transition-all duration-[100ms]
+                hover:cursor-pointer hover:bg-gray-500 hover:bg-opacity-25
+                active:bg-gray-800 active:bg-opacity-50
+            "
+            style="
+                background-image: url('{{ url_for('assets', path=icon_path) }}');
+                background-size: 60%;
+                background-position: {{ icon_coordinates[0] }} {{ icon_coordinates[1] }};
+                background-repeat: no-repeat;
+            "
+        ></button>
+        <span class="flex-1 self-center text-gray-300 text-xs [@media(min-width:480px)]:text-sm font-sans font-bold">{{ reaction_value }}</span>
+    </div>
+
+    {{ event_binder(
+        selector='#' ~ button_id,
+        events=events
+    ) }}
+
+{% endmacro %}
