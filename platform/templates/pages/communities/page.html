@@ -59,7 +59,7 @@
                 <div class="
                     h-[75%] aspect-[1/1] overflow-hidden rounded-[50%]
                     border-[5px] border-black transition-all duration-[100ms] hover:cursor-pointer
-                    hover:shadow-[0_0_5px_rgb(176,111,255),0_0_10px_rgb(176,111,255),0_0_20px_rgb(176,111,255)]
+                    hover:shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)]
                     "
                     style="
                         background-image: url('{{ url_for('assets', path='example_profile_pic.jpg') }}');
@@ -84,12 +84,67 @@
             </p>
         </section>
 
-        <div class="mt-[1rem] [@media(min-width:480px)]:mt-[2rem] px-[2em] py-[1em] flex flex-row justify-start items-center gap-[0.75em] border-b-[1px] border-b-gray-800">
-            <span class="text-gray-500 font-bold">Sort By:</span>
-            <button class="py-[0.5em] px-[1em] text-white font-bold rounded-[1rem] bg-gray-700 bg-opacity-50">
-                Hot
-            </button>
-            <span class="text-white text-[2rem] -translate-y-[10%] hover:cursor-pointer">⌵</span>
+        <div class="mt-[1rem] [@media(min-width:480px)]:mt-[2rem] px-[2em] py-[1em] flex flex-row justify-stretch items-center gap-[0.75em] border-b-[1px] border-b-gray-800">
+            <div class="hidden [@media(min-width:480px)]:flex flex-col justify-stretch items-start gap-[0.5em]">
+                <span class="text-[0.75rem] text-gray-500 font-bold">Sort By:</span>
+                <div class="flex flex-row justify-start items-center">
+                    <select class="text-[0.75rem] rounded-[1rem] bg-gray-700 bg-opacity-50 py-[0.5em] pl-[1em] pr-[3em] inline-block whitespace-nowrap appearance-none text-white font-bold outline-none">
+                        <option class="font-bold">Hot</option>
+                        <option class="font-bold">Best</option>
+                        <option class="font-bold">New</option>
+                        <option class="font-bold">Likes</option>
+                        <option class="font-bold">Dislikes</option>
+                        <option class="font-bold">Algorithm</option>
+                    </select>
+                    <span class="text-[0.75rem] text-white -translate-x-[calc(0.75em+150%)]">
+                        ▼
+                    </span>
+                </div>
+            </div>
+
+            <div class="hidden [@media(min-width:480px)]:flex flex-col justify-stretch items-start gap-[0.5em]">
+                <span class="text-[0.75rem] text-gray-500 font-bold">Sort Method:</span>
+                <div class="flex flex-row justify-start items-center">
+                    <select class="text-[0.75rem] rounded-[1rem] bg-gray-700 bg-opacity-50 py-[0.5em] pl-[1em] pr-[3em] inline-block whitespace-nowrap appearance-none text-white font-bold outline-none">
+                        <option class="font-bold">Ascending</option>
+                        <option class="font-bold">Descending</option>
+                    </select>
+                    <span class="text-[0.75rem] text-white -translate-x-[calc(0.75em+150%)]">
+                        ▼
+                    </span>
+                </div>
+            </div>
+
+            <div class="hidden [@media(min-width:480px)]:flex flex-col justify-stretch items-start gap-[0.5em]">
+                <span class="text-[0.75rem] text-gray-500 font-bold">Tag:</span>
+                <div class="flex flex-row justify-start items-center">
+                    <select class="text-[0.75rem] rounded-[1rem] bg-gray-700 bg-opacity-50 py-[0.5em] pl-[1em] pr-[3em] inline-block whitespace-nowrap appearance-none text-white font-bold outline-none">
+                        <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">All</option>
+                        <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">Math</option>
+                        <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">Physics</option>
+                        <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">CS</option>
+                    </select>
+                    <span class="text-[0.75rem] text-white -translate-x-[calc(0.75em+150%)]">
+                        ▼
+                    </span>
+                </div>
+            </div>
+
+            <div class="block [@media(min-width:480px)]:hidden">
+                <span class="text-[0.75rem] text-gray-500 font-bold">Filters:</span>
+                <div class="flex flex-row justify-start items-center">
+                    <select class="mt-[0.5em] text-[0.75rem] rounded-[1rem] bg-gray-700 bg-opacity-50 py-[0.5em] pl-[1em] pr-[3em] inline-block whitespace-nowrap appearance-none text-white font-bold outline-none">
+                        <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">All</option>
+                        <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">Math</option>
+                        <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">Physics</option>
+                        <option class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">CS</option>
+                    </select>
+                    <span class="text-[0.75rem] text-white -translate-x-[calc(0.75em+150%)]">
+                        ▼
+                    </span>
+                </div>
+            </div>
+
         </div>
 
         <div 
@@ -485,5 +540,7 @@
     </div>
 
 
-    <div class="w-[15rem] hidden lg:block"></div>
+    <div class="w-[15rem] hidden lg:block">
+        <span class="text-white">This is some new text</span>
+    </div>
 {% endblock %}
