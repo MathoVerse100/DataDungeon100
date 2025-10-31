@@ -40,7 +40,7 @@
 {% block main_body %}
     <div 
         class="
-            flex-1 min-w-[15rem] border-r-[1px] border-r-gray-800
+            relative flex-1 min-w-[15rem] border-r-[1px] border-r-gray-800
             h-[calc(100vh-4.6875rem)] overflow-y-auto overflow-x-hidden scrollbar-hide
             "
         >
@@ -77,7 +77,40 @@
             </div>
         </section>
 
-        <section class="mt-[4rem] px-[2em] py-[1em]">
+        <section class="absolute right-[2em] sm:right-0 mt-2 p-2 flex flex-row justify-end items-center gap-[1em]">
+            <button
+                class="
+                    px-[1em] py-[0.25em] text-white text-sm font-bold font-inter bg-red-500 rounded-[1rem]
+                    transition-all duration-[100ms] hover:bg-red-800 {# hidden sm:block #}
+                "
+            >
+                Join
+            </button>
+            <button
+                class="
+                    px-[1em] py-[0.25em] text-white text-sm font-bold font-inter bg-red-500 rounded-[1rem]
+                    transition-all duration-[100ms] hover:bg-red-800 hidden sm:block
+                "
+            >
+                On
+            </button>
+            <button
+                class="
+                    flex flex-row justify-center items-center
+                    h-[2em] aspect-[1/1] rounded-[50%] transition-all duration-[100ms] text-white
+                    hover:cursor-pointer hover:bg-purple-500 hover:bg-opacity-50 overflow-hidden
+                "
+                style="
+                    background-image: url('{{ url_for('assets', path='more_options.png') }}');
+                    background-size: 75%;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                "
+            >
+            </button>
+        </section>
+
+        <section class="mt-[3rem] px-[2em] py-[1em]">
             <span class="text-white text-3xl font-bold text-gray-200 leading-[2em] [@media(min-width:480px)]:hidden">Analytics</span>
             <p class="block sm:hidden text-gray-400 text-[0.75rem] break-words text-wrap">
                 The best, uncontested community for learning, sharing ideas and asking questions related to Mathematics, Physics and Computer Science.
@@ -650,6 +683,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -681,6 +715,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -712,6 +747,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -743,6 +779,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -774,6 +811,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -805,6 +843,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -836,6 +875,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -867,6 +907,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -898,6 +939,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
@@ -929,6 +971,7 @@
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
                         {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
+                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
                     "
                 >
                     <a
