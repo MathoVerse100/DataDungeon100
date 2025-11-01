@@ -1,4 +1,4 @@
-{% extends "layouts/main.html" %}
+{% extends "pages/communities/community_layout.html" %}
 {% from "components/sidebar_menu_group.jinja" import sidebar_menu_group with context %}
 {% from "components/community_banner.jinja" import community_banner with context %}
 {% from "components/nav_button.jinja" import nav_button with context %}
@@ -17,46 +17,13 @@
     <script src="{{ url_for('static', path='js/dropdown.js') }}" defer></script>
 {% endblock %}
 
-{% block inner_sidebar_content %}
-    {{ sidebar_menu_group(
-        header_content='Actions',
-        buttons=[
-            {"content": "Browse", "icon_path": "light_dark_mode.png"},
-            {"content": "Create", "icon_path": "library.png"},
-        ]
-    ) }}
-
-    {{ sidebar_menu_group(
-        header_content='Last Opened',
-        buttons=[
-            {"content": "Community 1", "icon_path": "home.png"}
-        ]
-    ) }}
-
-    {{ sidebar_menu_group(
-        header_content='Pinned',
-        buttons=[
-            {"content": "Community 1", "icon_path": "home.png"}
-        ]
-    ) }}
-
-    {{ sidebar_menu_group(
-        header_content='Environments',
-        buttons=[
-            {"content": "Following", "icon_path": "home.png"},
-            {"content": "Creations", "icon_path": "explore.png"},
-            {"content": "Starred", "icon_path": "help.png"}
-        ]
-    ) }}
-{% endblock %}
-
-{% block main_body %}
-    <div 
+{% block main_body_main_content %}
+    {# <div 
         class="
             relative flex-1 min-w-[15rem] border-r-[1px] border-r-gray-800
             h-[calc(100vh-4.6875rem)] overflow-y-auto overflow-x-hidden scrollbar-hide
         "
-    >
+    > #}
         {{ community_banner(
             banner_background_path='example_banner.png',
             community_profile_picture='example_profile_pic.jpg',
@@ -182,9 +149,9 @@
                 </section>            
             </div>
         {% endfor %}
-    </div>
+    {# </div> #}
 
-    {{  
+    {# {{  
         community_aside([
             {
                 'user_info': {
@@ -196,6 +163,6 @@
                 'total': '154.6K',
             }
         ])
-    }}
+    }} #}
 
 {% endblock %}

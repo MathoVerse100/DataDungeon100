@@ -8,6 +8,39 @@
     <script>document.title = 'Dungeon - Communities'</script>
 {% endblock %}
 
+{% block inner_sidebar_content %}
+    {{ sidebar_menu_group(
+        header_content='Actions',
+        buttons=[
+            {"content": "Browse", "icon_path": "light_dark_mode.png"},
+            {"content": "Create", "icon_path": "library.png"},
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        header_content='Last Opened',
+        buttons=[
+            {"content": "Community 1", "icon_path": "home.png"}
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        header_content='Pinned',
+        buttons=[
+            {"content": "Community 1", "icon_path": "home.png"}
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        header_content='Environments',
+        buttons=[
+            {"content": "Following", "icon_path": "home.png"},
+            {"content": "Creations", "icon_path": "explore.png"},
+            {"content": "Starred", "icon_path": "help.png"}
+        ]
+    ) }}
+{% endblock %}
+
 {% block main_body %}
 
     <div 
@@ -16,6 +49,9 @@
             h-[calc(100vh-4.6875rem)] overflow-y-auto overflow-x-hidden scrollbar-hide
         "
     >
+
+        {% block main_body_main_content %}{% endblock %}
+
     </div>
 
     {{  
