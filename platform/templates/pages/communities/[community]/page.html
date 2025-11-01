@@ -11,7 +11,8 @@
 {% block title %}Dungeon - Communities{% endblock %}
 
 {% block scripts %}
-    <script src="{{ url_for('static', path='js/dropdown.js') }}"></script>
+    <script>document.title = 'Dungeon - Communities'</script>
+    <script src="{{ url_for('static', path='js/dropdown.js') }}" defer></script>
 {% endblock %}
 
 {% block inner_sidebar_content %}
