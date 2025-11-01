@@ -70,7 +70,20 @@
             },
             'post_info': {
                 'title': "Show that, for all positive integers N, sqrt(N) is an integer or an irrational number. How do I prove this?",
-                'tags': ["Mathematics", "Physics", "Computer Science"],
+                'tags': [
+                    {
+                        "name": "Mathematics",
+                        "color": "oklch(68.1% 0.162 75.834)",
+                    },
+                    {
+                        "name": "Physics",
+                        "color": "red",
+                    },
+                    {
+                        "name": "Computer Science",
+                        "color": "purple",
+                    },
+                ],
                 'content': """
                     Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
         
@@ -99,14 +112,14 @@
                         href="{{ url_for(community_post['user_info']['user_profile_link']) }}"
                         class="
                             text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path=community_post['user_info']['user_profile_picture']) }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
+                        "
+                        style="
+                            background-image: url('{{ url_for('assets', path=community_post['user_info']['user_profile_picture']) }}');
+                            background-size: 75%;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        "
+                    >
                     </a>
                     <div class="flex-1 flex flex-col justify-start items-start">
                         <span class="text-white text-[1rem] font-bold">{{ community_post['user_info']['user_name'] }}</span>
@@ -117,7 +130,16 @@
                     <header class="text-white font-bold text-lg sm:text-xl font-roboto">{{ community_post['post_info']['title'] }}</header>
                     <div class="flex flex-row justify-start items-center gap-[1em] flex-wrap">
                         {% for tag in community_post['post_info']['tags'] %}
-                            <span class="px-2 py-1 rounded-[1rem] bg-yellow-600 text-white font-inter text-xs font-bold">{{ tag }}</span>
+                            <span
+                                class="
+                                    px-2 py-1 rounded-[1rem] text-white font-inter text-xs font-bold
+                                "
+                                style="
+                                    background-color: {{ tag['color'] }}
+                                "
+                            >
+                                {{ tag['name'] }}
+                            </span>
                         {% endfor %}
                     </div>
                     <p
@@ -231,8 +253,20 @@
                 </button>
             </div>
 
+            {% set top_user = {
+                'user_info': {
+                    'user_profile_link': 'library',
+                    'user_profile_picture': 'explore.png',
+                    'user_name': "User's Nickname",
+                },
+                'metric': 'likes',
+                'total': '154.6K',
+            } %}
+
+            {% set rankings = [ 'one.png', 'two.png', 'three.png', 'four.png', 'five.png', 'six.png', 'seven.png', 'eight.png', 'nine.png', 'ten.png' ] %}
+
             <div class="relative w-full flex flex-col justify-stretch items-center gap-[1em]">
-
+            {% for rank in rankings %}
                 <section
                     class="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
@@ -241,12 +275,12 @@
                     "
                 >
                     <a
-                        href="{{ url_for('library') }}"
+                        href="{{ url_for(top_user['user_info']['user_profile_link']) }}"
                         class="
                             text-white h-[3rem] aspect-[1/1] rounded-[50%]
                             "
                             style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
+                                background-image: url('{{ url_for('assets', path=top_user['user_info']['user_profile_picture']) }}');
                                 background-size: 75%;
                                 background-position: center;
                                 background-repeat: no-repeat;
@@ -254,305 +288,17 @@
                         >
                     </a>
                     <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
+                        <span class="block text-white text-[0.75rem] font-bold">{{ top_user['user_info']['user_name'] }}</span>
+                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: {{ top_user['metric']|capitalize }}: {{ top_user['total'] }}</span>
                     </div>
                     <img
                         class="
                             h-[2em] aspect-[1/1]
                         "
-                        src="{{ url_for('assets', path='one.png') }}"
+                        src="{{ url_for('assets', path=rank) }}"
                     >
                 </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='two.png') }}"
-                    >
-                </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='three.png') }}"
-                    >
-                </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='four.png') }}"
-                    >
-                </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='five.png') }}"
-                    >
-                </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='six.png') }}"
-                    >
-                </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='seven.png') }}"
-                    >
-                </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='eight.png') }}"
-                    >
-                </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='nine.png') }}"
-                    >
-                </section>
-
-                <section
-                    class="
-                        w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        {# shadow-[0_0_5px_rgb(200,138,4),0_0_10px_rgb(200,138,4),0_0_20px_rgb(200,138,4)] #}
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
-                    "
-                >
-                    <a
-                        href="{{ url_for('library') }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                            "
-                            style="
-                                background-image: url('{{ url_for('assets', path='explore.png') }}');
-                                background-size: 75%;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            "
-                        >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="block text-white text-[0.75rem] font-bold">User's Name</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: 154.6K</span>
-                    </div>
-                    <img
-                        class="
-                            h-[2em] aspect-[1/1]
-                        "
-                        src="{{ url_for('assets', path='ten.png') }}"
-                    >
-                </section>
-
+            {% endfor %}
             </div>
         </section>
 
