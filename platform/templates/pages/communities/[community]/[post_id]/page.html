@@ -1,0 +1,34 @@
+{% extends "layouts/main.html" %}
+{% from "pages/communities/community_aside.html" import community_aside with context %}
+
+
+{% block title %}Dungeon - Communities{% endblock %}
+
+{% block scripts %}
+    <script>document.title = 'Dungeon - Communities'</script>
+{% endblock %}
+
+{% block main_body %}
+
+    <div 
+        class="
+            relative flex-1 min-w-[15rem] border-r-[1px] border-r-gray-800
+            h-[calc(100vh-4.6875rem)] overflow-y-auto overflow-x-hidden scrollbar-hide
+        "
+    >
+    </div>
+
+    {{  
+        community_aside([
+            {
+                'user_info': {
+                    'user_profile_link': 'library',
+                    'user_profile_picture': 'explore.png',
+                    'user_name': "User's Nickname",
+                },
+                'metric': 'likes',
+                'total': '154.6K',
+            }
+        ])
+    }}
+{% endblock %}
