@@ -3,11 +3,17 @@
 {% from "components/community_banner.jinja" import community_banner with context %}
 {% from "components/nav_button.jinja" import nav_button with context %}
 {% from "components/action_button.jinja" import action_button with context %}
-{% from "components/community_feed_filter_dropdown.jinja" import community_feed_filter_dropdown with context %}
+{# {% from "components/community_feed_filter_dropdown.jinja" import community_feed_filter_dropdown with context %} #}
 {% from "components/post_reaction_button.jinja" import post_reaction_button with context %}
+{% from "components/dropdown.jinja" import dropdown with context %}
+{% from "components/community_feed_filter_dropdown.jinja" import community_feed_filter_dropdown with context %}
 
 
 {% block title %}Dungeon - Communities{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', path='js/dropdown.js') }}"></script>
+{% endblock %}
 
 {% block inner_sidebar_content %}
     {{ sidebar_menu_group(
@@ -57,8 +63,16 @@
         ) }}
 
         <div class="mt-[1rem] [@media(min-width:480px)]:mt-[2rem] px-[2em] py-[1em] flex flex-row justify-stretch items-center gap-[0.75em] border-b-[1px] border-b-gray-800">
-            {{ community_feed_filter_dropdown(is_small_compatible=False) }}
-            {{ community_feed_filter_dropdown(is_small_compatible=True) }}
+
+            {% for _ in range(3) %}
+                {% call community_feed_filter_dropdown(title='Sort By', is_small_compatible=False) %}
+                    {{ dropdown() }}
+                {% endcall %}
+            {% endfor %}
+
+            {% call community_feed_filter_dropdown(title='Filters', is_small_compatible=True) %}
+                {{ dropdown() }}
+            {% endcall %}
         </div>
 
         {% set community_post = {

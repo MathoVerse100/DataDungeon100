@@ -1,8 +1,9 @@
+{% from "components/dropdown.jinja" import dropdown with context %}
 {% from "components/event_binder.jinja" import event_binder with context %}
 
 
 {% macro community_feed_filter_dropdown(
-    filter_options=None,
+    title,
     is_small_compatible=False,
     class_names=None,
     dropdown_id=None,
@@ -13,86 +14,24 @@
         {% set dropdown_id = generate_uuid() %}
     {% endif %}
 
-    {% if not filter_options %}
-        {% set filter_options = [
-            {
-                "filter_title": "Sort By",
-                "options": [
-                    {"option_name": "Hot", "option_events": None},
-                    {"option_name": "Best", "option_events": None},
-                    {"option_name": "New", "option_events": None},
-                    {"option_name": "Likes", "option_events": None},
-                    {"option_name": "Dislikes", "option_events": None},
-                    {"option_name": "Algorithm", "option_events": None},
-                ]
-            },
-            {
-                "filter_title": "Sort Method",
-                "options": [
-                    {"option_name": "Ascending", "option_events": None},
-                    {"option_name": "Descending", "option_events": None},
-                ]
-            },
-            {
-                "filter_title": "Tag",
-                "options": [
-                    {"option_name": "All", "option_events": None},
-                    {"option_name": "Math", "option_events": None},
-                    {"option_name": "Physics", "option_events": None},
-                    {"option_name": "CS", "option_events": None},
-                ]
-            }
-        ] %}
-    {% endif %}
+    <div
+        class="
+            {% if not is_small_compatible %}
+                hidden [@media(min-width:480px)]:flex 
+            {% else %}
+                flex [@media(min-width:480px)]:hidden
+            {% endif %}
 
-    {% if is_small_compatible %}
-        {% set filter_options = [ filter_options[0] ] %}
-    {% endif %}
-
-    {% for filter_option in filter_options %}
-        <div
-            class="
-                {{ class_names }}
-
-                {% if not is_small_compatible %}
-                    hidden [@media(min-width:480px)]:flex 
-                {% else %}
-                    block [@media(min-width:480px)]:hidden
-                {% endif %}           
-
-                flex-col justify-stretch items-start gap-[0.5em]
-            "
-            id="{{ dropdown_id }}"
-        >
-            <span class="text-[0.75rem] text-gray-500 font-bold">{{ filter_option['filter_title'] }}</span>
-            <div class="flex flex-row justify-start items-center">
-                <select
-                    class="
-                        {% if is_small_compatible %}
-                            mt-[0.5em]
-                        {% endif %}
-                        text-[0.75rem] rounded-[1rem] bg-gray-700 bg-opacity-50 py-[0.5em] 
-                        pl-[1em] pr-[3em] inline-block whitespace-nowrap appearance-none 
-                        text-white font-bold outline-none
-                    "
-                >
-                    {% for option in filter_option['options'] %}
-                        <option class="font-bold">{{ option['option_name'] }}</option> 
-                    {% endfor %}
-                </select>
-                <span
-                    class="
-                        {% if is_small_compatible %}
-                            translate-y-[15%]
-                        {% endif %}
-                        text-[0.75rem] text-white -translate-x-[calc(0.75em+150%)]
-                    "
-                >
-                    ▼
-                </span>
-            </div>
+            {{ class_names }}
+            flex-col justify-stretch items-start gap-[0.5em]
+        "
+        id="{{ dropdown_id }}"
+    >
+        <span class="text-[0.75rem] text-gray-500 font-bold">{{ title }}</span>
+        <div class="flex flex-row justify-start items-center">
+            {{ caller() }}
         </div>
-    {% endfor %}
+    </div>
 
     {{ event_binder(
         selector='#' ~ dropdown_id,

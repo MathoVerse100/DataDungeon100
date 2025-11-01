@@ -2,33 +2,106 @@
 
 
 {% macro dropdown(
-    selections=None
+    selections=None,
+    class_names=None,
+    dropdown_id=None,
+    events=None
 ) %}
+
+    {% if not dropdown_id %}
+        {% set dropdown_id = generate_uuid() %}
+    {% endif %}
 
     {% if not selections %}
         {% set selections = {
-            "Popularity": [
+            "default_display": "Hot",
+            "sections": [
                 {
-                    "name": "Hot",
-                    "events": ["event1", "event2"]
+                    "name": "Sort By",
+                    "default": "Hot",
+                    "options": [
+                        {"option_name": "Hot", "events": None},
+                        {"option_name": "New", "events": None},
+                        {"option_name": "Old", "events": None},
+                        {"option_name": "Likes", "events": None},
+                        {"option_name": "Dislikes", "events": None},
+                    ]
                 },
-                {
-                    "name": "New",
-                    "events": ["event3", "event4"]
-                }
-            ],
-            "Method": [
-                {
-                    "name": "Ascending",
-                    "events": ["event5"],
-                },
-                {
-                    "name": "Descending",
-                    "events": ["event6"],
-                },
-            ],
+            ]
         } %}
     {% endif %}
 
-    <h1>Not yet implemented</h1>
+    <div
+        class="
+            dropdown relative {{ class_names }}
+            text-[0.75rem] h-[2.5em] rounded-[1rem] bg-gray-700 bg-opacity-50 py-[0.5em] 
+            pl-[1em] pr-[3em] inline-block whitespace-nowrap appearance-none 
+            text-white font-bold outline-none
+        "
+        id="{{ dropdown_id }}"
+    >
+        <span
+            class="
+                dropdown_display_text text-white font-bold truncate max-w-[5rem]
+                select-none hover:cursor-pointer
+            "
+        >
+            {{ selections['default_display'] }}
+        </span>
+        <div
+            class="
+                dropdown_view
+                absolute top-0 left-[50%] bg-gray-800
+                flex flex-col -translate-x-[50%] translate-y-[calc(2.5em+1%)]
+            "   
+            style="display: none;"
+        >
+
+            {% for section in selections['sections'] %}
+                <section class="dropdown_section">
+                    <header
+                        class="
+                            dropdown_section_header
+                            px-[1em] py-[0.5em] hover:cursor-pointer
+                            bg-gray-900 font-bold text-white
+                            flex flex-row justify-stretch items-center
+                            select-none pointer-events-none
+                        "
+                    >
+                        {{ section['name'] }}
+                    </header>
+
+                    {% for option in section['options'] %}
+                        <button
+                            class="
+                                dropdown_section_option
+                                px-[1em] py-[0.5em] text-white
+                                font-normal transition-all duration-[200ms]
+                                hover:bg-gray-500 hover:bg-opacity-25 w-full
+                                flex flex-row justify-start items-center
+                                select-none hover:cursor-pointer
+                            "
+                        >
+                            {{ option['option_name'] }}
+                        </button>
+                    {% endfor %}
+
+                </section>
+            {% endfor %}
+        </div>
+        <span
+            class="
+                dropdown_arrow absolute
+                text-[0.75rem] text-white select-none right-3 translate-y-[5%]
+            "
+        >
+            ▼
+        </span>
+    </div>
+
+    {{ event_binder(
+        selector='#' ~ dropdown_id,
+        events=events
+    ) }}
+
 {% endmacro %}
