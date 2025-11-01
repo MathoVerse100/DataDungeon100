@@ -57,10 +57,10 @@ async def library(request: Request):
     )
 
 
-@app.get('/communities/', response_class=HTMLResponse, name='communities')
+@app.get('/communities/analytics/', response_class=HTMLResponse, name='communities')
 async def communities(request: Request):
     return templates.TemplateResponse(
-        "pages/communities/page.html",
+        "pages/communities/[community]/page.html",
         {"request": request, "outer_sidebar_button_clicked": 'communities'},
     )
 

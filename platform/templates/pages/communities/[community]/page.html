@@ -3,7 +3,6 @@
 {% from "components/community_banner.jinja" import community_banner with context %}
 {% from "components/nav_button.jinja" import nav_button with context %}
 {% from "components/action_button.jinja" import action_button with context %}
-{# {% from "components/community_feed_filter_dropdown.jinja" import community_feed_filter_dropdown with context %} #}
 {% from "components/post_reaction_button.jinja" import post_reaction_button with context %}
 {% from "components/dropdown.jinja" import dropdown with context %}
 {% from "components/community_feed_filter_dropdown.jinja" import community_feed_filter_dropdown with context %}
@@ -303,7 +302,7 @@
                     </a>
                     <div class="flex-1 flex flex-col justify-start items-start">
                         <span class="block text-white text-[0.75rem] font-bold">{{ top_user['user_info']['user_name'] }}</span>
-                        <span class="block text-white text-[0.75rem] italic font-mono">Likes: {{ top_user['metric']|capitalize }}: {{ top_user['total'] }}</span>
+                        <span class="block text-white text-[0.75rem] italic font-mono">{{ top_user['metric']|capitalize }}: {{ top_user['total'] }}</span>
                     </div>
                     <img
                         class="
