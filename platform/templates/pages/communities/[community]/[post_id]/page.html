@@ -16,7 +16,7 @@
         'user_info': {
             'user_profile_link': 'library',
             'user_profile_picture': 'explore.png',
-            'user_name': "User's Nickname",
+            'user_name': "User's Name",
             'user_nickname': "User's Nickname",
         },
         'post_info': {
@@ -87,7 +87,7 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
                     "
                     style="
                         background-image: url('{{ url_for('assets', path=community_post['user_info']['user_profile_picture']) }}');
-                        background-size: 75%;
+                        background-size: cover;
                         background-position: center;
                         background-repeat: no-repeat;
                     "
@@ -95,7 +95,7 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
                 </a>
                 <div class="flex-1 flex flex-col justify-start items-start">
                     <span class="text-white text-[1rem] font-bold">{{ community_post['user_info']['user_name'] }}</span>
-                    <span class="text-white text-[0.75rem] text-gray-500">{{ community_post['user_info']['user_nickname'] }}</span>
+                    <span class="text-gray-400 text-[0.75rem] font-bold font-[cursive]"><span>Community:</span> <span class="px-[0.75em] bg-blue-500 rounded-[1rem] text-white -translate-y-[25%]">Analytics</span></span>
                 </div>
             </section>
             <section class="py-[1em] flex flex-col justify-start items-start gap-[1em]">
