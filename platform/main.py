@@ -72,6 +72,13 @@ async def communities(request: Request):
         {"request": request, "outer_sidebar_button_clicked": 'communities'},
     )
 
+@app.get('/communities/analytics/post_id/comments/comment_id/thread/{page_number}', response_class=HTMLResponse)
+async def communities(request: Request, page_number: int):
+    return templates.TemplateResponse(
+        "pages/communities/[community]/[post_id]/comments/[comment_id]/thread/[page_number]/page.html",
+        {"request": request, "outer_sidebar_button_clicked": 'communities'},
+    )
+
 
 @app.get('/university/', response_class=HTMLResponse, name='university')
 async def university(request: Request):
