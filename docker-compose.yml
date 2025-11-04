@@ -6,17 +6,25 @@ services:
       POSTGRES_USER: ${OPERATIONS_ROOT_USER}
       POSTGRES_PASSWORD: ${OPERATIONS_ROOT_PASSWORD}
       POSTGRES_DB: ${OPERATIONS_ROOT_DB}
-    ports: 
+    ports:
       - ${OPERATIONS_PORT_MAPPING:-}
     volumes:
       - operations-db-volume:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD', 'pg_isready', '-U', 'postgres']
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
-  
+
+  drawdb:
+    image: drawdb
+    container_name: drawdb
+    ports:
+      - "4000:80"
+    volumes:
+      - .:/app
+
   platform:
     build:
       context: ${PLATFORM_PATH}
