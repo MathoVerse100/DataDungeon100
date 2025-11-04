@@ -35,7 +35,7 @@ Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapi
 
     {{ dropdown(class_names='mx-[2em] mt-[2em]') }}
 
-    {% for _ in range(5) %}
+    {% for _ in range(20) %}
 
     <div
         class="
@@ -84,9 +84,12 @@ Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapi
         <div class="flex-1 pt-[1em] border-t-[1px] border-t-gray-500">
             <pre
                 class="
-                    text-sm text-white font-sans break-words text-wrap
+                    text-sm text-white font-sans break-words text-wrap {% if _ == 0 %}line-clamp-1{% endif %}
                 "
             >{{ comment_in_thread['comment_info']['content'] }}</pre>
+            {% if _ == 0 %}
+                <span class="text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">Read more...</span>
+            {% endif %}
         </div>
         <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
             {{ post_reaction_button(
@@ -103,6 +106,10 @@ Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapi
             ) }}
         </section>  
     </div>
+
+    {% if _ == 0 %}
+    <div class="m-[10em]"></div>
+    {% endif %}
 
     {% endfor %}
 
