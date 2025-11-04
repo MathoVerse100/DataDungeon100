@@ -1,1 +1,109 @@
 {% extends "pages/communities/[community]/[post_id]/comments/[comment_id]/thread_layout.html" %}
+
+{% from "components/nav_button.jinja" import nav_button with context %}
+{% from "components/post_reaction_button.jinja" import post_reaction_button with context %}
+{% from "components/dropdown.jinja" import dropdown with context %}
+
+
+    {% set comment_in_thread = {
+        'user_info': {
+            'user_profile_link': 'library',
+            'user_profile_picture': 'library.png',
+            'user_name': "User's Name",
+            'user_nickname': "I live here...",
+        },
+        'comment_info': {
+            'content': """
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
+        
+In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
+        
+In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
+        
+In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.""",
+        'likes': '12.2k',
+        'dislikes': '304',
+        }
+    } %}
+
+{% block community_post_comment_section %}
+
+    {{ dropdown(class_names='mx-[2em] mt-[2em]') }}
+
+    {% for _ in range(5) %}
+
+    <div
+        class="
+            m-[1em] px-[1em] py-[0.5em] rounded-[1rem]
+            flex flex-col justify-stretch items-stretch gap-[1em]
+            {% if _ == 0 %}shadow-[0_0_8px_2px_rgba(255,215,0,0.35)]{% endif %}
+        "
+    >
+        <div class="[@media(min-width:480px)]:h-[5em] flex flex-row [@media(min-width:480px)]:flex-row justify-between [@media(min-width:480px)]:justify-between items-stretch gap-[1em]">
+            <div class="flex flex-row justify-start items-stretch gap-[1em]">
+                <div 
+                    class="
+                        h-[5em] aspect-[1/1] rounded-[50%] border-[2.5px] border-black
+                    "
+                    style="
+                        background-image: url({{ url_for('assets', path='example_profile_pic.jpg') }});
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    "
+                ></div>
+                <div class="flex flex-col justify-around items-start">
+                    <section class="flex flex-col justify-start items-start gap-0">
+                        <header class="text-white font-bold text-md [@media(min-width:480px)]:text-xl">{{ comment_in_thread['user_info']['user_name'] }}</header>
+                        <span class="text-gray-500 text-xs">{{ comment_in_thread['user_info']['user_nickname'] }}</span>
+                    </section>
+                    <div
+                        class="
+                            mt-[0.5em] rounded-[1rem] px-1 [@media(min-width:480px)]:px-2 bg-red-500 text-white text-xs [@media(min-width:480px)]:text-sm font-[cursive]
+                            shadow-[0_0_8px_1px_rgba(255,0,0,0.5),_0_0_16px_3px_rgba(255,0,0,0.35),_0_0_24px_6px_rgba(255,0,0,0.25)]
+                        "
+                    >
+                        This is a badge
+                    </div>
+                </div>
+            </div>
+            <div class="h-[2em] flex flex-row justify-end items-center">
+                {{ nav_button(
+                    content='',
+                    type='circle',
+                    icon_path='more_options.png',
+                    icon_size='50%'
+                )}}
+            </div>
+        </div>
+        <div class="flex-1 pt-[1em] border-t-[1px] border-t-gray-500">
+            <pre
+                class="
+                    text-sm text-white font-sans break-words text-wrap
+                "
+            >{{ comment_in_thread['comment_info']['content'] }}</pre>
+        </div>
+        <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
+            {{ post_reaction_button(
+                reaction_name='like',
+                icon_path='like.png',
+                icon_coordinates=('50%', '40%'),
+                reaction_value=comment_in_thread['comment_info']['likes']
+            ) }}
+            {{ post_reaction_button(
+                reaction_name='dislike',
+                icon_path='dislike.png',
+                icon_coordinates=('50%', '75%'),
+                reaction_value=comment_in_thread['comment_info']['dislikes']
+            ) }}
+        </section>  
+    </div>
+
+    {% endfor %}
+
+{% endblock %}
