@@ -67,16 +67,17 @@
             {% endif %}
             
             {% if comment['depth'] == 1 %}
-            <button
+            <a
                 class="
-                    mx-[3em] mt-[0.5em] py-[0.25em] px-[2em]
+                    mx-[3em] mt-[0.5em] py-[0.25em] px-[2em] w-[12em]
                     rounded-[1rem] flex flex-row justify-center items-center
                     bg-gray-800 text-white text-xs font-sans font-bold transition-all
                     duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 active:scale-[0.95]
                 "
+                href='/communities/analytics/post_id/comments/comment_id/thread/2'
             >
                 View full thread
-            </button>
+            </a>
             {% endif %}
         </div>
 
