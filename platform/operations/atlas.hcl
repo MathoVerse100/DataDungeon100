@@ -1,5 +1,10 @@
+variable "url" {
+    type = string
+    default = getenv("OPERATIONS_DB_URL")
+}
+
 env "local" {
-    url = "postgresql://${OPERATIONS_ROOT_USER}:${OPERATIONS_ROOT_PASSWORD}@localhost:${OPERATIONS_PORT_MAPPING}/${OPERATIONS_ROOT_DB}?sslmode=disable"
+    url = var.url
         
     src = "file://database"
 
