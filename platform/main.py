@@ -1,13 +1,16 @@
+import uvicorn
+
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-import uuid
 
-def generate_uuid():
-    return 'a' + str(uuid.uuid4())
+from configure_templates import configure_templates
+from api.endpoints import paths as api_paths
 
 app = FastAPI()
+
+# Static Configuration
 app.mount(
     '/static',
     StaticFiles(directory='static'),
@@ -19,15 +22,20 @@ app.mount(
     name='assets',
 )
 
+# Jinja Configuration
 templates = Jinja2Templates(
     directory='templates',
 )
-
-templates.env.globals.update({
-    "generate_uuid": generate_uuid
-})
+configure_templates(templates)
 
 
+# API Configuration
+for api_path in api_paths:
+    api_path(app)
+
+
+
+# Template Rendering Configuration
 @app.get('/home/', response_class=HTMLResponse, name="home")
 async def home(request: Request):
     return templates.TemplateResponse(
@@ -135,3 +143,7 @@ async def settings(request: Request):
         "pages/tos/page.html",
         {"request": request, "outer_sidebar_button_clicked": 'tos'},
     )
+
+
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=8000, reload=True)
