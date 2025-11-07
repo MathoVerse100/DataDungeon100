@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from pydantic.types import StringConstraints
 from typing import Annotated
 
@@ -34,6 +34,13 @@ class UserRegisterCredentials(BaseModel):
         StringConstraints(min_length=5, max_length=255)
     ]
 
+    @field_validator("email")
+    def validate_email(cls, v):
+        if is_email(v):
+            return v
+        
+        raise ValueError("Invalid email")
+
 
 
 def generator(app: FastAPI) -> None:
@@ -64,5 +71,62 @@ def generator(app: FastAPI) -> None:
     
     @app.post('/api/auth/register')
     async def register(user_credentials: UserRegisterCredentials):
-        ...
 
+        password = hash_password(user_credentials.password)
+
+        username_exists_query = f"""
+            SELECT USERNAME
+            FROM USER_AUTH
+            WHERE 1=1
+            AND USERNAME = %s::text
+        """
+        email_exists_query = f"""
+            SELECT EMAIL
+            FROM USER_AUTH
+            WHERE 1=1
+            AND EMAIL = %s::text
+        """
+        first_last_names_unique = f"""
+            SELECT FIRST_NAME, LAST_NAME
+            FROM USER_AUTH
+            WHERE 1=1 
+            AND FIRST_NAME = %s::text
+            AND LAST_NAME = %s::text
+        """
+
+        check_username = await operations.execute(username_exists_query, (user_credentials.username,))
+        check_email = await operations.execute(email_exists_query, (user_credentials.email,))
+        check_first_last = await operations.execute(first_last_names_unique, (user_credentials.first_name, user_credentials.last_name))
+
+        if not check_username and not check_email and not check_first_last:
+            ...
+            return {"status_code": 200, "message": "Success!"}
+        
+        detail = []
+
+        if check_username:
+            detail.append({
+                "error": "Username exists",
+                "message": "The chosen username is already taken. Please choose another."
+            })
+        
+        if check_email:
+            detail.append({
+                "error": "Email exists",
+                "message": "The chosen email is already taken. Please choose another."
+            })
+        
+        if check_first_last:
+            detail.append({
+                "error": "First-Last name pair exists",
+                "message": "The chosen first-last name pair is already taken. Please choose another."
+            })
+        
+        raise HTTPException(
+            status_code=409,
+            detail=detail
+        )
+
+    @app.get('/api/auth/verification')
+    async def verify_email():
+        ...
