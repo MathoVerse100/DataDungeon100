@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: ${OPERATIONS_ROOT_PASSWORD}
       POSTGRES_DB: ${OPERATIONS_ROOT_DB}
     ports:
-      - ${OPERATIONS_PORT_MAPPING:-}
+      - "${OPERATIONS_PORT_MAPPING:-5432}:5432"
     volumes:
       - operations-db-volume:/var/lib/postgresql/data
     healthcheck:
