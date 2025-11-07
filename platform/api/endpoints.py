@@ -1,5 +1,5 @@
-from api.login import generator as login
+from api.auth import generator as auth
 
 paths = [
-    login,
+    auth,
 ]

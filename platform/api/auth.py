@@ -63,6 +63,6 @@ def generator(app: FastAPI) -> None:
         return {"Message": "Login Successful!", "user": user[0], "status_code": 200}
     
     @app.post('/api/auth/register')
-    async def register():
+    async def register(user_credentials: UserRegisterCredentials):
         ...
 
