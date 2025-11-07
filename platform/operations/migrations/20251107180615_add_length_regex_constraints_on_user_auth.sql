@@ -1,0 +1,2 @@
+-- Modify "user_auth" table
+ALTER TABLE "public"."user_auth" ADD CONSTRAINT "user_auth_first_name_check" CHECK ((char_length((first_name)::text) >= 3) AND ((first_name)::text ~ '^[a-zA-Z0-9_]+$'::text)), ADD CONSTRAINT "user_auth_last_name_check" CHECK ((char_length((last_name)::text) >= 3) AND ((last_name)::text ~ '^[a-zA-Z0-9_]+$'::text)), ADD CONSTRAINT "user_auth_username_check" CHECK (char_length((username)::text) >= 5);

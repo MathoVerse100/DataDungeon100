@@ -1,3 +1,4 @@
-h1:33vzYviKtSDxBaFVIWu7yOThBmfK3frLYJ9lwTjcJwY=
+h1:UQrLNDNBNcPDja+wKPe2uj5rjL1QUqGsRdwAsE5p5wE=
 20251107122654_created_user_auth_table.sql h1:ts43pDr6YNeNe46XQhKaxYEhoOrWQAwzV/HDP3qqiYo=
 20251107151257_changed_password_datatype.sql h1:jS5K/Nh9jC9qCjcn7Orqwf4y/9sTKIRG0i8bfOszwoM=
+20251107180615_add_length_regex_constraints_on_user_auth.sql h1:sZZuWJl52zfTNQIRo/EA8vuAtNo8TRZ3anMJtJUQ3t8=
