@@ -17,9 +17,24 @@ services:
       retries: 5
       start_period: 30s
 
-  drawdb:
+  redis:
+    image: redis:8.4-rc1-alpine3.22
+    container_name: redis
+    environment:
+      REDIS_APPENDONLY: ${REDIS_APPENDONLY:-yes}
+      REDIS_APPENDFSYNC: ${REDIS_APPENDFSYNC:-everysec}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-db-volume:/data
+    command: >
+      redis-server
+      --appendonly ${REDIS_APPENDONLY}
+      --appendfsync ${REDIS_APPENDFSYNC}
+
+  database-schema:
     image: drawdb
-    container_name: drawdb
+    container_name: database-schema
     ports:
       - "4000:80"
     volumes:
@@ -38,3 +53,4 @@ services:
 
 volumes:
   operations-db-volume:
+  redis-db-volume:
