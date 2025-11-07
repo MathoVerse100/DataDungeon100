@@ -22,11 +22,11 @@ def send_email(
     title: str,
     receivers: list,
     content: str,
-    sender_email: str = os.getenv('app_email'),
-    sender_password: str = os.getenv('app_password'),
+    sender_email: str = os.getenv('APP_EMAIL'),
+    sender_password: str = os.getenv('APP_PASSWORD'),
 ):
-    message['Subject'] = title
     message = MIMEText(content, _subtype='html')
+    message['Subject'] = title
 
     mail = smtplib.SMTP('smtp.gmail.com', 587)
     mail.starttls()

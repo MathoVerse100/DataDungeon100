@@ -2,10 +2,14 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, field_validator
 from pydantic.types import StringConstraints
 from typing import Annotated
+import secrets
+import json
+from datetime import datetime, timezone
 
-from lib.email_utils import is_email, normalize_email
+from lib.email_utils import is_email, normalize_email, send_email
 from lib.password_utils import hash_password
-from initialize_dbs import operations
+from lib.generate_uuid import generate_uuid
+from initialize_dbs import operations, redis_db0
 
 
 class UserLoginCredentials(BaseModel):
@@ -23,7 +27,7 @@ class UserRegisterCredentials(BaseModel):
     ]
     username: Annotated[
         str,
-        StringConstraints(min_length=5, max_length=255)
+        StringConstraints(min_length=5, max_length=255, pattern=r'^[a-zA-Z0-9_]+$')
     ]
     email: Annotated[
         str,
@@ -99,7 +103,62 @@ def generator(app: FastAPI) -> None:
         check_first_last = await operations.execute(first_last_names_unique, (user_credentials.first_name, user_credentials.last_name))
 
         if not check_username and not check_email and not check_first_last:
-            ...
+            if (
+                await redis_db0.get(f"register_awaiting_verification:{user_credentials.username}")
+                or await redis_db0.get(f"register_awaiting_verification:{user_credentials.email}")
+                or await redis_db0.get(f"register_awaiting_verification:{user_credentials.first_name}-{user_credentials.last_name}")
+            ):
+                raise HTTPException(
+                    status_code=409,
+                    detail="A registration with this username, email, or first-last name pair is already pending verification."
+                )
+
+            verification_token = secrets.token_urlsafe(32)
+            token_user_info = {
+                "first_name": user_credentials.first_name,
+                "last_name": user_credentials.last_name,
+                "username": user_credentials.username,
+                "email": user_credentials.email,
+                "password": password.decode('utf-8'),
+                "is_active": 'True',
+                "is_banned": 'False',
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "last_sign_in": None,
+            }
+            await redis_db0.set(f"register_verification_tokens:{verification_token}", json.dumps(token_user_info), ex=900)
+            await redis_db0.set(f"register_awaiting_verification:{user_credentials.username}", 'True', ex=900)
+            await redis_db0.set(f"register_awaiting_verification:{user_credentials.email}", 'True', ex=900)
+            await redis_db0.set(f"register_awaiting_verification:{user_credentials.first_name}-{user_credentials.last_name}", 'True', ex=900)
+
+            print(f"...... THE TOKEN VALUE IS ......: {verification_token} <------ HERE!!!!!")
+
+            # send_email(
+            #     title='DataDungeon100: Verify Registration',
+            #     receivers=[user_credentials.email],
+            #     content=f"""
+            #         <html>
+            #             <body>
+            #                 <h1>Verify your email by clicking the following button</h1>
+            #                 <a 
+            #                     style='
+            #                         background-color: red;
+            #                         color: white;
+            #                         font-family: sans-serif;
+            #                         font-weight: bold;
+            #                         font-size: 1.5rem;
+                                    
+            #                         padding: 1em;
+            #                         border-radius: 1rem;
+            #                     '
+            #                     href='/api/auth/verify-registration?token={verification_token}'
+            #                 >
+            #                     Verify Registration
+            #                 </a>
+            #                 <h2 style='color: blue; font-weight: 1000;'>NOTE: Token expires after 15 minutes!</h2>
+            #             </body>
+            #         </html>
+            #     """
+            # )
             return {"status_code": 200, "message": "Success!"}
         
         detail = []
@@ -127,6 +186,38 @@ def generator(app: FastAPI) -> None:
             detail=detail
         )
 
-    @app.get('/api/auth/verification')
-    async def verify_email():
-        ...
+    @app.get('/api/auth/verify-registration')
+    async def verify_email(token: str):
+        user = await redis_db0.get(f"register_verification_tokens:{token}")
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="Invalid or expired verification token."
+            )
+        
+        await redis_db0.delete(f"register_verification_tokens:{token}")
+        user_dict = json.loads(user.decode('utf-8'))
+
+        await redis_db0.delete(f"register_awaiting_verification:{user_dict['username']}")
+        await redis_db0.delete(f"register_awaiting_verification:{user_dict['email']}")
+        await redis_db0.delete(f"register_awaiting_verification:{user_dict['first_name']}-{user_dict['last_name']}")
+
+        query = f"""
+            INSERT INTO USER_AUTH (
+                FIRST_NAME, LAST_NAME, USERNAME,
+                EMAIL, PASSWORD
+            )
+            VALUES (%s, %s, %s, %s, %s)
+        """
+
+        await operations.execute(
+            query,
+            (
+                user_dict['first_name'], user_dict['last_name'],
+                user_dict['username'], user_dict['email'],
+                user_dict['password']             
+            ),
+            fetch=False
+        )
+
+        return {"message": "Successfully Registered!"}
