@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from lib.email import is_email, normalize_email
+from lib.email_utils import is_email, normalize_email
 from lib.password import hash_password
 from initialize_dbs import operations
 
