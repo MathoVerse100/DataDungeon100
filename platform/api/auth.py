@@ -70,7 +70,7 @@ def generator(app: FastAPI) -> None:
         session_token = secrets.token_urlsafe(32)
         await redis_db0.set(f"session_token:{session_token}", user[0]['username'], ex=604800)
 
-        return {"Message": "Login Successful!", "user": user[0], "status_code": 200, "session_token": session_token}
+        return {"Message": "Login Successful!", "user": user[0]['username'], "status_code": 200, "session_token": session_token}
     
     @app.post('/api/auth/register')
     async def register(user_credentials: UserRegisterCredentials):
