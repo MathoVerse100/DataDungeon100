@@ -10,6 +10,7 @@
         buttons=[
             {"content": "Home", "icon_path": "home.png", "href": url_for('home')},
             {"content": "Explore", "icon_path": "explore.png", "href": url_for('explore')},
+            {"content": "Login", "icon_path": "one.png", "href": url_for('login_auth')},
         ]
     ) }}
 
@@ -56,7 +57,6 @@
         {{ nav_button(content='', icon_path='light_dark_mode.png', icon_size='75%', type='circle', class_names='hidden sm:block') }}
         {{ nav_button(content='', icon_path='language.png', icon_size='50%', type='circle', class_names='hidden sm:block') }}
         {{ nav_button(content='', icon_path='bell.png', icon_size='50%', type='circle', class_names='hidden sm:block') }}
-        {{ nav_button(content='', icon_path='example_profile_pic.jpg', icon_size='cover', type='circle', class_names='hidden sm:block border-[2px] border-white') }}
         {{ nav_button(content='', icon_path='triple_dots.png', icon_size='50%', type='circle', class_names='block sm:hidden') }}
     </div>
 {% endblock %}
