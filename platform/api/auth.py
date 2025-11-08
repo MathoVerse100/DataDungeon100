@@ -6,9 +6,8 @@ import secrets
 import json
 from datetime import datetime, timezone
 
-from lib.email_utils import is_email, normalize_email, send_email
-from lib.password_utils import hash_password
-from lib.generate_uuid import generate_uuid
+from lib.email_utils import is_email, normalize_email, send_email, email_verification_html_body
+from lib.password_utils import hash_password, check_password
 from initialize_dbs import operations, redis_db0
 
 
@@ -56,22 +55,22 @@ def generator(app: FastAPI) -> None:
             if is_email(user_credentials.username_or_email)
             else user_credentials.username_or_email
         )
-        password = hash_password(user_credentials.password)
 
         field = "EMAIL" if is_email(username_or_email) else "USERNAME"
         query = f"""
-            SELECT *
+            SELECT USERNAME, PASSWORD
             FROM USER_AUTH
             WHERE {field} = %s::text
-            AND PASSWORD = %s::text
         """
 
-        user = await operations.execute(query, (username_or_email, password))
-
-        if len(user) == 0 or not user:
+        user = await operations.execute(query, (username_or_email,))
+        if not user or not check_password(user_credentials.password, user[0]['password']):
             raise HTTPException(status_code=401, detail="Invalid username, email or password")
-        
-        return {"Message": "Login Successful!", "user": user[0], "status_code": 200}
+
+        session_token = secrets.token_urlsafe(32)
+        await redis_db0.set(f"session_token:{session_token}", user[0]['username'], ex=604800)
+
+        return {"Message": "Login Successful!", "user": user[0], "status_code": 200, "session_token": session_token}
     
     @app.post('/api/auth/register')
     async def register(user_credentials: UserRegisterCredentials):
@@ -132,33 +131,11 @@ def generator(app: FastAPI) -> None:
 
             print(f"...... THE TOKEN VALUE IS ......: {verification_token} <------ HERE!!!!!")
 
-            # send_email(
-            #     title='DataDungeon100: Verify Registration',
-            #     receivers=[user_credentials.email],
-            #     content=f"""
-            #         <html>
-            #             <body>
-            #                 <h1>Verify your email by clicking the following button</h1>
-            #                 <a 
-            #                     style='
-            #                         background-color: red;
-            #                         color: white;
-            #                         font-family: sans-serif;
-            #                         font-weight: bold;
-            #                         font-size: 1.5rem;
-                                    
-            #                         padding: 1em;
-            #                         border-radius: 1rem;
-            #                     '
-            #                     href='/api/auth/verify-registration?token={verification_token}'
-            #                 >
-            #                     Verify Registration
-            #                 </a>
-            #                 <h2 style='color: blue; font-weight: 1000;'>NOTE: Token expires after 15 minutes!</h2>
-            #             </body>
-            #         </html>
-            #     """
-            # )
+            send_email(
+                title='DataDungeon100: Verify Registration',
+                receivers=[user_credentials.email],
+                content=email_verification_html_body(user_credentials.first_name, 'https://www.google.com/')
+            )
             return {"status_code": 200, "message": "Success!"}
         
         detail = []
