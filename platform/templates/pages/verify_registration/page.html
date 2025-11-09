@@ -1,0 +1,40 @@
+{% extends "layouts/main.html" %}
+
+{% block inner_sidebar_skeleton %}{% endblock %}
+
+{% block main_body %}
+    <div 
+        class="
+            relative flex-1 min-w-[15rem] border-r border-r-gray-800
+            h-[calc(100vh-4.6875rem)]
+            overflow-y-auto overflow-x-hidden
+            [scrollbar-gutter:stable]
+            [scrollbar-width:thin] [scrollbar-color:#555_#111]
+            [&::-webkit-scrollbar]:w-[8px]
+            [&::-webkit-scrollbar-track]:bg-[#111]
+            [&::-webkit-scrollbar-thumb]:bg-[#555]
+            [&::-webkit-scrollbar-thumb:hover]:bg-[#666]
+            [&::-webkit-scrollbar-button]:hidden
+        "
+    >
+        <div
+            class="
+                absolute w-full h-full blur-md brightness-50 z-[-1]
+            "
+            style="
+                background-image: url('https://gifdb.com/images/high/light-trails-wave-background-r4tz04b0l8kqi6do.gif');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            "
+        ></div>
+        <section class="h-full w-full flex flex-col justify-center items-center gap-[2em]">
+            <header class="text-5xl font-bold text-white break-words word-wrap">
+                Welcome, fellow Dweller!
+            </header>
+            <p class="font-inter text-gray-400 text-sm">
+                Your credentials have been verified!!! <a href="{{  url_for('login') }}" class="text-blue-600 hover:underline">Login now, and join us in our adventures</a>!
+            </p>
+        </section>
+    </div>
+{% endblock %}

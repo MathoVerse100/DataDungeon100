@@ -1,12 +1,14 @@
 import uvicorn
 
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, Depends
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
 from configure_templates import configure_templates
+from configure_middlewares import configure_middlewares
 from api.endpoints import paths as api_paths
+from routers.dependencies import verify_session_token
 
 app = FastAPI()
 
@@ -33,7 +35,8 @@ configure_templates(app, templates)
 for api_path in api_paths:
     api_path(app)
 
-
+# Middleware Configuration
+configure_middlewares(app)
 
 # Template Rendering Configuration
 @app.get('/home/', response_class=HTMLResponse, name="home")
@@ -81,7 +84,7 @@ async def communities(request: Request):
     )
 
 @app.get('/communities/analytics/post_id/comments/comment_id/thread/{page_number}', response_class=HTMLResponse)
-async def communities(request: Request, page_number: int):
+async def communities(request: Request, page_number: int):    
     return templates.TemplateResponse(
         "pages/communities/[community]/[post_id]/comments/[comment_id]/thread/[page_number]/page.html",
         {"request": request, "outer_sidebar_button_clicked": 'communities'},

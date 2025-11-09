@@ -59,7 +59,7 @@ def generator(app: FastAPI) -> None:
 
         field = "EMAIL" if is_email(username_or_email) else "USERNAME"
         query = f"""
-            SELECT USERNAME, PASSWORD
+            SELECT ID, FIRST_NAME, LAST_NAME, EMAIL, USERNAME, PASSWORD
             FROM USER_AUTH
             WHERE {field} = %s::text
         """
@@ -69,9 +69,21 @@ def generator(app: FastAPI) -> None:
             raise HTTPException(status_code=401, detail="Invalid username, email or password")
 
         session_token = secrets.token_urlsafe(32)
-        await redis_db0.set(f"session_token:{session_token}", user[0]['username'], ex=604800)
+        user_info = {
+            "user_id": user[0]['id'],
+            "first_name": user[0]['first_name'],
+            "last_name": user[0]['last_name'],
+            "username": user[0]['username'],
+            "email": user[0]['email'],
+        }
 
-        data = {"Message": "Login Successful!", "user": user[0]['username'], "session_token": session_token}
+        await redis_db0.set(f"session_tokens:{session_token}", json.dumps(user_info), ex=604800)
+
+        data = {"Message": "Login Successful!", "details": {
+            "session_token": session_token,
+            "user_info": user_info
+        }}
+
         return JSONResponse(content=data, status_code=200)
 
     @app.post('/api/auth/register')
@@ -130,11 +142,11 @@ def generator(app: FastAPI) -> None:
 
                     print(f"...... THE TOKEN VALUE IS ......: {verification_token} <------ HERE!!!!!")
 
-                    # send_email(
-                    #     title='DataDungeon100: Verify Registration',
-                    #     receivers=[user_credentials.email],
-                    #     content=email_verification_html_body(user_credentials.first_name, f'http://platform:8000/verify-registration?token={verification_token}')
-                    # )
+                    send_email(
+                        title='DataDungeon100: Verify Registration',
+                        receivers=[user_credentials.email],
+                        content=email_verification_html_body(user_credentials.first_name, f'http://platform:8000/verify-registration?token={verification_token}')
+                    )
 
             return JSONResponse(
                 content={
@@ -199,3 +211,9 @@ def generator(app: FastAPI) -> None:
 
         data = {"message": "Successfully Registered!"}
         return JSONResponse(content=data, status_code=200)
+
+    @app.get('/api/auth/verify-session-token')
+    async def verify_session_token(token: str) -> bool:
+        value = await redis_db0.get(f"session_tokens:{token}")
+
+        return not not value
