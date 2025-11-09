@@ -71,7 +71,7 @@ def generator(app: FastAPI, templates: Jinja2Templates):
 
 
     @app.get('/login/', response_class=HTMLResponse, name='login')
-    async def login(request: Request, logged: bool | RedirectResponse = Depends(verify_session_token)):
+    async def login(request: Request, logged: bool = Depends(verify_session_token)):
         if logged:
             return RedirectResponse(url='/explore', status_code=303)
 
@@ -79,14 +79,17 @@ def generator(app: FastAPI, templates: Jinja2Templates):
 
         return templates.TemplateResponse(
             "pages/login/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'login', 'verify_message': verify_message},
+            {"request": request, "outer_sidebar_button_clicked": 'login', 'verify_message': verify_message, 'login_or_register': 'login'},
         )
 
     @app.get('/register/', response_class=HTMLResponse, name='register')
-    async def register(request: Request):
+    async def register(request: Request, logged: bool = Depends(verify_session_token)):
+        if logged:
+            return RedirectResponse(url='/explore', status_code=303)
+
         return templates.TemplateResponse(
             "pages/register/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'login'},
+            {"request": request, "outer_sidebar_button_clicked": 'register', 'login_or_register': 'register'},
     )
 
     @app.get('/verify-registration/', response_class=HTMLResponse, name='verify-registration')

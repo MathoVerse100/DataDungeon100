@@ -10,8 +10,11 @@
         buttons=[
             {"content": "Home", "icon_path": "home.png", "href": url_for('home')},
             {"content": "Explore", "icon_path": "explore.png", "href": url_for('explore')},
-            {"content": "Login", "icon_path": "one.png", "href": url_for('login')},
-        ]
+        ] + (
+            [{"content": "Profile", "icon_path": "one.png", "href": url_for('profile')}]
+            if logged|default(False)
+            else [{"content": (login_or_register|default('login'))|capitalize, "icon_path": "one.png", "href": url_for((login_or_register|default('login'))|lower)}]
+        )
     ) }}
 
     {{ sidebar_menu_group(
@@ -40,7 +43,10 @@
             {"content": "Help", "icon_path": "help.png", "href": url_for('help')},
             {"content": "Settings", "icon_path": "settings.png", "href": url_for('settings')},
             {"content": "ToS", "icon_path": "tos.png", "href": url_for('tos')},
-        ]
+        ] + (
+            [{"content": "Logout", "icon_path": "one.png", "href": url_for('profile')}]
+            if logged|default(False) else []
+        )
     ) }}
 {% endblock %}
 

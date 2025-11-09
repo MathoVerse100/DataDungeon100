@@ -5,6 +5,7 @@ from pydantic.types import StringConstraints
 from typing import Annotated
 import secrets
 import json
+import os
 from datetime import datetime, timezone
 
 from lib.email_utils import is_email, normalize_email, send_email, email_verification_html_body
@@ -145,7 +146,7 @@ def generator(app: FastAPI) -> None:
                     send_email(
                         title='DataDungeon100: Verify Registration',
                         receivers=[user_credentials.email],
-                        content=email_verification_html_body(user_credentials.first_name, f'http://platform:8000/verify-registration?token={verification_token}')
+                        content=email_verification_html_body(user_credentials.first_name, f'{os.getenv('PLATFORM_DOMAIN_NAME')}/verify-registration?token={verification_token}')
                     )
 
             return JSONResponse(

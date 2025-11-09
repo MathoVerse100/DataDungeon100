@@ -39,9 +39,9 @@
                 <header class="font-sans font-bold text-4xl [@media(min-width:480px)]:text-5xl text-white">Login</header>
 
                 {% if verify_message %}
-                    <span class="mt-[1em] text-xs text-gray-400 font-sans font-bold self-center">{{ verify_message }}</span>
+                    <span class="mt-[2em] text-xs text-green-500 font-sans font-bold self-start">{{ verify_message }}</span>
                 {% endif %}
-                <span class="mt-[2em] self-start text-white text-xs">Don't have an account? <a href="/register/" class="underline text-blue-600">Register</a>.</span>
+                <span class="mt-[2em] self-start text-white text-sm">Don't have an account? <a href="/register/" class="underline text-blue-600">Register</a>.</span>
                 <form action="/login/" method="post" class="mt-[1em] w-full flex flex-col justify-stretch items-start gap-[0.5em]">
                     <label class="w-full text-white">Username or Email</label>
                     <input
