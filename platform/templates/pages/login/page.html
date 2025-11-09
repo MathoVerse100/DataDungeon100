@@ -1,5 +1,9 @@
 {% extends "layouts/main.html" %}
 
+{% block scripts %}
+    <script src="{{ url_for('static', path='js/togglePassword.js') }}" defer></script>
+{% endblock %}
+
 {% block inner_sidebar_skeleton %}{% endblock %}
 
 {% block main_body %}
@@ -44,19 +48,31 @@
                         placeholder="Username or Email..."
                         class="mt-[0.5em] px-[1em] py-[0.5em] w-full rounded-[0.5rem] outline-none text-black"
                     >
-                    <span id="username_or_email_error" class="text-xs text-red-500 font-sans">*Error</span>
 
                     <label class="mt-[1em] w-full text-white">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Password..."
-                        class="mt-[0.5em] px-[1em] py-[0.5em] w-full rounded-[0.5rem] outline-none text-black"
-                    >
-                    <span id="password_error" class="text-xs text-red-500 font-sans">*Error</span>
+                    <div class="relative w-full h-[2.5em] mb-[0.5em]">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Password..."
+                            class="mt-[0.5em] px-[1em] py-[0.5em] w-full h-full rounded-[0.5rem] outline-none text-black"
+                        >
+                        <button
+                            id="toggle-password"
+                            type="button"
+                            class="absolute right-0 top-0 translate-y-[20%] h-full aspect-square"
+                            style="
+                                background-image: url('{{ url_for('assets', path='hide_password.png') }}');
+                                background-size: 75%;
+                                background-position: center;
+                                background-repeat: no-repeat;
+                            "
+                        ></button>
+                    </div>
+                    <span id="password_error" class="text-xs text-red-500 font-sans">{% if login_error %}{{ login_error }}{% endif %}</span>
 
-                    <button type="button" class="w-full mt-[1em] mb-[4px] p-[1em] item-center self-center bg-blue-500 rounded-[1rem] text-gray-200 font-bold shadow-[0px_4px_2px_rgb(0,0,250)] active:shadow-[0px_0px_0px] active:mt-[calc(1em+4px)] active:mb-0">Login</button>
+                    <button type="submit" class="w-full mt-[1em] mb-[4px] p-[1em] item-center self-center bg-blue-500 rounded-[1rem] text-gray-200 font-bold shadow-[0px_4px_2px_rgb(0,0,250)] active:shadow-[0px_0px_0px] active:mt-[calc(1em+4px)] active:mb-0">Login</button>
                     <a href="/auth/forget_password" class="mt-[1em] self-center text-sm text-blue-600 hover:underline">Forget password?</a>
                 </form>
             </section>

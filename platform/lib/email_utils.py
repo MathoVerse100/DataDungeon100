@@ -59,7 +59,7 @@ def email_verification_html_body(name: str, link: str):
                     <tr>
                         <td align="center">
                             <h1 style="
-                                color: red;
+                                color: blue;
                                 font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                                 font-weight: 1000;
                                 margin: 0;

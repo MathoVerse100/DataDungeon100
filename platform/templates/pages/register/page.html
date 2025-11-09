@@ -1,5 +1,9 @@
 {% extends "layouts/main.html" %}
 
+{% block scripts %}
+    <script src="{{ url_for('static', path='js/togglePassword.js') }}" defer></script>
+{% endblock %}
+
 {% block inner_sidebar_skeleton %}{% endblock %}
 
 {% block main_body %}
@@ -34,8 +38,27 @@
             <section class="p-[1em] [@media(min-width:480px)]:p-[2em] w-full flex flex-col justify-stretch items-center">
                 <header class="font-sans font-bold text-4xl [@media(min-width:480px)]:text-5xl text-white">Register</header>
 
-                <span class="mt-[2em] self-start text-white text-xs">Already have an account? <a href="/login/" class="underline text-blue-600">Login</a>.</span>
-                <form action="/verify-registration/" method="post" class="mt-[1em] w-full flex flex-col justify-stretch items-start gap-[0.5em]">
+                <span class="mt-[2em] self-start text-white text-sm">Already have an account? <a href="/login/" class="underline text-blue-600">Login</a>.</span>
+                <ul class="mt-[2em] ml-[1em] self-start list-disc text-gray-400 text-sm">
+                    <li>Names, username, and email must be unique.</li>
+                    <li>Password: 5–255 characters.</li>
+                    <li>Names: 3–100 chars, letters & underscore only (case sensitive).</li>
+                    <li>Username: 5–100 chars, letters & underscore only (case insensitive).</li>
+                </ul>
+                <form action="/register/" method="post" class="mt-[2em] w-full flex flex-col justify-stretch items-start gap-[0.5em]">
+                    {% if register_error %}
+                        {% if register_error.get('username_error') %}
+                            <span class="text-xs text-red-500 font-sans font-bold">
+                                *Error: {{ register_error.get('username_error').get('message') }}
+                            </span>
+                        {% endif %}
+
+                        {% if register_error.get('first_last_error') %}
+                            <span class="text-xs text-red-500 font-sans font-bold">
+                                *Error: {{ register_error.get('first_last_error').get('message') }}
+                            </span>
+                        {% endif %}
+                    {% endif %}
                     <div class="flex flex-col justify-start items-start [@media(min-width:480px)]:flex-row [@media(min-width:480px)]:justify-between [@media(min-width:480px)]:items-stretch gap-[2em]">
                         <div class="flex-1">
                             <label class="w-full text-white">First Name</label>
@@ -44,9 +67,13 @@
                                 id="first_name"
                                 name="first_name"
                                 placeholder="First Name..."
-                                class="mt-[0.5em] px-[1em] py-[0.5em] w-full rounded-[0.5rem] outline-none text-black"
+                                class="mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                             >
-                            <span id="first_name_error" class="text-xs text-red-500 font-sans">*Error</span>
+                            {% if first_name_error %}
+                                <span id="first_name_error" class="text-xs text-red-500 font-sans font-bold">{{ first_name_error }}: must be 3-100 chars, A-Z, a-z, or _</span>                            
+                            {% else %}
+                                <span id="first_name_error" class="text-xs text-gray-400 font-sans font-bold">*3-100 chars, A-Z, a-z, or _</span>
+                            {% endif %}
                         </div>
                         <div class="flex-1">
                             <label class="w-full text-white">Last Name</label>
@@ -55,9 +82,13 @@
                                 id="last_name"
                                 name="last_name"
                                 placeholder="Last Name..."
-                                class="mt-[0.5em] px-[1em] py-[0.5em] w-full rounded-[0.5rem] outline-none text-black"
+                                class="mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                             >
-                            <span id="last_name_error" class="text-xs text-red-500 font-sans">*Error</span>
+                            {% if last_name_error %}
+                                <span id="last_name_error" class="text-xs text-red-500 font-sans font-bold">{{ last_name_error }}: must be 3-100 chars, A-Z, a-z, or _</span>
+                            {% else %}
+                                <span id="last_name_error" class="text-xs text-gray-400 font-sans font-bold">*3-100 chars, A-Z, a-z, or _</span>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -67,9 +98,13 @@
                         id="username"
                         name="username"
                         placeholder="Username..."
-                        class="mt-[0.5em] px-[1em] py-[0.5em] w-full rounded-[0.5rem] outline-none text-black"
+                        class="mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                     >
-                    <span id="password_error" class="text-xs text-red-500 font-sans">*Error</span>
+                    {% if username_error %}
+                        <span id="username_error" class="text-xs text-red-500 font-sans font-bold">{{ username_error }}: must be 5-100 chars, A-Z, a-z, or _</span>
+                    {% else %}
+                        <span id="username_error" class="text-xs text-gray-400 font-sans font-bold">*5-100 chars, A-Z, a-z, or _</span>
+                    {% endif %}
 
                     <label class="mt-[1em] w-full text-white">Email</label>
                     <input
@@ -77,21 +112,42 @@
                         id="email"
                         name="email"
                         placeholder="Email..."
-                        class="mt-[0.5em] px-[1em] py-[0.5em] w-full rounded-[0.5rem] outline-none text-black"
+                        class="mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                     >
-                    <span id="password_error" class="text-xs text-red-500 font-sans">*Error</span>
+                    {% if email_error %}
+                        <span id="email_error" class="text-xs text-red-500 font-sans font-bold">{{ email_error }}: Not a valid email</span>
+                    {% else %}
+                        <span id="email_error" class="text-xs text-gray-400 font-sans font-bold">*Must be a valid email</span>
+                    {% endif %}
 
                     <label class="mt-[1em] w-full text-white">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Password..."
-                        class="mt-[0.5em] px-[1em] py-[0.5em] w-full rounded-[0.5rem] outline-none text-black"
-                    >
-                    <span id="password_error" class="text-xs text-red-500 font-sans">*Error</span>
+                    <div class="relative w-full h-[2.5em] mb-[0.5em]">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Password..."
+                            class="mt-[0.5em] px-[1em] py-[0.5em] w-full h-full rounded-[0.5rem] outline-none text-black"
+                        >
+                        <button
+                            id="toggle-password"
+                            type="button"
+                            class="absolute right-0 top-0 translate-y-[20%] h-full aspect-square"
+                            style="
+                                background-image: url('{{ url_for('assets', path='hide_password.png') }}');
+                                background-size: 75%;
+                                background-position: center;
+                                background-repeat: no-repeat;
+                            "
+                        ></button>
+                    </div>
+                    {% if password_error %}
+                        <span id="password_error" class="text-xs text-red-500 font-sans font-bold">{{ password_error }}: must be 5-255 chars</span>
+                    {% else %}
+                        <span id="password_error" class="text-xs text-gray-400 font-sans font-bold">*5-255 chars</span>
+                    {% endif %}
 
-                    <button type="button" class="w-full mt-[1em] mb-[4px] p-[1em] item-center self-center bg-blue-500 rounded-[1rem] text-gray-200 font-bold shadow-[0px_4px_2px_rgb(0,0,250)] active:shadow-[0px_0px_0px] active:mt-[calc(1em+4px)] active:mb-0">Register</button>
+                    <button type="submit" class="w-full mt-[1em] mb-[4px] p-[1em] item-center self-center bg-blue-500 rounded-[1rem] text-gray-200 font-bold shadow-[0px_4px_2px_rgb(0,0,250)] active:shadow-[0px_0px_0px] active:mt-[calc(1em+4px)] active:mb-0">Register</button>
                     <span class="mt-[0.5em] self-center text-gray-500 text-sm">By registering, you agree with our <a href="/tos/" class="mt-[1em] text-sm text-blue-600 hover:underline">Terms of Service & Privacy Policy</a></span>
                 </form>
             </section>

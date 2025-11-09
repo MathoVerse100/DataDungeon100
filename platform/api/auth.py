@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, field_validator
 from pydantic.types import StringConstraints
 from typing import Annotated
@@ -49,7 +50,7 @@ class UserRegisterCredentials(BaseModel):
 def generator(app: FastAPI) -> None:
 
     @app.post('/api/auth/login')
-    async def login(user_credentials: UserLoginCredentials):
+    async def login(user_credentials: UserLoginCredentials) -> Response:
         username_or_email = (
             normalize_email(user_credentials.username_or_email) 
             if is_email(user_credentials.username_or_email)
@@ -70,10 +71,11 @@ def generator(app: FastAPI) -> None:
         session_token = secrets.token_urlsafe(32)
         await redis_db0.set(f"session_token:{session_token}", user[0]['username'], ex=604800)
 
-        return {"Message": "Login Successful!", "user": user[0]['username'], "status_code": 200, "session_token": session_token}
-    
+        data = {"Message": "Login Successful!", "user": user[0]['username'], "session_token": session_token}
+        return JSONResponse(content=data, status_code=200)
+
     @app.post('/api/auth/register')
-    async def register(user_credentials: UserRegisterCredentials):
+    async def register(user_credentials: UserRegisterCredentials) -> Response:
 
         password = hash_password(user_credentials.password)
 
@@ -101,70 +103,68 @@ def generator(app: FastAPI) -> None:
         check_email = await operations.execute(email_exists_query, (user_credentials.email,))
         check_first_last = await operations.execute(first_last_names_unique, (user_credentials.first_name, user_credentials.last_name))
 
-        if not check_username and not check_email and not check_first_last:
-            if (
+        if not check_username and not check_first_last:
+            if not (
                 await redis_db0.get(f"register_awaiting_verification:{user_credentials.username}")
                 or await redis_db0.get(f"register_awaiting_verification:{user_credentials.email}")
                 or await redis_db0.get(f"register_awaiting_verification:{user_credentials.first_name}-{user_credentials.last_name}")
             ):
-                raise HTTPException(
-                    status_code=409,
-                    detail="A registration with this username, email, or first-last name pair is already pending verification."
-                )
+                if not check_email:
 
-            verification_token = secrets.token_urlsafe(32)
-            token_user_info = {
-                "first_name": user_credentials.first_name,
-                "last_name": user_credentials.last_name,
-                "username": user_credentials.username,
-                "email": user_credentials.email,
-                "password": password.decode('utf-8'),
-                "is_active": 'True',
-                "is_banned": 'False',
-                "created_at": datetime.now(timezone.utc).isoformat(),
-                "last_sign_in": None,
-            }
-            await redis_db0.set(f"register_verification_tokens:{verification_token}", json.dumps(token_user_info), ex=900)
-            await redis_db0.set(f"register_awaiting_verification:{user_credentials.username}", 'True', ex=900)
-            await redis_db0.set(f"register_awaiting_verification:{user_credentials.email}", 'True', ex=900)
-            await redis_db0.set(f"register_awaiting_verification:{user_credentials.first_name}-{user_credentials.last_name}", 'True', ex=900)
+                    verification_token = secrets.token_urlsafe(32)
+                    token_user_info = {
+                        "first_name": user_credentials.first_name,
+                        "last_name": user_credentials.last_name,
+                        "username": user_credentials.username,
+                        "email": user_credentials.email,
+                        "password": password.decode('utf-8'),
+                        "is_active": 'True',
+                        "is_banned": 'False',
+                        "created_at": datetime.now(timezone.utc).isoformat(),
+                        "last_sign_in": None,
+                    }
+                    await redis_db0.set(f"register_verification_tokens:{verification_token}", json.dumps(token_user_info), ex=900)
+                    await redis_db0.set(f"register_awaiting_verification:{user_credentials.username}", 'True', ex=900)
+                    await redis_db0.set(f"register_awaiting_verification:{user_credentials.email}", 'True', ex=900)
+                    await redis_db0.set(f"register_awaiting_verification:{user_credentials.first_name}-{user_credentials.last_name}", 'True', ex=900)
 
-            print(f"...... THE TOKEN VALUE IS ......: {verification_token} <------ HERE!!!!!")
+                    print(f"...... THE TOKEN VALUE IS ......: {verification_token} <------ HERE!!!!!")
 
-            send_email(
-                title='DataDungeon100: Verify Registration',
-                receivers=[user_credentials.email],
-                content=email_verification_html_body(user_credentials.first_name, 'https://www.google.com/')
+                    # send_email(
+                    #     title='DataDungeon100: Verify Registration',
+                    #     receivers=[user_credentials.email],
+                    #     content=email_verification_html_body(user_credentials.first_name, f'http://platform:8000/verify-registration?token={verification_token}')
+                    # )
+
+            return JSONResponse(
+                content={
+                    "message": 
+                    "Thanks for joining us! If your email isn't already pending verification or registered, you'll receive a verification email. Once you confirm, your account will be ready to use!"
+                },
+                status_code=200
             )
-            return {"status_code": 200, "message": "Success!"}
         
-        detail = []
+        detail = {}
 
         if check_username:
-            detail.append({
+            detail['username_error'] = {
                 "error": "Username exists",
                 "message": "The chosen username is already taken. Please choose another."
-            })
-        
-        if check_email:
-            detail.append({
-                "error": "Email exists",
-                "message": "The chosen email is already taken. Please choose another."
-            })
+            }
         
         if check_first_last:
-            detail.append({
+            detail['first_last_error'] = {
                 "error": "First-Last name pair exists",
                 "message": "The chosen first-last name pair is already taken. Please choose another."
-            })
+            }
         
         raise HTTPException(
             status_code=409,
-            detail=detail
+            detail=detail,
         )
 
     @app.get('/api/auth/verify-registration')
-    async def verify_email(token: str):
+    async def verify_email(token: str) -> Response:
         user = await redis_db0.get(f"register_verification_tokens:{token}")
         if not user:
             raise HTTPException(
@@ -197,4 +197,5 @@ def generator(app: FastAPI) -> None:
             fetch=False
         )
 
-        return {"message": "Successfully Registered!"}
+        data = {"message": "Successfully Registered!"}
+        return JSONResponse(content=data, status_code=200)
