@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 
 import json
 import httpx
+import os
 
 from routers.dependencies import verify_session_token
 
@@ -16,7 +17,7 @@ def generator(app: FastAPI, templates: Jinja2Templates):
 
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://platform:8000/api/auth/login",
+                f"{os.getenv('PLATFORM_DOMAIN_NAME')}/api/auth/login",
                 json=dict(form_data)
             )
 
@@ -39,7 +40,7 @@ def generator(app: FastAPI, templates: Jinja2Templates):
         form_data = await request.form()
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://platform:8000/api/auth/register",
+                f"{os.getenv('PLATFORM_DOMAIN_NAME')}/api/auth/register",
                 json=dict(form_data)
             )
 
@@ -92,7 +93,7 @@ def generator(app: FastAPI, templates: Jinja2Templates):
     async def verify_registration(request: Request, token: str):
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                "http://platform:8000/api/auth/verify-registration",
+                f"{os.getenv('PLATFORM_DOMAIN_NAME')}/api/auth/verify-registration",
                 params={'token': token}
             )
 
