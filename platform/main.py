@@ -26,7 +26,7 @@ app.mount(
 templates = Jinja2Templates(
     directory='templates',
 )
-configure_templates(templates)
+configure_templates(app, templates)
 
 
 # API Configuration
@@ -143,21 +143,6 @@ async def settings(request: Request):
         "pages/tos/page.html",
         {"request": request, "outer_sidebar_button_clicked": 'tos'},
     )
-
-@app.get('/auth/login/', response_class=HTMLResponse, name='login_auth')
-async def auth_login(request: Request):
-    return templates.TemplateResponse(
-        "pages/auth/login/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'login'},
-    )
-
-@app.get('/auth/register/', response_class=HTMLResponse, name='register_auth')
-async def auth_register(request: Request):
-    return templates.TemplateResponse(
-        "pages/auth/register/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'login'},
-    )
-
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000, reload=True)
