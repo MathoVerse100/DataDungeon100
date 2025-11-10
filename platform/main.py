@@ -1,6 +1,6 @@
 import uvicorn
 
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, APIRouter
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -30,17 +30,18 @@ templates = Jinja2Templates(
 )
 configure_templates(app, templates)
 
-
+app.add_event_handler
 # API Configuration
 for api_path in api_paths:
     api_path(app)
+
 
 # Middleware Configuration
 configure_middlewares(app)
 
 # Template Rendering Configuration
 @app.get('/home/', response_class=HTMLResponse, name="home")
-async def home(request: Request, logged: bool = Depends(verify_session_token)):
+async def home(request: Request):
     return templates.TemplateResponse(
         "pages/home/page.html",
         {"request": request, "outer_sidebar_button_clicked": 'home'},
@@ -57,7 +58,7 @@ async def explore(request: Request, logged: bool = Depends(verify_session_token)
 async def explore(request: Request, logged: bool = Depends(verify_session_token)):
     return templates.TemplateResponse(
         "pages/explore/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'profile', 'logged': logged},
+        {"request": request, "outer_sidebar_button_clicked": 'profile', 'logged': request.session.get('logged')},
     )
 
 @app.get('/monk/', response_class=HTMLResponse, name='monk')

@@ -44,7 +44,7 @@
             {"content": "Settings", "icon_path": "settings.png", "href": url_for('settings')},
             {"content": "ToS", "icon_path": "tos.png", "href": url_for('tos')},
         ] + (
-            [{"content": "Logout", "icon_path": "one.png", "href": url_for('profile')}]
+            [{"content": "Logout", "icon_path": "one.png", "href": url_for('logout')}]
             if logged|default(False) else []
         )
     ) }}

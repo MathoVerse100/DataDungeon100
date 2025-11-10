@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException, Depends
+from fastapi import FastAPI, APIRouter, Request, HTTPException, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
@@ -11,7 +11,9 @@ from routers.dependencies import verify_session_token
 
 def generator(app: FastAPI, templates: Jinja2Templates):
 
-    @app.post('/login/', name='login')
+    router = APIRouter(prefix='', dependencies=[Depends(verify_session_token)])
+
+    @router.post('/login/', name='login')
     async def login(request: Request):
         form_data = await request.form()
 
@@ -32,10 +34,11 @@ def generator(app: FastAPI, templates: Jinja2Templates):
 
         response_content = json.loads(response.content)
         request.session['session_user_data'] = dict({"session_token": response_content['details']['session_token']}, **response_content['details']['user_info'])
+        request.session['logged'] = True
 
         return RedirectResponse(url='/home', status_code=303)
 
-    @app.post('/register/', name='register')
+    @router.post('/register/', name='register')
     async def register(request: Request):
         form_data = await request.form()
         async with httpx.AsyncClient() as client:
@@ -69,10 +72,10 @@ def generator(app: FastAPI, templates: Jinja2Templates):
 
         return RedirectResponse(url='/login', status_code=303)
 
-
-    @app.get('/login/', response_class=HTMLResponse, name='login')
-    async def login(request: Request, logged: bool = Depends(verify_session_token)):
-        if logged:
+#, logged: bool = Depends(verify_session_token)
+    @router.get('/login/', response_class=HTMLResponse, name='login')
+    async def login(request: Request):
+        if request.session.get('logged'):
             return RedirectResponse(url='/explore', status_code=303)
 
         verify_message = request.session.pop("verify_message", None)
@@ -82,9 +85,9 @@ def generator(app: FastAPI, templates: Jinja2Templates):
             {"request": request, "outer_sidebar_button_clicked": 'login', 'verify_message': verify_message, 'login_or_register': 'login'},
         )
 
-    @app.get('/register/', response_class=HTMLResponse, name='register')
+    @router.get('/register/', response_class=HTMLResponse, name='register')
     async def register(request: Request, logged: bool = Depends(verify_session_token)):
-        if logged:
+        if request.session.get('logged'):
             return RedirectResponse(url='/explore', status_code=303)
 
         return templates.TemplateResponse(
@@ -92,7 +95,7 @@ def generator(app: FastAPI, templates: Jinja2Templates):
             {"request": request, "outer_sidebar_button_clicked": 'register', 'login_or_register': 'register'},
     )
 
-    @app.get('/verify-registration/', response_class=HTMLResponse, name='verify-registration')
+    @router.get('/verify-registration/', response_class=HTMLResponse, name='verify-registration')
     async def verify_registration(request: Request, token: str):
         async with httpx.AsyncClient() as client:
             response = await client.get(
@@ -106,4 +109,22 @@ def generator(app: FastAPI, templates: Jinja2Templates):
         return templates.TemplateResponse(
             "pages/verify_registration/page.html",
             {"request": request},
-    )   
+    )
+
+    @router.get('/logout/', response_class=HTMLResponse, name='logout')
+    async def logout(request: Request):
+        if not request.session.get('logged'):
+            return RedirectResponse(url='/login', status_code=303)
+
+        session_user_data = request.session.pop('session_user_data')
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{os.getenv('PLATFORM_DOMAIN_NAME')}/api/auth/logout",
+                params={'session_token': session_user_data['session_token']}
+            )
+
+        request.session['logged'] = False
+        return RedirectResponse(url='/login', status_code=303)
+        
+
+    app.include_router(router)

@@ -175,6 +175,15 @@ def generator(app: FastAPI) -> None:
             status_code=409,
             detail=detail,
         )
+    
+    @app.post('/api/auth/logout')
+    async def logout(session_token: str) -> Response:
+        session = await redis_db0.get(f'session_tokens:{session_token}')
+        if not session:
+            raise HTTPException(status_code=404, detail='User is not logged in')
+
+        await redis_db0.get(f'session_tokens:{session_token}')
+        return JSONResponse(status_code=200, content='User successfully logged out!')
 
     @app.get('/api/auth/verify-registration')
     async def verify_email(token: str) -> Response:
