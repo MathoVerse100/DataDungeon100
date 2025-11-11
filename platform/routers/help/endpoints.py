@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.help.help import generator as help
 
 
 paths = [
-    home,
+    help,
 ]

@@ -1,3 +1,4 @@
+# Imports
 import uvicorn
 
 from fastapi import FastAPI, Request, Depends
@@ -11,7 +12,10 @@ from api.endpoints import paths as api_paths
 from routers.endpoints import paths as router_paths
 from routers.dependencies import verify_session_token
 
+
+# Initialize App
 app = FastAPI()
+
 
 # Static Configuration
 app.mount(
@@ -25,122 +29,28 @@ app.mount(
     name='assets',
 )
 
+
 # Jinja Configuration
 templates = Jinja2Templates(
     directory='templates',
 )
 configure_templates(app, templates)
 
-app.add_event_handler
+
 # API Configuration
 for api_path in api_paths:
     api_path(app)
+
 
 # Router Configuration
 for router_path in router_paths:
     router_path(app, templates)
 
+
 # Middleware Configuration
 configure_middlewares(app)
 
 
-
-@app.get('/explore/', response_class=HTMLResponse, name='explore')
-async def explore(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/explore/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'explore'},
-    )
-
-@app.get('/profile/', response_class=HTMLResponse, name='profile')
-async def explore(request: Request, logged: bool = Depends(verify_session_token)):
-    if not request.session.get('logged'):
-        return RedirectResponse(url='/login', status_code=303)
-
-    return templates.TemplateResponse(
-        "pages/explore/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'profile', 'logged': request.session.get('logged')},
-    )
-
-@app.get('/monk/', response_class=HTMLResponse, name='monk')
-async def monk(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/monk/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'monk'},
-    )
-
-@app.get('/library/', response_class=HTMLResponse, name='library')
-async def library(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/library/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'library'},
-    )
-
-
-
-@app.get('/communities/analytics/post_id', response_class=HTMLResponse)
-async def communities(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/communities/[community]/[post_id]/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'communities'},
-    )
-
-@app.get('/communities/analytics/post_id/comments/comment_id/thread/{page_number}', response_class=HTMLResponse)
-async def communities(request: Request, page_number: int, logged: bool = Depends(verify_session_token)):    
-    return templates.TemplateResponse(
-        "pages/communities/[community]/[post_id]/comments/[comment_id]/thread/[page_number]/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'communities'},
-    )
-
-
-@app.get('/projects/', response_class=HTMLResponse, name='projects')
-async def projects(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/projects/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'projects'},
-    )
-
-@app.get('/storage/', response_class=HTMLResponse, name='storage')
-async def storage(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/storage/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'storage'},
-    )
-
-@app.get('/study_zone/', response_class=HTMLResponse, name='study_zone')
-async def study_zone(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/study_zone/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'study zone'},
-    )
-
-@app.get('/history/', response_class=HTMLResponse, name='history')
-async def history(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/history/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'history'},
-    )
-
-@app.get('/help/', response_class=HTMLResponse, name='help')
-async def help(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/help/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'help'},
-    )
-
-@app.get('/settings/', response_class=HTMLResponse, name='settings')
-async def settings(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/settings/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'settings'},
-    )
-
-@app.get('/tos/', response_class=HTMLResponse, name='tos')
-async def settings(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/tos/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'tos'},
-    )
-
+# Run App
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000, reload=True)

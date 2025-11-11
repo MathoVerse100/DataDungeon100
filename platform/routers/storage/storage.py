@@ -10,11 +10,11 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
     router = APIRouter(prefix='', dependencies=[Depends(verify_session_token)])
 
 
-    @router.get('/home/', response_class=HTMLResponse, name="home")
-    async def home(request: Request):
+    @router.get('/storage/', response_class=HTMLResponse, name='storage')
+    async def storage(request: Request):
         return templates.TemplateResponse(
-            "pages/home/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'home'},
+            "pages/storage/page.html",
+            {"request": request, "outer_sidebar_button_clicked": 'storage'},
         )
 
 

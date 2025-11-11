@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.profile.profile import generator as profile
 
 
 paths = [
-    home,
+    profile,
 ]

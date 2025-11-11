@@ -10,11 +10,11 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
     router = APIRouter(prefix='', dependencies=[Depends(verify_session_token)])
 
 
-    @router.get('/home/', response_class=HTMLResponse, name="home")
-    async def home(request: Request):
+    @router.get('/study_zone/', response_class=HTMLResponse, name='study_zone')
+    async def study_zone(request: Request):
         return templates.TemplateResponse(
-            "pages/home/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'home'},
+            "pages/study_zone/page.html",
+            {"request": request, "outer_sidebar_button_clicked": 'study zone'},
         )
 
 

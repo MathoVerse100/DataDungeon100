@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.storage.storage import generator as storage
 
 
 paths = [
-    home,
+    storage,
 ]

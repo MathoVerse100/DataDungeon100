@@ -10,11 +10,13 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
     router = APIRouter(prefix='', dependencies=[Depends(verify_session_token)])
 
 
-    @router.get('/home/', response_class=HTMLResponse, name="home")
-    async def home(request: Request):
+    @router.get('/communities/analytics/post_id', response_class=HTMLResponse)
+    async def communities(request: Request):
+        logged = bool(request.session.get('logged', None))
+
         return templates.TemplateResponse(
-            "pages/home/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'home'},
+            "pages/communities/[community]/[post_id]/page.html",
+            {"request": request, "outer_sidebar_button_clicked": 'communities', 'logged': logged},
         )
 
 

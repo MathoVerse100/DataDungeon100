@@ -43,8 +43,18 @@
                         {% block inner_sidebar_content %}{% endblock %}
                     </div>
                     {% endblock %}
-                    <div class="flex-1 flex flex-row justify-stretch items-stretch">
+                    <div class="flex-1 flex flex-row justify-stretch items-start">
+                        {% if outer_sidebar_button_clicked == 'communities' %}
+                        <div class="hidden 2xl:block 2xl:flex-1"></div>
+                        <div class="max-w-[100rem] flex flex-row justify-stretch items-center">
+                        {% endif %}
+
                         {% block main_body %}{% endblock %}
+
+                        {% if outer_sidebar_button_clicked == 'communities' %}
+                        </div>
+                        <div class="hidden 2xl:block 2xl:flex-1"></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

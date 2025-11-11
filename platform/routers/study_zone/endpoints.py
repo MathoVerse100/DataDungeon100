@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.study_zone.study_zone import generator as study_zone
 
 
 paths = [
-    home,
+    study_zone,
 ]

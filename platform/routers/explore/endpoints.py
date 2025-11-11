@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.explore.explore import generator as explore
 
 
 paths = [
-    home,
+    explore,
 ]

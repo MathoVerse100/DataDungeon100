@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.projects.projects import generator as projects
 
 
 paths = [
-    home,
+    projects,
 ]

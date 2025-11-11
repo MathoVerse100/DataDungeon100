@@ -25,7 +25,8 @@
             {"content": "Community 1", "icon_path": "home.png"},
             {"content": "Community 2", "icon_path": "home.png"},
             {"content": "Community 3", "icon_path": "home.png"},
-            {"content": "Community 4", "icon_path": "home.png"}
+            {"content": "Community 4", "icon_path": "community.png"},
+            {"content": "View All", "icon_path": "settings.png"}
         ]
     ) }}
 
@@ -35,16 +36,31 @@
             {"content": "Community 1", "icon_path": "home.png"},
             {"content": "Community 2", "icon_path": "home.png"},
             {"content": "Community 3", "icon_path": "home.png"},
-            {"content": "Community 4", "icon_path": "home.png"}
+            {"content": "Community 4", "icon_path": "community.png"},
+            {"content": "View All", "icon_path": "settings.png"}
         ]
     ) }}
 
     {{ sidebar_menu_group(
-        header_content='Environments',
+        header_content='Following',
         buttons=[
-            {"content": "Following", "icon_path": "home.png"},
-            {"content": "Creations", "icon_path": "explore.png"},
-            {"content": "Starred", "icon_path": "help.png"}
+            {"content": "Community 1", "icon_path": "home.png"},
+            {"content": "Community 2", "icon_path": "home.png"},
+            {"content": "Community 3", "icon_path": "home.png"},
+            {"content": "Community 4", "icon_path": "community.png"},
+            {"content": "View All", "icon_path": "settings.png"}
+        ]
+    ) }}
+
+    {{ sidebar_menu_group(
+        header_content='Other',
+        buttons=[
+            {"content": "Your Communities", "icon_path": "home.png"},
+            {"content": "Saved Posts", "icon_path": "home.png"},
+            {"content": "Your Communities", "icon_path": "home.png"},
+            {"content": "Saved Posts", "icon_path": "home.png"},
+            {"content": "Your Communities", "icon_path": "home.png"},
+            {"content": "Saved Posts", "icon_path": "home.png"}
         ]
     ) }}
 {% endblock %}
@@ -53,7 +69,7 @@
 
     <div 
         class="
-            relative flex-1 min-w-[15rem] border-r border-r-gray-800
+            relative flex-1 min-w-[15rem] max-w-[90rem] border-r border-r-gray-800
             h-[calc(100vh-4.6875rem)]
             overflow-y-auto overflow-x-hidden
             [scrollbar-gutter:stable]
@@ -83,4 +99,5 @@
             }
         ])
     }}
+
 {% endblock %}

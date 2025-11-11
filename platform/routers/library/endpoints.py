@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.library.library import generator as library
 
 
 paths = [
-    home,
+    library,
 ]

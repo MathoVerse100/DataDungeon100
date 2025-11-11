@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.monk.monk import generator as monk
 
 
 paths = [
-    home,
+    monk,
 ]

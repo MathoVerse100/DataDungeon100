@@ -1,6 +1,6 @@
-from routers.home.home import generator as home
+from routers.tos.tos import generator as tos
 
 
 paths = [
-    home,
+    tos,
 ]
