@@ -14,5 +14,5 @@ class DB:
                 await connection.commit()
                 return None
 
-    async def set_url(self, url: str):
+    def set_url(self, url: str):
         self._url = url
