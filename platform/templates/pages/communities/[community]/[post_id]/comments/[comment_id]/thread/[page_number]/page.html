@@ -41,7 +41,8 @@ Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapi
         class="
             m-[1em] px-[1em] py-[0.5em] rounded-[1rem]
             flex flex-col justify-stretch items-stretch gap-[1em]
-            {% if _ == 0 %}shadow-[0_0_8px_2px_rgba(255,215,0,0.35)]{% endif %}
+            {# {% if _ == 0 %}shadow-[0_0_8px_2px_rgba(255,215,0,0.35)]{% endif %} #}
+            {% if _ == 0 %}bg-amber-900 bg-opacity-25{% endif %}
         "
     >
         <div class="[@media(min-width:480px)]:h-[5em] flex flex-row [@media(min-width:480px)]:flex-row justify-between [@media(min-width:480px)]:justify-between items-stretch gap-[1em]">
@@ -84,12 +85,12 @@ Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapi
         <div class="flex-1 pt-[1em] border-t-[1px] border-t-gray-500">
             <pre
                 class="
-                    text-sm text-white font-sans break-words text-wrap {% if _ == 0 %}line-clamp-1{% endif %}
+                    text-sm text-white font-sans break-words text-wrap {# {% if _ == 0 %}line-clamp-1{% endif %} #}
                 "
             >{{ comment_in_thread['comment_info']['content'] }}</pre>
-            {% if _ == 0 %}
+            {# {% if _ == 0 %}
                 <span class="text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">Read more...</span>
-            {% endif %}
+            {% endif %} #}
         </div>
         <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
             {{ post_reaction_button(
@@ -108,7 +109,11 @@ Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapi
     </div>
 
     {% if _ == 0 %}
-    <div class="m-[10em]"></div>
+    <div class="m-[1em] h-[4em] flex flex-row justify-center items-center gap-[1em]"></div>
+    {% endif %}
+
+    {% if _ == 19 %}
+    <div class="m-[1em] h-[4em] flex flex-row justify-center items-center gap-[1em]"></div>
     {% endif %}
 
     {% endfor %}

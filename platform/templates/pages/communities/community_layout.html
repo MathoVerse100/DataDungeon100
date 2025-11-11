@@ -10,24 +10,32 @@
 
 {% block inner_sidebar_content %}
     {{ sidebar_menu_group(
-        header_content='Actions',
+        header_content='',
         buttons=[
             {"content": "Browse", "icon_path": "light_dark_mode.png"},
-            {"content": "Create", "icon_path": "library.png"},
+            {"content": "History", "icon_path": "library.png"},
+            {"content": "+ Post", "icon_path": "library.png"},
+            {"content": "+ Create", "icon_path": "library.png"}
         ]
     ) }}
 
     {{ sidebar_menu_group(
-        header_content='Last Opened',
+        header_content='Favorties',
         buttons=[
-            {"content": "Community 1", "icon_path": "home.png"}
+            {"content": "Community 1", "icon_path": "home.png"},
+            {"content": "Community 2", "icon_path": "home.png"},
+            {"content": "Community 3", "icon_path": "home.png"},
+            {"content": "Community 4", "icon_path": "home.png"}
         ]
     ) }}
 
     {{ sidebar_menu_group(
-        header_content='Pinned',
+        header_content='Recently Opened',
         buttons=[
-            {"content": "Community 1", "icon_path": "home.png"}
+            {"content": "Community 1", "icon_path": "home.png"},
+            {"content": "Community 2", "icon_path": "home.png"},
+            {"content": "Community 3", "icon_path": "home.png"},
+            {"content": "Community 4", "icon_path": "home.png"}
         ]
     ) }}
 

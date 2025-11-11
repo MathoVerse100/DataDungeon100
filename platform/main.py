@@ -1,6 +1,6 @@
 import uvicorn
 
-from fastapi import FastAPI, Request, Depends, APIRouter
+from fastapi import FastAPI, Request, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from configure_templates import configure_templates
 from configure_middlewares import configure_middlewares
 from api.endpoints import paths as api_paths
+from routers.endpoints import paths as router_paths
 from routers.dependencies import verify_session_token
 
 app = FastAPI()
@@ -35,17 +36,14 @@ app.add_event_handler
 for api_path in api_paths:
     api_path(app)
 
+# Router Configuration
+for router_path in router_paths:
+    router_path(app, templates)
 
 # Middleware Configuration
 configure_middlewares(app)
 
-# Template Rendering Configuration
-@app.get('/home/', response_class=HTMLResponse, name="home")
-async def home(request: Request):
-    return templates.TemplateResponse(
-        "pages/home/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'home'},
-    )
+
 
 @app.get('/explore/', response_class=HTMLResponse, name='explore')
 async def explore(request: Request, logged: bool = Depends(verify_session_token)):
@@ -56,6 +54,9 @@ async def explore(request: Request, logged: bool = Depends(verify_session_token)
 
 @app.get('/profile/', response_class=HTMLResponse, name='profile')
 async def explore(request: Request, logged: bool = Depends(verify_session_token)):
+    if not request.session.get('logged'):
+        return RedirectResponse(url='/login', status_code=303)
+
     return templates.TemplateResponse(
         "pages/explore/page.html",
         {"request": request, "outer_sidebar_button_clicked": 'profile', 'logged': request.session.get('logged')},
@@ -76,13 +77,6 @@ async def library(request: Request, logged: bool = Depends(verify_session_token)
     )
 
 
-@app.get('/communities/analytics/', response_class=HTMLResponse, name='communities')
-async def communities(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/communities/[community]/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'communities'},
-    )
-
 
 @app.get('/communities/analytics/post_id', response_class=HTMLResponse)
 async def communities(request: Request, logged: bool = Depends(verify_session_token)):
@@ -98,13 +92,6 @@ async def communities(request: Request, page_number: int, logged: bool = Depends
         {"request": request, "outer_sidebar_button_clicked": 'communities'},
     )
 
-
-@app.get('/university/', response_class=HTMLResponse, name='university')
-async def university(request: Request, logged: bool = Depends(verify_session_token)):
-    return templates.TemplateResponse(
-        "pages/university/page.html",
-        {"request": request, "outer_sidebar_button_clicked": 'university', 'logged': logged},
-    )
 
 @app.get('/projects/', response_class=HTMLResponse, name='projects')
 async def projects(request: Request, logged: bool = Depends(verify_session_token)):
