@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../ts/create_comment.ts"],
+  "sourcesContent": ["document.addEventListener(\"DOMContentLoaded\", () => {\n  const textareas = document.querySelectorAll<HTMLElement>(\".create_comment\");\n\n  textareas.forEach((textarea) => {\n    textarea.addEventListener(\"input\", () => {\n      if (textarea.scrollHeight > textarea.clientHeight) {\n        textarea.style.height = textarea.scrollHeight + \"px\";\n      }\n    });\n  });\n});\n"],
+  "mappings": ";AAAA,SAAS,iBAAiB,oBAAoB,MAAM;AAClD,QAAM,YAAY,SAAS,iBAA8B,iBAAiB;AAE1E,YAAU,QAAQ,CAAC,aAAa;AAC9B,aAAS,iBAAiB,SAAS,MAAM;AACvC,UAAI,SAAS,eAAe,SAAS,cAAc;AACjD,iBAAS,MAAM,SAAS,SAAS,eAAe;AAAA,MAClD;AAAA,IACF,CAAC;AAAA,EACH,CAAC;AACH,CAAC;",
+  "names": []
+}
