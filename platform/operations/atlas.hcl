@@ -6,7 +6,9 @@ variable "url" {
 env "local" {
     url = var.url
         
-    src = "file://database"
+    src = [
+        "file://database/tables"
+    ]
 
     migration {
         dir = "file://migrations"

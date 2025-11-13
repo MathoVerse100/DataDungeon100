@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS USER_COMMUNITY (
+    ID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    COMMUNITY_ID INTEGER NOT NULL,
+    USER_ID INTEGER NOT NULL,
+
+    CONSTRAINT uq_user_community__community_id_user_id
+        UNIQUE (COMMUNITY_ID, USER_ID),
+
+    CONSTRAINT fk_user_community__community_info
+        FOREIGN KEY (COMMUNITY_ID)
+        REFERENCES COMMUNITY_INFO(ID),
+    
+    CONSTRAINT fk_user_community__user_auth
+        FOREIGN KEY (USER_ID)
+        REFERENCES USER_AUTH(ID)
+);
