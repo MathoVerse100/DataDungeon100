@@ -34,7 +34,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
             return community_posts_response_json
 
         return templates.TemplateResponse(
-            "pages/communities/[community]/_page.html",
+            "pages/communities/[community]/page.html",
             {
                 "request": request,
                 "outer_sidebar_button_clicked": 'communities',

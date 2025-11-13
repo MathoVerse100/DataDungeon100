@@ -14,7 +14,7 @@
     <script src="{{ url_for('static', path='js/create_comment.js') }}" defer></script>
 {% endblock %}
 
-    {% set community_post = {
+    {# {% set community_post = {
         'user_info': {
             'user_profile_link': 'library',
             'user_profile_picture': 'library.png',
@@ -71,7 +71,7 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
             'likes': '12.2k',
             'dislikes': '304',
         }
-    } %}
+    } %} #}
 
     {% set comment = {
         'depth': 1,
@@ -243,12 +243,12 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
         >
             <section class="w-[100%] flex flex-row justify-start items-center gap-[0.5em]">
                 <a
-                    href="{{ url_for(community_post['user_info']['user_profile_link']) }}"
+                    href="{{ url_for('library') }}"
                     class="
                         text-white h-[3rem] aspect-[1/1] rounded-[50%]
                     "
                     style="
-                        background-image: url('{{ url_for('assets', path=community_post['user_info']['user_profile_picture']) }}');
+                        background-image: url('{{ url_for('assets', path='library.png') }}');
                         background-size: 75%;
                         background-position: center;
                         background-repeat: no-repeat;
@@ -256,31 +256,33 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
                 >
                 </a>
                 <div class="flex-1 flex flex-col justify-start items-start">
-                    <span class="text-white text-[1rem] font-bold">{{ community_post['user_info']['user_name'] }}</span>
+                    <span class="text-white text-[1rem] font-bold">{{ community_post.first_name }} {{ community_post.last_name}}</span>
                     <span class="text-gray-400 text-[0.75rem] font-bold font-[cursive]"><span>Community:</span> <span class="px-[0.75em] text-[0.75em] bg-blue-500 rounded-[1rem] text-white -translate-y-[25%]">Analytics</span></span>
                 </div>
             </section>
-            <section class="relative py-[1em] flex flex-col justify-start items-start gap-[1em]">
-                <header class="text-white font-bold text-lg sm:text-xl font-roboto">{{ community_post['post_info']['title'] }}</header>
+            <section class="py-[1em] flex flex-col justify-start items-start gap-[1em]">
+                <header class="text-white font-bold text-lg sm:text-xl font-roboto">{{ community_post.title }}</header>
                 <div class="flex flex-row justify-start items-center gap-[1em] flex-wrap">
-                    {% for tag in community_post['post_info']['tags'] %}
+                    {% for tag in community_post.tags %}
                         <span
                             class="
                                 px-2 py-1 rounded-[1rem] text-white font-inter text-xs font-bold
                             "
                             style="
-                                background-color: {{ tag['color'] }}
+                                background-color: rgb(65, 59, 255);
                             "
                         >
-                            {{ tag['name'] }}
+                            {{ tag }}
                         </span>
                     {% endfor %}
                 </div>
-                <pre
+                <p
                     class="
                         text-sm text-gray-400 font-sans break-words text-wrap line-clamp-5
                     "
-                >{{ community_post['post_info']['content'] }}</pre>
+                >
+                    {{ community_post.content }}
+                </p>
                 <span class="text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">Read more...</span>
             </section>
             <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
@@ -288,13 +290,13 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
                     reaction_name='like',
                     icon_path='like.png',
                     icon_coordinates=('50%', '40%'),
-                    reaction_value=community_post['post_metadata']['likes']
+                    reaction_value=community_post.likes
                 ) }}
                 {{ post_reaction_button(
                     reaction_name='dislike',
                     icon_path='dislike.png',
                     icon_coordinates=('50%', '75%'),
-                    reaction_value=community_post['post_metadata']['dislikes']
+                    reaction_value=community_post.dislikes
                 ) }}
             </section>            
         </div>

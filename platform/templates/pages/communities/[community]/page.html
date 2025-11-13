@@ -10,138 +10,108 @@
 {% from "pages/communities/community_aside.html" import community_aside with context %}
 
 
-{% block title %}Dungeon - Communities{% endblock %}
+{% block title %}Dungeon - {{ community_title }}{% endblock %}
 
 {% block scripts %}
-    <script>document.title = 'Dungeon - Communities'</script>
+    <script>document.title = 'Dungeon - {{ community_title }}'</script>
     <script src="{{ url_for('static', path='js/dropdown.js') }}" defer></script>
 {% endblock %}
 
 {% block main_body_main_content %}
-        {{ community_banner(
-            banner_background_path='example_banner.png',
-            community_profile_picture='example_profile_pic.jpg',
-            community_title='Analytics',
-            community_subtitle='The best, uncontested community for learning, sharing ideas and asking questions related to Mathematics, Physics and Computer Science.'
-        ) }}
+    {# {{ community_banner(
+        banner_background_path='example_banner.png',
+        community_profile_picture='example_profile_pic.jpg',
+        community_title='Analytics',
+        community_subtitle='The best, uncontested community for learning, sharing ideas and asking questions related to Mathematics, Physics and Computer Science.'
+    ) }} #}
 
-        <div class="mt-[1rem] [@media(min-width:480px)]:mt-[2rem] px-[2em] py-[1em] bg-black sticky top-0 flex flex-row justify-stretch items-center gap-[0.75em] border-b-[1px] border-b-gray-800">
+    {{ community_banner(
+        banner_background_path='example_banner.png',
+        community_profile_picture='example_profile_pic.jpg',
+        community_title=community_info.title,
+        community_subtitle=community_info.subtitle
+    ) }}
 
-            {% for _ in range(3) %}
-                {% call community_feed_filter_dropdown(title='Sort By', is_small_compatible=False) %}
-                    {{ dropdown() }}
-                {% endcall %}
-            {% endfor %}
 
-            {% call community_feed_filter_dropdown(title='Filters', is_small_compatible=True) %}
+    <div class="mt-[1rem] [@media(min-width:480px)]:mt-[2rem] px-[2em] py-[1em] bg-black sticky top-0 flex flex-row justify-stretch items-center gap-[0.75em] border-b-[1px] border-b-gray-800">
+
+        {% for _ in range(3) %}
+            {% call community_feed_filter_dropdown(title='Sort By', is_small_compatible=False) %}
                 {{ dropdown() }}
             {% endcall %}
-        </div>
-
-        {% set community_post = {
-            'user_info': {
-                'user_profile_link': 'library',
-                'user_profile_picture': 'explore.png',
-                'user_name': "User's Nickname",
-                'user_nickname': "User's Nickname",
-            },
-            'post_info': {
-                'title': "Show that, for all positive integers N, sqrt(N) is an integer or an irrational number. How do I prove this?",
-                'tags': [
-                    {
-                        "name": "Mathematics",
-                        "color": "oklch(68.1% 0.162 75.834)",
-                    },
-                    {
-                        "name": "Physics",
-                        "color": "red",
-                    },
-                    {
-                        "name": "Computer Science",
-                        "color": "purple",
-                    },
-                ],
-                'content': """
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-                    In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. 
-                    Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia
-                    integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent 
-                    per conubia nostra inceptos himenaeos.
-                """,
-            },
-            'post_metadata': {
-                'likes': '12.2k',
-                'dislikes': '304',
-            }
-         } %}
-
-        {% for _ in range(10) %}
-            <div
-                class="
-                    px-[2em] py-[1em] w-[100%] block
-                    transition-all duration-[200ms] hover:cursor-pointer hover:bg-gray-900 hover:bg-opacity-25
-                    border-b-[1px] border-b-gray-800
-                "
-                onclick="window.location.href = '/communities/analytics/post_id'"
-            >
-                <section class="w-[100%] flex flex-row justify-start items-center gap-[0.5em]">
-                    <a
-                        href="{{ url_for(community_post['user_info']['user_profile_link']) }}"
-                        class="
-                            text-white h-[3rem] aspect-[1/1] rounded-[50%]
-                        "
-                        style="
-                            background-image: url('{{ url_for('assets', path=community_post['user_info']['user_profile_picture']) }}');
-                            background-size: 75%;
-                            background-position: center;
-                            background-repeat: no-repeat;
-                        "
-                    >
-                    </a>
-                    <div class="flex-1 flex flex-col justify-start items-start">
-                        <span class="text-white text-[1rem] font-bold">{{ community_post['user_info']['user_name'] }}</span>
-                        <span class="text-white text-[0.75rem] text-gray-500">{{ community_post['user_info']['user_nickname'] }}</span>
-                    </div>
-                </section>
-                <section class="py-[1em] flex flex-col justify-start items-start gap-[1em]">
-                    <header class="text-white font-bold text-lg sm:text-xl font-roboto">{{ community_post['post_info']['title'] }}</header>
-                    <div class="flex flex-row justify-start items-center gap-[1em] flex-wrap">
-                        {% for tag in community_post['post_info']['tags'] %}
-                            <span
-                                class="
-                                    px-2 py-1 rounded-[1rem] text-white font-inter text-xs font-bold
-                                "
-                                style="
-                                    background-color: {{ tag['color'] }}
-                                "
-                            >
-                                {{ tag['name'] }}
-                            </span>
-                        {% endfor %}
-                    </div>
-                    <p
-                        class="
-                            text-sm text-gray-500 font-sans break-words text-wrap line-clamp-5
-                        "
-                    >
-                        {{ community_post['post_info']['content'] }}
-                    </p>
-                </section>
-                <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
-                    {{ post_reaction_button(
-                        reaction_name='like',
-                        icon_path='like.png',
-                        icon_coordinates=('50%', '40%'),
-                        reaction_value=community_post['post_metadata']['likes']
-                    ) }}
-                    {{ post_reaction_button(
-                        reaction_name='dislike',
-                        icon_path='dislike.png',
-                        icon_coordinates=('50%', '75%'),
-                        reaction_value=community_post['post_metadata']['dislikes']
-                    ) }}
-                </section>            
-            </div>
         {% endfor %}
+
+        {% call community_feed_filter_dropdown(title='Filters', is_small_compatible=True) %}
+            {{ dropdown() }}
+        {% endcall %}
+    </div>
+
+    {% for community_post in community_posts %}
+        <div
+            class="
+                px-[2em] py-[1em] w-[100%] block
+                transition-all duration-[200ms] hover:cursor-pointer hover:bg-gray-900 hover:bg-opacity-25
+                border-b-[1px] border-b-gray-800
+            "
+            onclick="window.location.href = '/communities/{{ community_info.title|lower }}/{{ community_post.id }}'"
+        >
+            <section class="w-[100%] flex flex-row justify-start items-center gap-[0.5em]">
+                <a
+                    href="{{ url_for('library') }}"
+                    class="
+                        text-white h-[3rem] aspect-[1/1] rounded-[50%]
+                    "
+                    style="
+                        background-image: url('{{ url_for('assets', path='explore.png') }}');
+                        background-size: 75%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    "
+                >
+                </a>
+                <div class="flex-1 flex flex-col justify-start items-start">
+                    <span class="text-white text-[1rem] font-bold">{{ community_post.first_name }} {{ community_post.last_name }}</span>
+                    <span class="text-white text-[0.75rem] text-gray-500">{{ community_post.username }}</span>
+                </div>
+            </section>
+            <section class="py-[1em] flex flex-col justify-start items-start gap-[1em]">
+                <header class="text-white font-bold text-lg sm:text-xl font-roboto">{{ community_post.title }}</header>
+                <div class="flex flex-row justify-start items-center gap-[1em] flex-wrap">
+                    {% for tag in community_post.tags %}
+                        <span
+                            class="
+                                px-2 py-1 rounded-[1rem] text-white font-inter text-xs font-bold
+                            "
+                            style="
+                                background-color: rgb(65, 59, 255);
+                            "
+                        >
+                            {{ tag }}
+                        </span>
+                    {% endfor %}
+                </div>
+                <p
+                    class="
+                        text-sm text-gray-400 font-sans break-words text-wrap line-clamp-5
+                    "
+                >
+                    {{ community_post.content }}
+                </p>
+            </section>
+            <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
+                {{ post_reaction_button(
+                    reaction_name='like',
+                    icon_path='like.png',
+                    icon_coordinates=('50%', '40%'),
+                    reaction_value=community_post.likes
+                ) }}
+                {{ post_reaction_button(
+                    reaction_name='dislike',
+                    icon_path='dislike.png',
+                    icon_coordinates=('50%', '75%'),
+                    reaction_value=community_post.dislikes
+                ) }}
+            </section>            
+        </div>
+    {% endfor %}
 {% endblock %}
