@@ -1,4 +1,4 @@
-h1:0LBhxxUy7LAI9jfNTIldbAGket8XPrBX6UQQWyuFAfI=
+h1:AAXwGBerWgxkTkzFM4pnwpN0Jvt+3DNCWLYyO3HyUF0=
 20251107122654_created_user_auth_table.sql h1:ts43pDr6YNeNe46XQhKaxYEhoOrWQAwzV/HDP3qqiYo=
 20251107151257_changed_password_datatype.sql h1:jS5K/Nh9jC9qCjcn7Orqwf4y/9sTKIRG0i8bfOszwoM=
 20251107180615_add_length_regex_constraints_on_user_auth.sql h1:sZZuWJl52zfTNQIRo/EA8vuAtNo8TRZ3anMJtJUQ3t8=
@@ -12,3 +12,4 @@ h1:0LBhxxUy7LAI9jfNTIldbAGket8XPrBX6UQQWyuFAfI=
 20251113123916_fixed_check_in_community_comment_info.sql h1:ub7+KS2c+AOPpk+xwW+KN1jsKjrqVJvNrxXn4+oiedY=
 20251113125057_added_parent_id_self_reference.sql h1:Ah1KhCELWmk4Q4QYP/H5NwUQuAtjWBiyAdPd/Rsrx4Q=
 20251113142923_enforced_community_title_uniqueness.sql h1:po2QQ9u/5MEBcP7qUd5wnJUCZ17uyWDTFz+WQZMGghk=
+20251113151620_changed_community_subtitle_description_lengths.sql h1:h6bhiuXaf91p07HOEAYscgZr8R044eEGJSlJ2sCaQhk=
