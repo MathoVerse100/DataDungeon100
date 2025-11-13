@@ -302,17 +302,15 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
 
     {% block community_post_comment_section %}
 
-    <section class="flex flex-col justify-stretch items-stretch gap-[0.5em] pt-[1em] px-[2em]">
-        <header class="text-xl text-white font-bold font-inter">New Comment</header>
-
+    <section class="create_comment flex flex-col justify-stretch items-stretch gap-[0.5em] pt-[1em] px-[2em]">
         <textarea
             class="
-                create_comment
                 outline-none w-full rounded-[1rem] bg-gray-800 bg-opacity-50 text-white p-[1em]
                 text-sm overflow-hidden min-h-[3rem] h-[3rem]
             "
             placeholder="Create a comment..."
             ></textarea>
+            <button class="bg-blue-500 text-white font-bold text-lg w-[25%] hidden">Submit</button>
     </section>
 
     {{ dropdown(class_names='mx-[2em] mt-[2em]') }}

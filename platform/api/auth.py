@@ -85,6 +85,12 @@ def generator(app: FastAPI) -> None:
             "user_info": user_info
         }}
 
+        await operations.execute(f"""
+            UPDATE USER_AUTH
+            SET LAST_SIGN_IN = %s::timestamp
+            WHERE {field} = %s::text
+        """, (datetime.now(), username_or_email), fetch=False)
+
         return JSONResponse(content=data, status_code=200)
 
     @app.post('/api/auth/register')

@@ -26,12 +26,12 @@
             {{ class_names }}
             {{ button_exterior_classes }}
             transition-all duration-[200ms]
-            {% if outer_sidebar_button_clicked == content | lower %}
+            {% if (outer_sidebar_button_clicked | lower) == (content | lower) %}
             bg-amber-600 bg-opacity-20
             {% endif %}
             {% if hover %}
             hover:bg-opacity-50 cursor-pointer active:duration-[0ms] active:scale-[0.95] overflow-hidden
-                {% if outer_sidebar_button_clicked != (content | lower) %}
+                {% if (outer_sidebar_button_clicked | lower) != (content | lower) %}
                 hover:bg-gray-900 active:bg-gray-900 
                 {% else %}
                 hover:bg-amber-800 active:bg-amber-800 active:bg-opacity-50

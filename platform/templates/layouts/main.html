@@ -10,8 +10,9 @@
         buttons=[
             {"content": "Home", "icon_path": "home.png", "href": url_for('home')},
             {"content": "Explore", "icon_path": "explore.png", "href": url_for('explore')},
+            {"content": "Find People", "icon_path": "explore.png", "href": url_for('profile')},
         ] + (
-            [{"content": "Profile", "icon_path": "one.png", "href": url_for('profile')}]
+            []
             if logged|default(False)
             else [{"content": (login_or_register|default('login'))|capitalize, "icon_path": "one.png", "href": url_for((login_or_register|default('login'))|lower)}]
         )
