@@ -16,6 +16,10 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
             "pages/communities/[community]/page.html",
             {"request": request, "outer_sidebar_button_clicked": 'communities'},
         )
+    
+    @router.get('/communities/analytics/{community_id}')
+    async def community_id(community_id: str):
+        ...
 
 
     app.include_router(router)
