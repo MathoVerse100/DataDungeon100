@@ -1,4 +1,4 @@
-h1:sYUucx+DdECxMkRFvIW5Lvn+bHA/uNlbI4uP6gufZQU=
+h1:1C3pJ4SpTS1HPjgeodtYdbdiQjHtTlNFwMdkxxFhM8s=
 20251107122654_created_user_auth_table.sql h1:ts43pDr6YNeNe46XQhKaxYEhoOrWQAwzV/HDP3qqiYo=
 20251107151257_changed_password_datatype.sql h1:jS5K/Nh9jC9qCjcn7Orqwf4y/9sTKIRG0i8bfOszwoM=
 20251107180615_add_length_regex_constraints_on_user_auth.sql h1:sZZuWJl52zfTNQIRo/EA8vuAtNo8TRZ3anMJtJUQ3t8=
@@ -7,3 +7,6 @@ h1:sYUucx+DdECxMkRFvIW5Lvn+bHA/uNlbI4uP6gufZQU=
 20251107212723_enforce_regex_on_username.sql h1:We0HNICaLpFtbBls+nDyhr0GcZiy5aa9HAjONE1Ez54=
 20251113103507_create_community_table_and_junction.sql h1:FNVxyXPiTisceAtRTScTnzD/h/Nd7JXyoRyw+ZWOgwo=
 20251113105354_added_banner_icon_columns.sql h1:IILPDDH9G3JbN2/mFgIG4k2ASO7QVe/oWxI4hWeHdPs=
+20251113121755_created_community_post_tags_tables.sql h1:tYqd5/LwqxhU4F41jTL5EoY23ZQVs3hDLfuzz+FnHDg=
+20251113123721_created_community_comment_info_table.sql h1:qCbCw3+WQu8TbMuhOFE8AhR131rdqMy+BPk0jBUqySA=
+20251113123916_fixed_check_in_community_comment_info.sql h1:ub7+KS2c+AOPpk+xwW+KN1jsKjrqVJvNrxXn4+oiedY=

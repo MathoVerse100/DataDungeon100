@@ -1,0 +1,3 @@
+ALTER TABLE COMMUNITY_POST_TAGS
+ADD CONSTRAINT uq_community_post_tags__community_info_community_tags
+UNIQUE (TAG_ID, POST_ID);
