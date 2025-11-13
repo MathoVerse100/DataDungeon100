@@ -10,8 +10,8 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
     router = APIRouter(prefix='', dependencies=[Depends(verify_session_token)])
 
 
-    @router.get('/communities/analytics/post_id', response_class=HTMLResponse)
-    async def communities(request: Request):
+    @router.get('/communities/{community_title}/post_id', response_class=HTMLResponse)
+    async def communities(request: Request, community_title: str):
         logged = bool(request.session.get('logged', None))
 
         return templates.TemplateResponse(
