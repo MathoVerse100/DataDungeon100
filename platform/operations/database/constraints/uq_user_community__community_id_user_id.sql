@@ -1,0 +1,3 @@
+ALTER TABLE USER_COMMUNITY
+ADD CONSTRAINT uq_user_community__community_id_user_id
+UNIQUE (COMMUNITY_ID, USER_ID);

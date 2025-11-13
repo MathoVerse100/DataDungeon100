@@ -7,7 +7,8 @@ env "local" {
     url = var.url
         
     src = [
-        "file://database/tables"
+        "file://database/tables",
+        "file://database/constraints"
     ]
 
     migration {
