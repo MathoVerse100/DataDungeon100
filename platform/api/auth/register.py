@@ -13,10 +13,6 @@ from lib.password_utils import hash_password, check_password
 from initialize_dbs import operations, redis_db0
 
 
-class UserLoginCredentials(BaseModel):
-    username_or_email: str
-    password: str
-
 class UserRegisterCredentials(BaseModel):
     first_name: Annotated[
         str,
@@ -47,51 +43,7 @@ class UserRegisterCredentials(BaseModel):
         raise ValueError("Invalid email")
 
 
-
 def generator(app: FastAPI) -> None:
-
-    @app.post('/api/auth/login')
-    async def login(user_credentials: UserLoginCredentials) -> Response:
-        username_or_email = (
-            normalize_email(user_credentials.username_or_email) 
-            if is_email(user_credentials.username_or_email)
-            else user_credentials.username_or_email
-        )
-
-        field = "EMAIL" if is_email(username_or_email) else "USERNAME"
-        query = f"""
-            SELECT ID, FIRST_NAME, LAST_NAME, EMAIL, USERNAME, PASSWORD
-            FROM USER_AUTH
-            WHERE {field} = %s::text
-        """
-
-        user = await operations.execute(query, (username_or_email,))
-        if not user or not check_password(user_credentials.password, user[0]['password']):
-            raise HTTPException(status_code=401, detail="Invalid username, email or password")
-
-        session_token = secrets.token_urlsafe(32)
-        user_info = {
-            "user_id": user[0]['id'],
-            "first_name": user[0]['first_name'],
-            "last_name": user[0]['last_name'],
-            "username": user[0]['username'],
-            "email": user[0]['email'],
-        }
-
-        await redis_db0.set(f"session_tokens:{session_token}", json.dumps(user_info), ex=604800)
-
-        data = {"Message": "Login Successful!", "details": {
-            "session_token": session_token,
-            "user_info": user_info
-        }}
-
-        await operations.execute(f"""
-            UPDATE USER_AUTH
-            SET LAST_SIGN_IN = %s::timestamp
-            WHERE {field} = %s::text
-        """, (datetime.now(), username_or_email), fetch=False)
-
-        return JSONResponse(content=data, status_code=200)
 
     @app.post('/api/auth/register')
     async def register(user_credentials: UserRegisterCredentials) -> Response:
@@ -182,54 +134,3 @@ def generator(app: FastAPI) -> None:
             detail=detail,
         )
     
-    @app.post('/api/auth/logout')
-    async def logout(session_token: str) -> Response:
-        session = await redis_db0.get(f'session_tokens:{session_token}')
-        if not session:
-            raise HTTPException(status_code=404, detail='User is not logged in')
-
-        await redis_db0.get(f'session_tokens:{session_token}')
-        return JSONResponse(status_code=200, content='User successfully logged out!')
-
-    @app.get('/api/auth/verify-registration')
-    async def verify_email(token: str) -> Response:
-        user = await redis_db0.get(f"register_verification_tokens:{token}")
-        if not user:
-            raise HTTPException(
-                status_code=404,
-                detail="Invalid or expired verification token."
-            )
-        
-        await redis_db0.delete(f"register_verification_tokens:{token}")
-        user_dict = json.loads(user.decode('utf-8'))
-
-        await redis_db0.delete(f"register_awaiting_verification:{user_dict['username']}")
-        await redis_db0.delete(f"register_awaiting_verification:{user_dict['email']}")
-        await redis_db0.delete(f"register_awaiting_verification:{user_dict['first_name']}-{user_dict['last_name']}")
-
-        query = f"""
-            INSERT INTO USER_AUTH (
-                FIRST_NAME, LAST_NAME, USERNAME,
-                EMAIL, PASSWORD
-            )
-            VALUES (%s, %s, %s, %s, %s)
-        """
-
-        await operations.execute(
-            query,
-            (
-                user_dict['first_name'], user_dict['last_name'],
-                user_dict['username'], user_dict['email'],
-                user_dict['password']             
-            ),
-            fetch=False
-        )
-
-        data = {"message": "Successfully Registered!"}
-        return JSONResponse(content=data, status_code=200)
-
-    @app.get('/api/auth/verify-session-token')
-    async def verify_session_token(token: str) -> bool:
-        value = await redis_db0.get(f"session_tokens:{token}")
-
-        return not not value

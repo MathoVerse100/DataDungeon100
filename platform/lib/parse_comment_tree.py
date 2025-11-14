@@ -17,6 +17,7 @@ class Comment(TypedDict):
     content: str
     likes: int
     dislikes: int
+    is_root: bool
     replies: list
 
 

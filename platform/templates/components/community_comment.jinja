@@ -66,7 +66,7 @@
                 <span class="ml-[2.5em] text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">Open replies...</span>
             {% endif %}
             
-            {% if comment.depth == 0 %}
+            {% if comment.is_root %}
             <a
                 class="
                     mx-[3em] mt-[0.5em] py-[0.25em] px-[2em] w-[12em]

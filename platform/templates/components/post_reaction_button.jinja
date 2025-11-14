@@ -20,6 +20,7 @@
             h-[1.5em] [@media(min-width:480px)]:h-[2em] flex flex-row justify-stretch items-stretch gap-[0.5em]
         "
         id="{{ button_id }}"
+        onclick="event.stopPropagation();"
     >
         <button 
             class="
