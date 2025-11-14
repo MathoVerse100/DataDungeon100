@@ -73,7 +73,7 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
         }
     } %} #}
 
-    {% set comment = {
+    {# {% set comment = {
         'depth': 1,
         'user_info': {
             'user_profile_link': 'library',
@@ -230,7 +230,7 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
                 'replies': []
             },
         ]
-    } %}
+    } %} #}
 
 {% block main_body_main_content %}
 
@@ -276,13 +276,13 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
                         </span>
                     {% endfor %}
                 </div>
-                <p
+                <article
                     class="
-                        text-sm text-gray-400 font-sans break-words text-wrap line-clamp-5
+                        text-sm text-gray-400 break-words text-wrap line-clamp-5
                     "
                 >
-                    {{ community_post.content }}
-                </p>
+                     {{ markdown_to_html(community_post.content) | safe }}
+                </article>
                 <span class="text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">Read more...</span>
             </section>
             <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
@@ -317,8 +317,8 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
 
     {{ dropdown(class_names='mx-[2em] mt-[2em]') }}
 
-    {% block community_comments %}
-        {% for _ in range(3) %}
+    {% block community_post_comments %}
+        {% for comment in community_comments %}
             {{ community_comment(comment) }}
         {% endfor %}
     {% endblock %}

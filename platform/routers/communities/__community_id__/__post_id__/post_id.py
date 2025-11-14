@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter, Request, Depends
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 from routers.dependencies import verify_session_token
@@ -23,6 +23,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
         community_info_response_json = community_info_response.json()
 
         if community_info_response.status_code != 200:
+
             return community_info_response_json
 
 
@@ -36,6 +37,17 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
         if community_post_response.status_code != 200:
             return community_post_response_json
 
+        async with httpx.AsyncClient() as client:
+            community_post_comment_response = await client.get(
+                f"{os.getenv('PLATFORM_DOMAIN_NAME')}/api/communities/posts/{community_title}/{post_id}/comments"
+            )
+
+        community_post_comment_response_json = community_post_comment_response.json()
+
+        if community_post_comment_response.status_code != 200:
+            return community_post_comment_response_json
+
+
         return templates.TemplateResponse(
             "pages/communities/[community]/[post_id]/page.html",
             {
@@ -43,6 +55,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
                 "outer_sidebar_button_clicked": 'communities',
                 "community_info": community_info_response_json,
                 "community_post": community_post_response_json,
+                "community_comments": community_post_comment_response_json,
                 'logged': logged
             },
         )

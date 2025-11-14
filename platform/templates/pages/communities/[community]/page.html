@@ -90,13 +90,13 @@
                         </span>
                     {% endfor %}
                 </div>
-                <p
+                <article
                     class="
-                        text-sm text-gray-400 font-sans break-words text-wrap line-clamp-5
+                        text-sm text-gray-400 break-words text-wrap line-clamp-5
                     "
                 >
-                    {{ community_post.content }}
-                </p>
+                    {{ markdown_to_html(community_post.content) | safe }}
+                </article>
             </section>
             <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
                 {{ post_reaction_button(

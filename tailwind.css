@@ -9,4 +9,8 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  pre {
+    white-space: normal;
+  }
 }

@@ -10,19 +10,19 @@
         >
             <section class="w-[100%] flex flex-row justify-start items-center gap-[0.5em]">
                 <a
-                    href="{{ url_for(comment['user_info']['user_profile_link']) }}"
+                    href="{{ url_for('library') }}"
                     class="
                         text-white h-[2rem] aspect-[1/1] rounded-[50%]
                     "
                     style="
-                        background-image: url('{{ url_for('assets', path=comment['user_info']['user_profile_picture']) }}');
+                        background-image: url('{{ url_for('assets', path='library.png') }}');
                         background-size: 75%;
                         background-position: center;
                         background-repeat: no-repeat;
                     "
                 >
                 </a>
-                <span class="text-white text-[0.75rem] font-bold">{{ comment['user_info']['user_name'] }}</span>
+                <span class="text-white text-[0.75rem] font-bold">{{ comment.first_name }} {{ comment.last_name }}</span>
                 <span class="text-gray-500 text-[0.75rem]">2025/05/16 23:34:09</span>
             </section>
             <section class="flex flex-row justify-stretch items-stretch gap-[0.5em]">
@@ -39,34 +39,34 @@
                     <div class="comment-highlighter w-[0.5px] h-full bg-slate-800"></div>
                     <div class="flex-1 h-full"></div>
                 </div>
-                <div class="flex-1 {% if comment['depth'] == 3 %}mb-[1em]{% endif %}">
-                    <pre
+                <div class="flex-1 {% if comment.depth == 2 %}mb-[1em]{% endif %}">
+                    <article
                         class="
                             text-sm text-gray-400 font-sans break-words text-wrap
                         "
-                    >{{ comment['post_info']['content'] }}</pre>
+                    >{{ comment.content }}</article>
                     <section class="mt-[0.5em] w-[100%] flex flex-row justify-start items-center gap-[1em]">
                         {{ post_reaction_button(
                             reaction_name='like',
                             icon_path='like.png',
                             icon_coordinates=('50%', '40%'),
-                            reaction_value=comment['post_info']['likes']
+                            reaction_value=comment.likes
                         ) }}
                         {{ post_reaction_button(
                             reaction_name='dislike',
                             icon_path='dislike.png',
                             icon_coordinates=('50%', '75%'),
-                            reaction_value=comment['post_info']['dislikes']
+                            reaction_value=comment.dislikes
                         ) }}
                     </section>
                 </div>
             </section>
 
-            {% if comment['depth'] == 3 %}
+            {% if comment.depth == 2 %}
                 <span class="ml-[2.5em] text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">Open replies...</span>
             {% endif %}
             
-            {% if comment['depth'] == 1 %}
+            {% if comment.depth == 0 %}
             <a
                 class="
                     mx-[3em] mt-[0.5em] py-[0.25em] px-[2em] w-[12em]
@@ -81,7 +81,7 @@
             {% endif %}
         </div>
 
-        {% if comment['replies'] and comment['depth'] < 3 %}
+        {% if comment.replies and comment.depth < 2 %}
             {# reply area #}
             <div class="flex-1 flex flex-row justify-stretch items-stretch">
                 <div class="relative w-[1.5em] [@media(min-width:480px)]:w-[2.5em] text-white flex flex-col justify-start items-end"></div>
@@ -89,7 +89,7 @@
                 {# replies go here #}
                 <div class="flex-1">
                     {# Same Comment Structure #}
-                    {% for reply in comment['replies'] %}
+                    {% for reply in comment.replies %}
                         {{ community_comment(reply) }}
                     {% endfor %}
                     {# end Comment Structure #}
