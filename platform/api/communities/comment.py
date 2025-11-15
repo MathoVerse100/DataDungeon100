@@ -104,8 +104,6 @@ def generator(app: FastAPI) -> None:
         ):
             raise HTTPException(status_code=404, detail='Post not found')
 
-        print(create_comment.content)
-
         query = f"""
             INSERT INTO COMMUNITY_COMMENT_INFO (PARENT_ID, POST_ID, USER_ID, COMMENT_TYPE, CONTENT, IS_ROOT)
             VALUES (NULL, %s::integer, %s::integer, 'TREE', %s::text, TRUE)

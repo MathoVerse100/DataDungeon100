@@ -34,16 +34,29 @@ document.addEventListener("DOMContentLoaded", () => {
     comment_configs
       .querySelector(".comment_submit")
       ?.addEventListener("click", (event) => {
-        fetch("/api/communities/posts/analytics/1/comments", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            content: textarea?.value,
-          }),
-          credentials: "include",
-        })
+        const communityTitle = comment_configs
+          .querySelector<HTMLElement>(".comment_submit")!
+          .dataset.communityTitle?.toLowerCase();
+        const postId = Number(
+          comment_configs.querySelector<HTMLElement>(".comment_submit")!.dataset
+            .postId
+        );
+
+        fetch(
+          `/api/communities/posts/${encodeURIComponent(
+            communityTitle!
+          )}/${encodeURIComponent(postId!)}/comments`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              content: textarea?.value,
+            }),
+            credentials: "include",
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             const user_info = JSON.parse(data.user_info);
