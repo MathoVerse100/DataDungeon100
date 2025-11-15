@@ -1,7 +1,7 @@
 
 {% macro community_comment(comment) %}
 
-    <div class="flex flex-col justify-stretch items-stretch">
+    <div class="comment {% if comment.depth == 0 %}mt-[2em]{% endif %} flex flex-col justify-stretch items-stretch">
         <div
             class="
                 px-[1em] [@media(min-width:480px)]:px-[2em] py-[0.5em] w-[100%]
@@ -42,9 +42,9 @@
                 <div class="flex-1 {% if comment.depth == 2 %}mb-[1em]{% endif %}">
                     <article
                         class="
-                            text-sm text-gray-400 font-sans break-words text-wrap
+                            text-sm text-gray-400 font-sans break-words text-wrap whitespace-pre-wrap
                         "
-                    >{{ comment.content }}</article>
+                    >{{ markdown_to_html(comment.content) | safe }}</article>
                     <section class="mt-[0.5em] w-[100%] flex flex-row justify-start items-center gap-[1em]">
                         {{ post_reaction_button(
                             reaction_name='like',

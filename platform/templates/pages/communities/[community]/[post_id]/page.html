@@ -14,224 +14,6 @@
     <script src="{{ url_for('static', path='js/create_comment.js') }}" defer></script>
 {% endblock %}
 
-    {# {% set community_post = {
-        'user_info': {
-            'user_profile_link': 'library',
-            'user_profile_picture': 'library.png',
-            'user_name': "User's Name",
-            'user_nickname': "User's Nickname",
-        },
-        'post_info': {
-            'title': "Show that, for all positive integers N, sqrt(N) is an integer or an irrational number. How do I prove this?",
-            'tags': [
-                {
-                    "name": "Mathematics",
-                    "color": "oklch(68.1% 0.162 75.834)",
-                },
-                {
-                    "name": "Physics",
-                    "color": "red",
-                },
-                {
-                    "name": "Computer Science",
-                    "color": "purple",
-                },
-            ],
-            'content': """
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Coobla Coobla dee!""",
-        },
-        'post_metadata': {
-            'likes': '12.2k',
-            'dislikes': '304',
-        }
-    } %} #}
-
-    {# {% set comment = {
-        'depth': 1,
-        'user_info': {
-            'user_profile_link': 'library',
-            'user_profile_picture': 'library.png',
-            'user_name': "User's Name",
-            'user_nickname': "User's Nickname",
-        },
-        'post_info': {
-            'content': """
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Coobla Coobla dee!""",
-            'likes': '12.2k',
-            'dislikes': '304',
-        },
-        'replies': [
-            {
-                'depth': 2,
-                'user_info': {
-                    'user_profile_link': 'library',
-                    'user_profile_picture': 'library.png',
-                    'user_name': "User's Name",
-                    'user_nickname': "User's Nickname",
-                },
-                'post_info': {
-                    'content': """
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-  
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Coobla Coobla dee!""",
-                    'likes': '12.2k',
-                    'dislikes': '304',
-                },
-                'replies': [
-                    {
-                        'depth': 3,
-                        'user_info': {
-                            'user_profile_link': 'library',
-                            'user_profile_picture': 'library.png',
-                            'user_name': "User's Name",
-                            'user_nickname': "User's Nickname",
-                        },
-                        'post_info': {
-                            'content': """
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Coobla Coobla dee!""",
-                            'likes': '12.2k',
-                            'dislikes': '304',
-                        },
-                        'replies': [
-                            {
-                                'depth': 4,
-                                'user_info': {
-                                    'user_profile_link': 'library',
-                                    'user_profile_picture': 'library.png',
-                                    'user_name': "User's Name",
-                                    'user_nickname': "User's Nickname",
-                                },
-                                'post_info': {
-                                    'content': """
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-                        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-                        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-                        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-                
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Coobla Coobla dee!""",
-                                    'likes': '12.2k',
-                                    'dislikes': '304',
-                                },
-                                'replies': [
-                                    {
-                                        'depth': 3,
-                                        'user_info': {
-                                            'user_profile_link': 'library',
-                                            'user_profile_picture': 'library.png',
-                                            'user_name': "User's Name",
-                                            'user_nickname': "User's Nickname",
-                                        },
-                                        'post_info': {
-                                            'content': """
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-                        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-                        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Coobla Coobla dee!""",
-                                            'likes': '12.2k',
-                                            'dislikes': '304',
-                                        },
-                                        'replies': []
-                                    },
-                                ]
-                            },
-                        ]
-                    },
-                ]
-            },
-            {
-                'depth': 2,
-                'user_info': {
-                    'user_profile_link': 'library',
-                    'user_profile_picture': 'library.png',
-                    'user_name': "User's Name",
-                    'user_nickname': "User's Nickname",
-                },
-                'post_info': {
-                    'content': """
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-        
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-  
-In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Coobla Coobla dee!""",
-                    'likes': '12.2k',
-                    'dislikes': '304',
-                },
-                'replies': []
-            },
-        ]
-    } %} #}
-
 {% block main_body_main_content %}
 
     <div
@@ -277,11 +59,9 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
             </div>
             <article
                 class="
-                    text-sm text-gray-400 break-words text-wrap line-clamp-5
+                    text-sm text-gray-400 break-words text-wrap line-clamp-5 whitespace-pre-wrap
                 "
-            >
-                 {{ markdown_to_html(community_post.content) | safe }}
-            </article>
+            >{{ markdown_to_html(community_post.content) | safe }}</article>
             <span class="text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">Read more...</span>
         </section>
         <section class="w-[100%] flex flex-row justify-start items-center gap-[1em]">
@@ -302,15 +82,41 @@ In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urn
 
     {% block community_post_comment_section %}
 
-    <section class="create_comment flex flex-col justify-stretch items-stretch gap-[0.5em] pt-[1em] px-[2em]">
+    <section class="create_comment flex flex-col justify-stretch items-stretch mt-[1em] mx-[2em]">
         <textarea
             class="
                 outline-none w-full rounded-[1rem] bg-gray-800 bg-opacity-50 text-white p-[1em]
-                text-sm overflow-hidden min-h-[3rem] h-[3rem]
+                text-sm overflow-hidden min-h-[5rem] h-[5rem]
             "
             placeholder="Create a comment..."
             ></textarea>
-            <button class="bg-blue-500 text-white font-bold text-lg w-[25%] hidden">Submit</button>
+            <div
+                class="
+                    comment_configs hidden
+                    self-end w-full h-[3em] bg-gray-800 bg-opacity-50
+                    flex-row justify-stretch items-stretch gap-[1em]
+                    rounded-b-[1rem] p-[0.5em] border-t-[1px] border-t-gray-800
+                "
+            >
+                <button
+                    class="
+                        comment_submit 
+                        ml-auto mr-0 bg-blue-500 text-white font-bold text-sm rounded-[1rem] px-[1em]
+                        transition-all duration-[200ms] hover:bg-blue-800 
+                    "
+                >
+                    Submit
+                </button>
+                <button
+                    class="
+                        comment_cancel
+                        bg-red-500 text-white font-bold text-sm rounded-[1rem] px-[1em]
+                        transition-all duration-[200ms] hover:bg-red-800 
+                    "
+                >
+                    Cancel
+                </button>
+            </div>
     </section>
 
     {{ dropdown(class_names='mx-[2em] mt-[2em]') }}

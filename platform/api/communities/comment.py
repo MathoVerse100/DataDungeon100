@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, field_validator
@@ -11,6 +11,13 @@ from datetime import datetime, timezone
 
 from initialize_dbs import operations, redis_db0
 from lib.parse_comment_tree import parse_comment_tree
+
+
+class CreateComment(BaseModel):
+    content: Annotated[
+        str,
+        StringConstraints(max_length=10000),
+    ]
 
 
 def generator(app: FastAPI) -> None:
@@ -37,7 +44,7 @@ def generator(app: FastAPI) -> None:
             SELECT
                 A.ID,
                 C.TITLE AS COMMUNITY_TITLE,
-                B.USER_ID,
+                A.USER_ID,
                 D.FIRST_NAME,
                 D.LAST_NAME,
                 D.USERNAME,
@@ -57,7 +64,7 @@ def generator(app: FastAPI) -> None:
             JOIN COMMUNITY_INFO C
             ON B.COMMUNITY_ID = C.ID
             JOIN USER_AUTH D
-            ON B.USER_ID = D.ID
+            ON A.USER_ID = D.ID
             WHERE 1=1
             AND LOWER(C.TITLE) = %s::text
             AND A.POST_ID = %s::integer
@@ -74,6 +81,38 @@ def generator(app: FastAPI) -> None:
 
         tree = parse_comment_tree(results)
         return JSONResponse(status_code=200, content=jsonable_encoder(tree))
+
+
+    @app.post('/api/communities/posts/{community_title}/{post_id}/comments')
+    async def community_post_comments(community_title: str, post_id: int, create_comment: CreateComment, request: Request) -> Response:
+        session_user_data = request.session.get('session_user_data', None)
+        if not session_user_data:
+            raise HTTPException(status_code=401, detail="Unauthorized: User is not logged in")
+
+        user: bytes = await redis_db0.get(f"session_tokens:{session_user_data.get('session_token', None)}")
+
+        if not user:
+            raise HTTPException(status_code=401, detail="Unauthorized: User is not logged in")
+        
+        if not (
+            await operations.execute("""SELECT ID FROM COMMUNITY_INFO WHERE LOWER(TITLE) = %s::text""", (community_title,))
+        ):
+            raise HTTPException(status_code=404, detail="Community does not exist")
+        
+        if not (
+            await operations.execute("""SELECT ID FROM COMMUNITY_POST_INFO WHERE ID = %s::integer""", (post_id,))
+        ):
+            raise HTTPException(status_code=404, detail='Post not found')
+
+        print(create_comment.content)
+
+        query = f"""
+            INSERT INTO COMMUNITY_COMMENT_INFO (PARENT_ID, POST_ID, USER_ID, COMMENT_TYPE, CONTENT, IS_ROOT)
+            VALUES (NULL, %s::integer, %s::integer, 'TREE', %s::text, TRUE)
+        """
+        
+        await operations.execute(query, (post_id, json.loads(user.decode('utf-8')).get('user_id', None), create_comment.content), fetch=False)
+        return JSONResponse(status_code=200, content={"detail": 'Comment Successfully Created!', 'user_info': user.decode('utf-8')})
 
 
     @app.get('/api/communities/posts/{community_title}/{post_id}/comments/{comment_id}')
@@ -101,7 +140,7 @@ def generator(app: FastAPI) -> None:
                 SELECT
                     A.ID,
                     C.TITLE AS COMMUNITY_TITLE,
-                    B.USER_ID,
+                    A.USER_ID,
                     D.FIRST_NAME,
                     D.LAST_NAME,
                     D.USERNAME,
@@ -120,7 +159,7 @@ def generator(app: FastAPI) -> None:
                 JOIN COMMUNITY_INFO C
                 ON B.COMMUNITY_ID = C.ID
                 JOIN USER_AUTH D
-                ON B.USER_ID = D.ID
+                ON A.USER_ID = D.ID
                 WHERE 1=1
                 AND LOWER(C.TITLE) = %s::text
                 AND A.POST_ID = %s::integer
