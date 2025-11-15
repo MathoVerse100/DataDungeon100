@@ -56,7 +56,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
                 "community_info": community_info_response_json,
                 "community_post": community_post_response_json,
                 "community_comments": community_post_comment_response_json,
-                'logged': logged
+                'logged': bool(request.session.get('logged'))
             },
         )
 
@@ -105,7 +105,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
                 "community_info": community_info_response_json,
                 "community_post": community_post_response_json,
                 "community_comments": community_post_comment_response_json,
-                'logged': logged
+                'logged': bool(request.session.get('logged'))
             },
         )
 

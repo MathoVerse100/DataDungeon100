@@ -39,7 +39,8 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
                 "request": request,
                 "outer_sidebar_button_clicked": 'communities',
                 "community_info": community_info_response_json,
-                "community_posts": community_posts_response_json
+                "community_posts": community_posts_response_json,
+                'logged': bool(request.session.get('logged'))
             },
         )
 

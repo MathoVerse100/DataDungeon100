@@ -14,7 +14,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
     async def library(request: Request):
         return templates.TemplateResponse(
             "pages/library/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'library'},
+            {"request": request, "outer_sidebar_button_clicked": 'library', 'logged': bool(request.session.get('logged'))},
         )
 
 

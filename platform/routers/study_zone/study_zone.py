@@ -14,7 +14,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
     async def study_zone(request: Request):
         return templates.TemplateResponse(
             "pages/study_zone/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'study zone'},
+            {"request": request, "outer_sidebar_button_clicked": 'study zone', 'logged': bool(request.session.get('logged'))},
         )
 
 

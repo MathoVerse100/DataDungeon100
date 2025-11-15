@@ -14,7 +14,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
     async def history(request: Request):
         return templates.TemplateResponse(
             "pages/history/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'history'},
+            {"request": request, "outer_sidebar_button_clicked": 'history', 'logged': bool(request.session.get('logged'))},
         )
 
 

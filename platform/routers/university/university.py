@@ -16,7 +16,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
 
         return templates.TemplateResponse(
             "pages/university/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'university', 'logged': logged},
+            {"request": request, "outer_sidebar_button_clicked": 'university', 'logged': bool(request.session.get('logged'))},
         )
 
 

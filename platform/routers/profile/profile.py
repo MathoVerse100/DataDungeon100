@@ -12,9 +12,12 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
 
     @router.get('/profile/', response_class=HTMLResponse, name='profile')
     async def profile(request: Request):
+        if not request.session.get('logged'):
+            return RedirectResponse(url='/login', status_code=303)
+
         return templates.TemplateResponse(
             "pages/explore/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'Find People', 'logged': request.session.get('logged')},
+            {"request": request, "outer_sidebar_button_clicked": 'profile', 'logged': bool(request.session.get('logged'))},
         )
 
 

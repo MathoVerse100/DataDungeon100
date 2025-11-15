@@ -6,6 +6,7 @@ from routers.projects.endpoints import paths as projects_paths
 from routers.storage.endpoints import paths as storage_paths
 from routers.settings.endpoints import paths as settings_paths
 from routers.profile.endpoints import paths as profile_paths
+from routers.find_people.endpoints import paths as find_people_paths
 from routers.monk.endpoints import paths as monk_paths
 from routers.library.endpoints import paths as library_paths
 from routers.study_zone.endpoints import paths as study_zone_paths
@@ -24,6 +25,7 @@ paths = [
     *storage_paths,
     *settings_paths,
     *profile_paths,
+    *find_people_paths,
     *monk_paths,
     *library_paths,
     *study_zone_paths,

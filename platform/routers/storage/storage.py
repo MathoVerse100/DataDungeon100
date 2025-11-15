@@ -14,7 +14,7 @@ def generator(app: FastAPI, templates: Jinja2Templates | None = None):
     async def storage(request: Request):
         return templates.TemplateResponse(
             "pages/storage/page.html",
-            {"request": request, "outer_sidebar_button_clicked": 'storage'},
+            {"request": request, "outer_sidebar_button_clicked": 'storage', 'logged': bool(request.session.get('logged'))},
         )
 
 
