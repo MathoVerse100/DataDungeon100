@@ -33,7 +33,6 @@ import {
 
 type LayoutProps = {
   hideInnerSidebar?: boolean;
-  mainBodyLimited?: boolean;
   children: ReactNode;
 };
 
@@ -41,7 +40,6 @@ const InnerSidebar = ({ children }: { children: ReactNode }) => <>{children}</>;
 const Main = ({ children }: { children: ReactNode }) => <>{children}</>;
 
 export default function Layout({
-  mainBodyLimited = false,
   hideInnerSidebar = true,
   children,
 }: LayoutProps) {
@@ -58,7 +56,7 @@ export default function Layout({
   return (
     <div className="flex flex-row justify-stretch items-stretch">
       <SidebarSkeleton outer={true}>
-        <div className="w-[50%] aspect-[1/1] h-auto bg-white bg-opacity-50 rounded-[50%]"></div>
+        <div className="w-[50%] aspect-[1/1] h-auto bg-white/50 rounded-[50%]"></div>
 
         <SidebarMenuGroup
           header_content=""
@@ -239,15 +237,7 @@ export default function Layout({
           )}
 
           <div className="flex-1 flex flex-row justify-center items-start">
-            {mainBodyLimited ? (
-              <>
-                <div className="max-w-[100rem] flex flex-row justify-stretch items-center flex-1">
-                  {main}
-                </div>
-              </>
-            ) : (
-                main
-            )}
+            {main}
           </div>
         </div>
       </div>

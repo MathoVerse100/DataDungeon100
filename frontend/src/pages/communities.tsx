@@ -12,7 +12,7 @@ import {
 
 export default function Communities() {
   return (
-    <Layout mainBodyLimited={true} hideInnerSidebar={false}>
+    <Layout hideInnerSidebar={false}>
       <Layout.InnerSidebar>
         <SidebarMenuGroup
           header_content=""

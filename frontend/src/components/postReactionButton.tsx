@@ -23,8 +23,8 @@ export default function PostReactionButton({
       <button
         className="
                     aspect-[1/1] rounded-[50%] transition-all duration-[100ms]
-                    hover:cursor-pointer hover:bg-gray-500 hover:bg-opacity-25
-                    active:bg-gray-800 active:bg-opacity-50
+                    hover:cursor-pointer hover:bg-gray-500/25
+                    active:bg-gray-800/50
                 "
         style={{
           backgroundImage: `url(${logo})`,

@@ -46,7 +46,7 @@ export default function CommunityAsideLeaderboards() {
           className="
                         text-xs font-bold text-white font-mono p-2 bg-amber-800
                         flex flex-row justify-center items-center rounded-[1rem] 
-                        transition-all duration-[200ms] hover:bg-yellow-800 hover:bg-opacity-50
+                        transition-all duration-[200ms] hover:bg-yellow-800/50
                     "
         >
           Daily
@@ -55,7 +55,7 @@ export default function CommunityAsideLeaderboards() {
           className="
                         text-xs font-bold text-white font-mono p-2
                         flex flex-row justify-center items-center rounded-[1rem] 
-                        transition-all duration-[200ms] hover:bg-gray-500 hover:bg-opacity-25
+                        transition-all duration-[200ms] hover:bg-gray-500/25
                     "
         >
           Weekly
@@ -64,7 +64,7 @@ export default function CommunityAsideLeaderboards() {
           className="
                         text-xs font-bold text-white font-mono p-2
                         flex flex-row justify-center items-center rounded-[1rem] 
-                        transition-all duration-[200ms] hover:bg-gray-500 hover:bg-opacity-25
+                        transition-all duration-[200ms] hover:bg-gray-500/25
                     "
         >
           Monthly
@@ -78,7 +78,7 @@ export default function CommunityAsideLeaderboards() {
         <button
           className="
                         text-white h-full aspect-[1/1] rounded-[50%] overflow-hidden
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25
+                        transition-all duration-[100ms] hover:bg-gray-500/25
                     "
           style={{
             backgroundImage: `url(${gridLogo})`,
@@ -93,9 +93,10 @@ export default function CommunityAsideLeaderboards() {
         {rankings.map((ranking, index) => {
           return (
             <section
+              key={index}
               className="
                         w-full flex-1 flex flex-row justify-start items-center gap-[0.5em] rounded-[1rem] px-1
-                        transition-all duration-[100ms] hover:bg-gray-500 hover:bg-opacity-25 hover:cursor-pointer
+                        transition-all duration-[100ms] hover:bg-gray-500/25 hover:cursor-pointer
                     "
             >
               <a

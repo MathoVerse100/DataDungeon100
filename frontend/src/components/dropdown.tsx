@@ -19,7 +19,7 @@ export default function Dropdown({
     <div
       className={`
                 dropdown relative ${className ?? ""}
-                text-[0.75rem] h-[2.5em] rounded-[1rem] bg-gray-700 bg-opacity-50 py-[0.5em] 
+                text-[0.75rem] h-[2.5em] rounded-[1rem] bg-gray-700/50 py-[0.5em] 
                 pl-[1em] pr-[3em] inline-block whitespace-nowrap appearance-none 
                 text-white font-bold outline-none
             `}
@@ -40,9 +40,9 @@ export default function Dropdown({
                 "
         style={{ display: "none" }}
       >
-        {sections.map((section) => {
+        {sections.map((section, index) => {
           return (
-            <section className="dropdown_section">
+            <section key={index} className="dropdown_section">
               <header
                 className="
                                 dropdown_section_header
@@ -55,14 +55,15 @@ export default function Dropdown({
                 {section.name}
               </header>
 
-              {section.options.map((option) => {
+              {section.options.map((option, index) => {
                 return (
                   <button
+                    key={index}
                     className="
                                     dropdown_section_option
                                     px-[1em] py-[0.5em] text-white
                                     font-normal transition-all duration-[200ms]
-                                    hover:bg-gray-500 hover:bg-opacity-25 w-full
+                                    hover:bg-gray-500/25 w-full
                                     flex flex-row justify-start items-center
                                     select-none hover:cursor-pointer
                                 "

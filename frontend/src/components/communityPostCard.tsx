@@ -30,7 +30,7 @@ export default function CommunityPostCard({
     <div
       className={`
                 px-[2em] py-[1em] w-[100%] block
-                transition-all duration-[200ms] hover:cursor-pointer hover:bg-gray-900 hover:bg-opacity-25
+                transition-all duration-[200ms] hover:cursor-pointer hover:bg-gray-900/25
                 border-b-[1px] border-b-gray-800
             `}
     >
@@ -60,9 +60,10 @@ export default function CommunityPostCard({
           {title}
         </header>
         <div className="flex flex-row justify-start items-center gap-[1em] flex-wrap">
-          {tags.map((tag) => {
+          {tags.map((tag, index) => {
             return (
               <span
+                key={index}
                 className="
                                 px-2 py-1 rounded-[1rem] text-white font-inter text-xs font-bold
                             "

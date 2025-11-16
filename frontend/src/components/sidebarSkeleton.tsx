@@ -16,12 +16,12 @@ export default function SidebarSkeleton({
           outer
             ? `
               hidden xl:flex flex-col justify-start items-center gap-[1em] p-[1em] h-[100vh] w-[12rem]
-              bg-gray-950 bg-opacity-25 border-r-[1px] border-r-gray-500
+              bg-gray-800/25 border-r-[1px] border-r-gray-500
               overflow-y-auto overflow-x-hidden scrollbar-hide
           `
             : `
             hidden md:flex flex-col justify-start items-center gap-[2em] p-[1em] h-[calc(100vh-4.6875rem)] w-[12rem]  
-            bg-gray-950 bg-opacity-25 border-r-[1px] border-r-gray-500
+            bg-gray-800/25 border-r-[1px] border-r-gray-500
             overflow-y-auto overflow-x-hidden scrollbar-hide
           `
         }                
