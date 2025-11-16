@@ -1,8 +1,22 @@
 import { Link } from "react-router-dom";
-import { hidePasswordLogo } from "../assets/assets";
+import { hidePasswordLogo, showPasswordLogo } from "../assets/assets";
 import Layout from "../layouts/layout";
+import { useState } from "react";
 
 export default function Register() {
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    type: "password",
+    logo: hidePasswordLogo,
+  });
+
+  function togglePasswordVisibility() {
+    if (passwordVisibility.type === "password") {
+      setPasswordVisibility({ type: "text", logo: showPasswordLogo });
+    } else {
+      setPasswordVisibility({ type: "password", logo: hidePasswordLogo });
+    }
+  }
+
   return (
     <Layout hideInnerSidebar={true}>
       <Layout.Main>
@@ -148,7 +162,7 @@ export default function Register() {
                   <label className="mt-[1em] w-full text-white">Password</label>
                   <div className="relative w-full h-[2.5em] mb-[0.5em]">
                     <input
-                      type="password"
+                      type={passwordVisibility.type}
                       id="password"
                       name="password"
                       placeholder="Password..."
@@ -159,11 +173,12 @@ export default function Register() {
                       type="button"
                       className="absolute right-0 top-0 translate-y-[20%] h-full aspect-square"
                       style={{
-                        backgroundImage: `url(${hidePasswordLogo})`,
+                        backgroundImage: `url(${passwordVisibility.logo})`,
                         backgroundSize: "75%",
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",
                       }}
+                      onClick={togglePasswordVisibility}
                     ></button>
                   </div>
                   {/* {% if password_error %}
