@@ -5,28 +5,31 @@ import SidebarMenuGroup from "../components/sidebarMenuGroup";
 import NavButton from "../components/navButton";
 import SearchBar from "../components/searchBar";
 
-import homeLogo from "../assets/home.png";
-import exploreLogo from "../assets/explore.png";
-import oneLogo from "../assets/one.png";
-import libraryLogo from "../assets/monk.png";
-import communitiesLogo from "../assets/community.png";
-import universityLogo from "../assets/university.png";
-import monkLogo from "../assets/monk.png";
-import projectsLogo from "../assets/projects.png";
-import storageLogo from "../assets/storage.png";
-import studyZoneLogo from "../assets/study_zone.png";
-import historyLogo from "../assets/history.png";
-import helpLogo from "../assets/help.png";
-import settingsLogo from "../assets/settings.png";
-import tosLogo from "../assets/tos.png";
-import menuLogo from "../assets/menu.png";
-import chatsLogo from "../assets/chats.png";
-import lightDarkModeLogo from "../assets/light_dark_mode.png";
-import languageLogo from "../assets/language.png";
-import bellLogo from "../assets/bell.png";
-import tripleDotsLogo from "../assets/triple_dots.png";
 import TopNavbar from "../components/topNavbar";
 import type { ReactNode } from "react";
+
+import {
+  homeLogo,
+  exploreLogo,
+  oneLogo,
+  libraryLogo,
+  communitiesLogo,
+  universityLogo,
+  monkLogo,
+  projectsLogo,
+  storageLogo,
+  studyZoneLogo,
+  historyLogo,
+  helpLogo,
+  settingsLogo,
+  tosLogo,
+  menuLogo,
+  chatsLogo,
+  lightDarkModeLogo,
+  languageLogo,
+  tripleDotsLogo,
+  bellLogo
+} from "../assets/assets"
 
 type LayoutProps = {
   hideInnerSidebar?: boolean;
@@ -65,24 +68,28 @@ export default function Layout({
               content: "Home",
               logo: homeLogo,
               iconSize: "cover",
+              url: '/home'
             },
             {
               type: "expand",
               content: "Explore",
               logo: exploreLogo,
               iconSize: "cover",
+              url: '/explore'
             },
             {
               type: "expand",
               content: "Find People",
               logo: exploreLogo,
               iconSize: "cover",
+              url: '/find_people'
             },
             {
               type: "expand",
               content: "Login",
               logo: oneLogo,
               iconSize: "cover",
+              url: '/login'
             },
           ]}
         />
@@ -95,24 +102,28 @@ export default function Layout({
               content: "Library",
               logo: libraryLogo,
               iconSize: "cover",
+              url: '/library'
             },
             {
               type: "expand",
               content: "Communities",
               logo: communitiesLogo,
               iconSize: "cover",
+              url: '/communities'
             },
             {
               type: "expand",
               content: "University",
               logo: universityLogo,
               iconSize: "cover",
+              url: '/university'
             },
             {
               type: "expand",
               content: "MonK",
               logo: monkLogo,
               iconSize: "cover",
+              url: '/monk'
             },
           ]}
         />
@@ -124,18 +135,21 @@ export default function Layout({
               content: "Projects",
               logo: projectsLogo,
               iconSize: "cover",
+              url: '/projects'
             },
             {
               type: "expand",
               content: "Storage",
               logo: storageLogo,
               iconSize: "cover",
+              url: '/storage'
             },
             {
               type: "expand",
               content: "Study Zone",
               logo: studyZoneLogo,
               iconSize: "cover",
+              url: '/study_zone'
             },
           ]}
         />
@@ -147,24 +161,28 @@ export default function Layout({
               content: "History",
               logo: historyLogo,
               iconSize: "cover",
+              url: '/history'
             },
             {
               type: "expand",
               content: "Help",
               logo: helpLogo,
               iconSize: "cover",
+              url: '/help'
             },
             {
               type: "expand",
               content: "Settings",
               logo: settingsLogo,
               iconSize: "cover",
+              url: '/settings'
             },
             {
               type: "expand",
               content: "ToS",
               logo: tosLogo,
               iconSize: "cover",
+              url: '/tos'
             },
           ]}
         />
@@ -220,47 +238,15 @@ export default function Layout({
             <></>
           )}
 
-          <div className="flex-1 flex flex-row justify-stretch items-start">
+          <div className="flex-1 flex flex-row justify-center items-start">
             {mainBodyLimited ? (
               <>
-                <div className="hidden 2xl:block 2xl:flex-1"></div>
-                <div className="max-w-[100rem] flex flex-row justify-stretch items-center">
-                  <div
-                    className="
-            relative flex-1 min-w-[15rem] max-w-[90rem] border-r border-r-gray-800
-            h-[calc(100vh-4.6875rem)]
-            overflow-y-auto overflow-x-hidden
-            [scrollbar-gutter:stable]
-            [scrollbar-width:thin] [scrollbar-color:#555_#111]
-            [&::-webkit-scrollbar]:w-[8px]
-            [&::-webkit-scrollbar-track]:bg-[#111]
-            [&::-webkit-scrollbar-thumb]:bg-[#555]
-            [&::-webkit-scrollbar-thumb:hover]:bg-[#666]
-            [&::-webkit-scrollbar-button]:hidden
-        "
-                  >
-                    {main}
-                  </div>
+                <div className="max-w-[100rem] flex flex-row justify-stretch items-center flex-1">
+                  {main}
                 </div>
-                <div className="hidden 2xl:block 2xl:flex-1"></div>
               </>
             ) : (
-              <div
-                className="
-            relative flex-1 min-w-[15rem] max-w-[90rem] border-r border-r-gray-800
-            h-[calc(100vh-4.6875rem)]
-            overflow-y-auto overflow-x-hidden
-            [scrollbar-gutter:stable]
-            [scrollbar-width:thin] [scrollbar-color:#555_#111]
-            [&::-webkit-scrollbar]:w-[8px]
-            [&::-webkit-scrollbar-track]:bg-[#111]
-            [&::-webkit-scrollbar-thumb]:bg-[#555]
-            [&::-webkit-scrollbar-thumb:hover]:bg-[#666]
-            [&::-webkit-scrollbar-button]:hidden
-        "
-              >
-                {main}
-              </div>
+                main
             )}
           </div>
         </div>

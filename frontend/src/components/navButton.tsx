@@ -1,14 +1,17 @@
+import { Link } from 'react-router-dom'
+
 export type NavButtonProps = {
   type: "circle" | "expand";
   logo: string;
   iconSize: string;
   content: string;
   classNames?: string;
+  url?: string;
 };
 
 export default function NavButton(props: NavButtonProps) {
   return (
-    <a
+    <Link
       className={`
                 ${
                   props.type === "circle"
@@ -20,6 +23,7 @@ export default function NavButton(props: NavButtonProps) {
                 hover:scale-[1.1] hover:duration-[500ms] hover:ease-[cubic-bezier(0,1.5,.5,1)]
                 ${props.classNames ?? ""}
             `}
+                to={props.url ?? ''}
     >
       <div
         className="h-[100%] aspect-[1/1] flex flex-row justify-start items-center rounded-[50%]"
@@ -36,6 +40,6 @@ export default function NavButton(props: NavButtonProps) {
           <span className="text-white font-inter text-xs">{props.content}</span>
         </div>
       )}
-    </a>
+    </Link>
   );
 }

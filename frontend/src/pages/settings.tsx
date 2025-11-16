@@ -1,6 +1,6 @@
-import Layout from "./layout";
+import Layout from "../layouts/layout";
 
-export default function App() {
+export default function Settings() {
   return (
     <Layout mainBodyLimited={false} hideInnerSidebar={true}>
       <Layout.Main>

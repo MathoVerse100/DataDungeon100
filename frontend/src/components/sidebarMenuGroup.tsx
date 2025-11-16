@@ -24,6 +24,7 @@ export default function SidebarMenuGroup({
             logo={button.logo}
             iconSize={button.iconSize}
             content={button.content}
+            url={button.url ?? ""}
           />
         );
       })}
