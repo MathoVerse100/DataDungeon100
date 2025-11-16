@@ -1,6 +1,15 @@
 import homeLogo from "./home.png";
 import exploreLogo from "./explore.png";
 import oneLogo from "./one.png";
+import twoLogo from "./two.png";
+import threeLogo from "./three.png";
+import fourLogo from "./four.png";
+import fiveLogo from "./five.png";
+import sixLogo from "./six.png";
+import sevenLogo from "./seven.png";
+import eightLogo from "./eight.png";
+import nineLogo from "./nine.png";
+import tenLogo from "./ten.png";
 import libraryLogo from "./monk.png";
 import communitiesLogo from "./community.png";
 import universityLogo from "./university.png";
@@ -23,11 +32,11 @@ import exampleProfilePictureLogo from "./example_profile_pic.jpg";
 import exampleBannerLogo from "./example_banner.png";
 import likesLogo from "./like.png";
 import dislikesLogo from "./dislike.png";
+import gridLogo from "./grid.png";
 
 export {
   homeLogo,
   exploreLogo,
-  oneLogo,
   libraryLogo,
   communitiesLogo,
   universityLogo,
@@ -50,4 +59,15 @@ export {
   exampleBannerLogo,
   likesLogo,
   dislikesLogo,
+  gridLogo,
+  oneLogo,
+  twoLogo,
+  threeLogo,
+  fourLogo,
+  fiveLogo,
+  sixLogo,
+  sevenLogo,
+  eightLogo,
+  nineLogo,
+  tenLogo,
 };

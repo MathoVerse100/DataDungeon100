@@ -5,6 +5,7 @@ import {
 } from "../../assets/assets";
 import CommunityBanner from "../../components/communityBanner";
 import CommunityMainLayout from "../../layouts/communityMainLayout";
+import CommunityAsideLeaderboards from "../../components/communityAsideLeaderboards";
 
 type CommunitySkeletonProps = {
   children: ReactNode;
@@ -61,6 +62,17 @@ export default function CommunitySkeleton({
             Analytics
           </button>
         </section>
+
+        <CommunityAsideLeaderboards
+          users={Array.from({ length: 10 }).map((_) => {
+            return {
+              firstName: "Amro",
+              lastName: "Alshaban",
+              metric: "Likes",
+              value: "254.6K",
+            };
+          })}
+        />
       </CommunityMainLayout.Aside>
     </CommunityMainLayout>
   );
