@@ -8,7 +8,7 @@ import PostIdComment, { type CommentObject } from "./__postIdComment";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function PostIdPostContent() {
+export function PostIdPostContent() {
   const params = useParams();
   const communityTitle = params.communityTitle;
   const postId = params.postId;
@@ -121,17 +121,11 @@ function PostIdPostContent() {
   );
 }
 
-function PostIdPostComments() {
-  const params = useParams();
-  const communityTitle = params.communityTitle;
-  const postId = params.postId;
-
+export function PostIdPostComments({ endpoint }: { endpoint: string }) {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["communityPostComments"],
     queryFn: async () => {
-      const response = await axios.get(
-        `http://localhost:8000/spa/communities/posts/${communityTitle}/${postId}/comments`
-      );
+      const response = await axios.get(endpoint);
       return response.data;
     },
   });
@@ -223,11 +217,17 @@ function PostIdPostComments() {
 }
 
 export default function PostId() {
+  const params = useParams();
+  const communityTitle = params.communityTitle;
+  const postId = params.postId;
+
   return (
     <CommunityMainLayout>
       <CommunityMainLayout.Feed>
         <PostIdPostContent />
-        <PostIdPostComments />
+        <PostIdPostComments
+          endpoint={`http://localhost:8000/spa/communities/posts/${communityTitle}/${postId}/comments`}
+        />
       </CommunityMainLayout.Feed>
 
       <CommunityMainLayout.Aside>

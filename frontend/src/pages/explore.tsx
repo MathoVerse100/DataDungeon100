@@ -11,7 +11,7 @@ import {
 
 export default function Explore() {
   return (
-    <Layout mainBodyLimited={false} hideInnerSidebar={false}>
+    <Layout hideInnerSidebar={false}>
       <Layout.InnerSidebar>
         <SidebarMenuGroup
           header_content="Global Feed"
