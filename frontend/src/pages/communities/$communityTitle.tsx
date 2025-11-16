@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 interface Post {
+  community_title: string;
+  id: number;
   first_name: string;
   last_name: string;
   username: string;
@@ -56,6 +58,8 @@ function CommunityTitlePosts() {
           <CommunityPostCard
             key={index}
             userProfilePicture={exploreLogo}
+            communityTitle={post.community_title.toLowerCase()}
+            postId={post.id}
             firstName={post.first_name}
             lastName={post.last_name}
             username={post.username}

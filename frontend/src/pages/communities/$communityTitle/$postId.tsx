@@ -7,6 +7,7 @@ import CommunityAside from "../__communityAside";
 import PostIdComment, { type CommentObject } from "./__postIdComment";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 export function PostIdPostContent() {
   const params = useParams();
@@ -122,6 +123,29 @@ export function PostIdPostContent() {
 }
 
 export function PostIdPostComments({ endpoint }: { endpoint: string }) {
+  const [createCommentSettings, setCreateCommentSettings] = useState({
+    settings: "hidden",
+    roundedness: "rounded-[1rem]",
+  });
+
+  function openCreateCommentSettings() {
+    if (createCommentSettings.settings === "hidden") {
+      setCreateCommentSettings({
+        settings: "flex",
+        roundedness: "rounded-t-[1rem] border-b-[1px] border-b-gray-800",
+      });
+    }
+  }
+
+  function closeCreateCommentSettings() {
+    if (createCommentSettings.settings === "flex") {
+      setCreateCommentSettings({
+        settings: "hidden",
+        roundedness: "rounded-[1rem]",
+      });
+    }
+  }
+
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["communityPostComments"],
     queryFn: async () => {
@@ -150,19 +174,20 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
     <>
       <section className="flex flex-col justify-stretch items-stretch mt-[1em] mx-[2em]">
         <textarea
-          className="
-                        outline-none w-full rounded-[1rem] bg-gray-800 bg-opacity-50 text-white p-[1em]
+          onSelect={openCreateCommentSettings}
+          className={`
+                        outline-none w-full ${createCommentSettings.roundedness} bg-gray-800/50 text-white p-[1em]
                         text-sm overflow-hidden min-h-[5rem] h-[5rem]
-                    "
+                    `}
           placeholder="Create a comment..."
         ></textarea>
         <div
-          className="
-                            hidden
-                            self-end w-full h-[3em] bg-gray-800 bg-opacity-50
+          className={`
+                            ${createCommentSettings.settings}
+                            self-end w-full h-[3em] bg-gray-800/50
                             flex-row justify-stretch items-stretch gap-[1em]
                             rounded-b-[1rem] p-[0.5em] border-t-[1px] border-t-gray-800
-                        "
+                        `}
         >
           <button
             className="
@@ -173,6 +198,7 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
             Submit
           </button>
           <button
+            onClick={closeCreateCommentSettings}
             className="
                                 bg-red-500 text-white font-bold text-sm rounded-[1rem] px-[1em]
                                 transition-all duration-[200ms] hover:bg-red-800 

@@ -4,6 +4,7 @@ type PostReactionButtonProps = {
   iconXCoordinate: string;
   iconYCoordinate: string;
   reactionValue: number;
+  onClick?: (event: React.MouseEvent) => void;
 };
 
 export default function PostReactionButton({
@@ -24,7 +25,7 @@ export default function PostReactionButton({
         className="
                     aspect-[1/1] rounded-[50%] transition-all duration-[100ms]
                     hover:cursor-pointer hover:bg-gray-500/25
-                    active:bg-gray-800/50
+                    active:bg-gray-800/50 pointer-events-auto
                 "
         style={{
           backgroundImage: `url(${logo})`,

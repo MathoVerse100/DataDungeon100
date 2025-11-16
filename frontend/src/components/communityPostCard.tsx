@@ -2,9 +2,12 @@ import PostReactionButton from "./postReactionButton";
 
 import { likesLogo } from "../assets/assets";
 import { dislikesLogo } from "../assets/assets";
+import { useNavigate } from "react-router-dom";
 
 type CommunityPostCardProps = {
   userProfilePicture: string;
+  postId: number;
+  communityTitle: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -17,6 +20,8 @@ type CommunityPostCardProps = {
 
 export default function CommunityPostCard({
   userProfilePicture,
+  postId,
+  communityTitle,
   firstName,
   lastName,
   username,
@@ -26,6 +31,12 @@ export default function CommunityPostCard({
   likes,
   dislikes,
 }: CommunityPostCardProps) {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate(`/communities/${communityTitle}/${postId}`);
+  }
+
   return (
     <div
       className={`
@@ -33,6 +44,7 @@ export default function CommunityPostCard({
                 transition-all duration-[200ms] hover:cursor-pointer hover:bg-gray-900/25
                 border-b-[1px] border-b-gray-800
             `}
+      onClick={handleClick}
     >
       <section className="w-[100%] flex flex-row justify-start items-center gap-[0.5em]">
         <a
@@ -84,7 +96,10 @@ export default function CommunityPostCard({
           {content}
         </article>
       </section>
-      <section className="w-[100%] flex flex-row justify-start items-center gap-[1em]">
+      <section
+        className="w-[100%] flex flex-row justify-start items-center gap-[1em]"
+        onClick={(event) => event.stopPropagation()}
+      >
         <PostReactionButton
           logo={likesLogo}
           iconXCoordinate="50%"
