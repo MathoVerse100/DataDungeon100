@@ -16,6 +16,7 @@ import Settings from "./pages/settings";
 import ToS from "./pages/tos";
 import CommunityTitle from "./pages/communities/$communityTitle";
 import Register from "./pages/register";
+import PostId from "./pages/communities/$communityTitle/$postId";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: ":communityTitle",
         element: <CommunityTitle />,
+      },
+      {
+        path: ":communityTitle/:postId",
+        element: <PostId />,
       },
     ],
   },
