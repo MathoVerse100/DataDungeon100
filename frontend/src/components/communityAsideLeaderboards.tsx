@@ -13,18 +13,7 @@ import {
   twoLogo,
 } from "../assets/assets";
 
-type CommunityAsideLeaderboardsProps = {
-  users: {
-    firstName: string;
-    lastName: string;
-    metric: string;
-    value: string;
-  }[];
-};
-
-export default function CommunityAsideLeaderboards(
-  props: CommunityAsideLeaderboardsProps
-) {
+export default function CommunityAsideLeaderboards() {
   const rankings = [
     oneLogo,
     twoLogo,
@@ -37,6 +26,15 @@ export default function CommunityAsideLeaderboards(
     nineLogo,
     tenLogo,
   ];
+
+  const users = Array.from({ length: 10 }).map((_) => {
+    return {
+      firstName: "Amro",
+      lastName: "Alshaban",
+      metric: "Likes",
+      value: "254.6K",
+    };
+  });
 
   return (
     <section className="px-[1em] py-[1em] border-b-[1px] border-b-gray-800 flex flex-col justify-start items-start gap-[0.5em]">
@@ -113,10 +111,10 @@ export default function CommunityAsideLeaderboards(
               ></a>
               <div className="flex-1 flex flex-col justify-start items-start">
                 <span className="block text-white text-[0.75rem] font-bold">
-                  {props.users[index].firstName} {props.users[index].lastName}
+                  {users[index].firstName} {users[index].lastName}
                 </span>
                 <span className="block text-white text-[0.75rem] italic font-mono">
-                  {props.users[index].metric}: {props.users[index].value}
+                  {users[index].metric}: {users[index].value}
                 </span>
               </div>
               <img

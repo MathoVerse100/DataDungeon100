@@ -63,16 +63,7 @@ export default function CommunitySkeleton({
           </button>
         </section>
 
-        <CommunityAsideLeaderboards
-          users={Array.from({ length: 10 }).map((_) => {
-            return {
-              firstName: "Amro",
-              lastName: "Alshaban",
-              metric: "Likes",
-              value: "254.6K",
-            };
-          })}
-        />
+        <CommunityAsideLeaderboards />
       </CommunityMainLayout.Aside>
     </CommunityMainLayout>
   );
