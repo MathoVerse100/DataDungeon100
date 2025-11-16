@@ -44,9 +44,11 @@ export default function CommunityPostCard({
                 transition-all duration-[200ms] hover:cursor-pointer hover:bg-gray-900/25
                 border-b-[1px] border-b-gray-800
             `}
-      onClick={handleClick}
     >
-      <section className="w-[100%] flex flex-row justify-start items-center gap-[0.5em]">
+      <section
+        className="w-[100%] flex flex-row justify-start items-center gap-[0.5em]"
+        onClick={handleClick}
+      >
         <a
           className="
                         text-white h-[3rem] aspect-[1/1] rounded-[50%]
@@ -67,7 +69,10 @@ export default function CommunityPostCard({
           </span>
         </div>
       </section>
-      <section className="py-[1em] flex flex-col justify-start items-start gap-[1em]">
+      <section
+        className="py-[1em] flex flex-col justify-start items-start gap-[1em]"
+        onClick={handleClick}
+      >
         <header className="text-white font-bold text-lg sm:text-xl font-roboto">
           {title}
         </header>
@@ -96,10 +101,7 @@ export default function CommunityPostCard({
           {content}
         </article>
       </section>
-      <section
-        className="w-[100%] flex flex-row justify-start items-center gap-[1em]"
-        onClick={(event) => event.stopPropagation()}
-      >
+      <section className="w-[100%] flex flex-row justify-start items-center gap-[1em]">
         <PostReactionButton
           logo={likesLogo}
           iconXCoordinate="50%"

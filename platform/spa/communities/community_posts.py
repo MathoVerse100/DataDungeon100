@@ -41,11 +41,6 @@ def generator(app: FastAPI):
             )
 
         response_json = response.json()
-        if response.status_code != 200:
-            raise HTTPException(**response_json)
-        
-        print(response_json[0]['created_at'])
-        
         return response_json
     
     @app.get('/spa/communities/posts/{community_title}/{post_id}/comments/{comment_id}')
@@ -55,10 +50,5 @@ def generator(app: FastAPI):
                 f'{os.getenv('PLATFORM_DOMAIN_NAME')}/api/communities/posts/{community_title}/{post_id}/comments/{comment_id}'
             )
 
-        response_json = response.json()
-        if response.status_code != 200:
-            raise HTTPException(**response_json)
-        
-        print(response_json[0]['created_at'])
-        
+        response_json = response.json()        
         return response_json
