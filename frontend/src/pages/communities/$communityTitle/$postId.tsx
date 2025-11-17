@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dislikesLogo, exploreLogo, likesLogo } from "../../../assets/assets";
 import Dropdown from "../../../components/dropdown";
 import PostReactionButton from "../../../components/postReactionButton";
@@ -6,8 +6,8 @@ import CommunityMainLayout from "../../../layouts/communityMainLayout";
 import CommunityAside from "../__communityAside";
 import PostIdComment, { type CommentObject } from "./__postIdComment";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, type FormEvent } from "react";
 
 export function PostIdPostContent() {
   const params = useParams();
@@ -123,10 +123,51 @@ export function PostIdPostContent() {
 }
 
 export function PostIdPostComments({ endpoint }: { endpoint: string }) {
+  const navigate = useNavigate();
+
+  const params = useParams();
+  const communityTitle = params.communityTitle;
+  const postId = params.postId;
+
+  const queryClient = useQueryClient();
   const [createCommentSettings, setCreateCommentSettings] = useState({
     settings: "hidden",
     roundedness: "rounded-[1rem]",
   });
+  const [createCommentContent, setCreateCommentContent] = useState("");
+
+  const submitCreateComment = useMutation({
+    mutationFn: async () => {
+      const response = await axios.post(
+        `http://localhost:8000/spa/communities/posts/${communityTitle}/${postId}/comments`,
+        { comment: createCommentContent },
+        { withCredentials: true }
+      );
+      console.log(response);
+
+      return response.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["communityPostComments"],
+      });
+
+      setCreateCommentContent("");
+    },
+
+    onMutate: () => {
+      console.log("IS mutating");
+    },
+
+    onError: () => {
+      navigate("/login", { replace: true });
+    },
+  });
+
+  function handleCreateCommentContent(content: string) {
+    setCreateCommentContent(content);
+  }
 
   function openCreateCommentSettings() {
     if (createCommentSettings.settings === "hidden") {
@@ -144,6 +185,10 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
         roundedness: "rounded-[1rem]",
       });
     }
+  }
+
+  function handleSubmitCreateComment() {
+    submitCreateComment.mutate();
   }
 
   const { isLoading, isError, data, error } = useQuery({
@@ -175,11 +220,17 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
       <section className="flex flex-col justify-stretch items-stretch mt-[1em] mx-[2em]">
         <textarea
           onSelect={openCreateCommentSettings}
+          onInput={(event: FormEvent<HTMLTextAreaElement>) =>
+            handleCreateCommentContent(
+              (event.target as HTMLTextAreaElement).value
+            )
+          }
           className={`
                         outline-none w-full ${createCommentSettings.roundedness} bg-gray-800/50 text-white p-[1em]
                         text-sm overflow-hidden min-h-[5rem] h-[5rem]
                     `}
           placeholder="Create a comment..."
+          value={createCommentContent}
         ></textarea>
         <div
           className={`
@@ -190,6 +241,7 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
                         `}
         >
           <button
+            onClick={handleSubmitCreateComment}
             className="
                                 ml-auto mr-0 bg-blue-500 text-white font-bold text-sm rounded-[1rem] px-[1em]
                                 transition-all duration-[200ms] hover:bg-blue-800 
@@ -235,6 +287,7 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
           },
         ]}
       />
+
       {data.map((comment: CommentObject, index: number) => {
         return <PostIdComment key={index} comment={comment} />;
       })}

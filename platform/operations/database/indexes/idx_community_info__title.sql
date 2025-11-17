@@ -1,0 +1,1 @@
+CREATE INDEX idx_community_info__title ON COMMUNITY_INFO (LOWER(TITLE));

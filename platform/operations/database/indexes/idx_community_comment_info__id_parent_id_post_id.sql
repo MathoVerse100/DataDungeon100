@@ -1,0 +1,1 @@
+CREATE INDEX idx_community_comment_info__parent_id_post_id ON COMMUNITY_COMMENT_INFO (ID, PARENT_ID, POST_ID);

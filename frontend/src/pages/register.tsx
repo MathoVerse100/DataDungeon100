@@ -1,9 +1,90 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { hidePasswordLogo, showPasswordLogo } from "../assets/assets";
 import Layout from "../layouts/layout";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+
+type RegisterValues = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+};
 
 export default function Register() {
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm<RegisterValues>();
+
+  async function onSubmit(data: RegisterValues) {
+    try {
+      await axios.post("http://localhost:8000/spa/register", data, {
+        withCredentials: true,
+      });
+
+      navigate("/login", { replace: true });
+    } catch (error: any) {
+      if (error.response.status === 400) {
+        setError("firstName", {
+          type: "400",
+          message: error.response.data.detail.first_name_error ?? "",
+        });
+
+        setError("lastName", {
+          type: "400",
+          message: error.response.data.detail.last_name_error ?? "",
+        });
+
+        setError("username", {
+          type: "400",
+          message: error.response.data.detail.username_error ?? "",
+        });
+
+        setError("email", {
+          type: "400",
+          message: error.response.data.detail.email_error ?? "",
+        });
+
+        setError("password", {
+          type: "400",
+          message: error.response.data.detail.password_error ?? "",
+        });
+      } else if (error.response.status === 409) {
+        setError("username", {
+          type: "409",
+          message: error.response.data.detail.username_error
+            ? error.response.data.detail.username_error.message
+            : "",
+        });
+
+        setError("firstName", {
+          type: "409",
+          message: error.response.data.detail.first_last_error
+            ? error.response.data.detail.first_last_error.message
+            : "",
+        });
+      }
+    }
+  }
+
+  const { isLoading, isError, error } = useQuery({
+    queryKey: ["getLogin"],
+    queryFn: async () => {
+      const response = await axios.get("http://localhost:8000/spa/login", {
+        withCredentials: true,
+      });
+      return response.data;
+    },
+    retry: false,
+  });
+
   const [passwordVisibility, setPasswordVisibility] = useState({
     type: "password",
     logo: hidePasswordLogo,
@@ -15,6 +96,19 @@ export default function Register() {
     } else {
       setPasswordVisibility({ type: "password", logo: hidePasswordLogo });
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    console.error("Error:", error.message);
+    return <Navigate to="/explore" replace />;
   }
 
   return (
@@ -61,110 +155,138 @@ export default function Register() {
                   </li>
                 </ul>
                 <form
-                  action="/register/"
-                  method="post"
+                  onSubmit={handleSubmit(onSubmit)}
                   className="mt-[2em] w-full flex flex-col justify-stretch items-start gap-[0.5em]"
                 >
-                  {/* {% if register_error %}
-                                {% if register_error.get('username_error') %}
-                                    <span className="text-xs text-red-500 font-sans font-bold">
-                                        *Error: {{ register_error.get('username_error').get('message') }}
-                                    </span>
-                                {% endif %}
+                  {errors.firstName?.message &&
+                  errors.firstName?.type === "409" ? (
+                    <span className="text-xs text-red-500 font-sans font-bold">
+                      *Error: {errors.firstName?.message}
+                    </span>
+                  ) : (
+                    <></>
+                  )}
 
-                                {% if register_error.get('first_last_error') %}
-                                    <span className="text-xs text-red-500 font-sans font-bold">
-                                        *Error: {{ register_error.get('first_last_error').get('message') }}
-                                    </span>
-                                {% endif %}
-                            {% endif %} */}
+                  {errors.username?.message &&
+                  errors.username?.type === "409" ? (
+                    <span className="text-xs text-red-500 font-sans font-bold">
+                      *Error: {errors.username?.message}
+                    </span>
+                  ) : (
+                    <></>
+                  )}
+
                   <div className="flex flex-col justify-start items-start [@media(min-width:480px)]:flex-row [@media(min-width:480px)]:justify-between [@media(min-width:480px)]:items-stretch gap-[2em]">
                     <div className="flex-1">
                       <label className="w-full text-white">First Name</label>
                       <input
+                        {...register("firstName")}
                         type="text"
-                        id="first_name"
-                        name="first_name"
                         placeholder="First Name..."
                         className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                       ></input>
-                      {/* {% if first_name_error %}
-                                        <span id="first_name_error" className="text-xs text-red-500 font-sans font-bold">{{ first_name_error }}: must be 3-100 chars, A-Z, a-z, or _</span>                            
-                                    {% else %} */}
-                      <span
-                        id="first_name_error"
-                        className="text-xs text-gray-400 font-sans font-bold"
-                      >
-                        *3-100 chars, A-Z, a-z, or _
-                      </span>
-                      {/* {% endif %} */}
+
+                      {errors.firstName?.message &&
+                      errors.firstName?.type === "400" ? (
+                        <span
+                          id="first_name_error"
+                          className="text-xs text-red-500 font-sans font-bold"
+                        >
+                          {errors.firstName.message}: must be 3-100 chars, A-Z,
+                          a-z, or _
+                        </span>
+                      ) : (
+                        <span
+                          id="first_name_error"
+                          className="text-xs text-gray-400 font-sans font-bold"
+                        >
+                          *3-100 chars, A-Z, a-z, or _
+                        </span>
+                      )}
                     </div>
                     <div className="flex-1">
                       <label className="w-full text-white">Last Name</label>
                       <input
+                        {...register("lastName")}
                         type="text"
-                        id="last_name"
-                        name="last_name"
                         placeholder="Last Name..."
                         className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                       ></input>
-                      {/* {% if last_name_error %}
-                                        <span id="last_name_error" className="text-xs text-red-500 font-sans font-bold">{{ last_name_error }}: must be 3-100 chars, A-Z, a-z, or _</span>
-                                    {% else %} */}
-                      <span
-                        id="last_name_error"
-                        className="text-xs text-gray-400 font-sans font-bold"
-                      >
-                        *3-100 chars, A-Z, a-z, or _
-                      </span>
-                      {/* {% endif %} */}
+
+                      {errors.lastName?.message &&
+                      errors.lastName?.type === "400" ? (
+                        <span
+                          id="last_name_error"
+                          className="text-xs text-red-500 font-sans font-bold"
+                        >
+                          {errors.lastName.message}: must be 3-100 chars, A-Z,
+                          a-z, or _
+                        </span>
+                      ) : (
+                        <span
+                          id="last_name_error"
+                          className="text-xs text-gray-400 font-sans font-bold"
+                        >
+                          *3-100 chars, A-Z, a-z, or _
+                        </span>
+                      )}
                     </div>
                   </div>
 
                   <label className="mt-[1em] w-full text-white">Username</label>
                   <input
+                    {...register("username")}
                     type="text"
-                    id="username"
-                    name="username"
                     placeholder="Username..."
                     className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                   ></input>
-                  {/* {% if username_error %}
-                                <span id="username_error" className="text-xs text-red-500 font-sans font-bold">{{ username_error }}: must be 5-100 chars, A-Z, a-z, or _</span>
-                            {% else %} */}
-                  <span
-                    id="username_error"
-                    className="text-xs text-gray-400 font-sans font-bold"
-                  >
-                    *5-100 chars, A-Z, a-z, or _
-                  </span>
-                  {/* {% endif %} */}
+                  {errors.username?.message &&
+                  errors.username?.type === "400" ? (
+                    <span
+                      id="username_error"
+                      className="text-xs text-red-500 font-sans font-bold"
+                    >
+                      {errors.username.message}: must be 5-100 chars, A-Z, a-z,
+                      or _
+                    </span>
+                  ) : (
+                    <span
+                      id="username_error"
+                      className="text-xs text-gray-400 font-sans font-bold"
+                    >
+                      *5-100 chars, A-Z, a-z, or _
+                    </span>
+                  )}
 
                   <label className="mt-[1em] w-full text-white">Email</label>
                   <input
+                    {...register("email")}
                     type="text"
-                    id="email"
-                    name="email"
                     placeholder="Email..."
                     className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                   ></input>
-                  {/* {% if email_error %}
-                                <span id="email_error" className="text-xs text-red-500 font-sans font-bold">{{ email_error }}: Not a valid email</span>
-                            {% else %} */}
-                  <span
-                    id="email_error"
-                    className="text-xs text-gray-400 font-sans font-bold"
-                  >
-                    *Must be a valid email
-                  </span>
-                  {/* {% endif %} */}
+
+                  {errors.email?.message && errors.email?.type === "400" ? (
+                    <span
+                      id="email_error"
+                      className="text-xs text-red-500 font-sans font-bold"
+                    >
+                      {errors.email.message}: Not a valid email
+                    </span>
+                  ) : (
+                    <span
+                      id="email_error"
+                      className="text-xs text-gray-400 font-sans font-bold"
+                    >
+                      *Must be a valid email
+                    </span>
+                  )}
 
                   <label className="mt-[1em] w-full text-white">Password</label>
                   <div className="relative w-full h-[2.5em] mb-[0.5em]">
                     <input
+                      {...register("password")}
                       type={passwordVisibility.type}
-                      id="password"
-                      name="password"
                       placeholder="Password..."
                       className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-full rounded-[0.5rem] outline-none text-black"
                     ></input>
@@ -181,18 +303,26 @@ export default function Register() {
                       onClick={togglePasswordVisibility}
                     ></button>
                   </div>
-                  {/* {% if password_error %}
-                                <span id="password_error" className="text-xs text-red-500 font-sans font-bold">{{ password_error }}: must be 5-255 chars</span>
-                            {% else %} */}
-                  <span
-                    id="password_error"
-                    className="text-xs text-gray-400 font-sans font-bold"
-                  >
-                    *5-255 chars
-                  </span>
-                  {/* {% endif %} */}
+
+                  {errors.password?.message &&
+                  errors.password?.type === "400" ? (
+                    <span
+                      id="password_error"
+                      className="text-xs text-red-500 font-sans font-bold"
+                    >
+                      {errors.password.message}: must be 5-255 chars
+                    </span>
+                  ) : (
+                    <span
+                      id="password_error"
+                      className="text-xs text-gray-400 font-sans font-bold"
+                    >
+                      *5-255 chars
+                    </span>
+                  )}
 
                   <button
+                    disabled={isSubmitting}
                     type="submit"
                     className="w-full mt-[1em] mb-[4px] p-[1em] item-center self-center bg-blue-500 rounded-[1rem] text-gray-200 font-bold shadow-[0px_4px_2px_rgb(0,0,250)] active:shadow-[0px_0px_0px] active:mt-[calc(1em+4px)] active:mb-0"
                   >

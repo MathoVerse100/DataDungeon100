@@ -8,7 +8,8 @@ env "local" {
         
     src = [
         "file://database/tables",
-        "file://database/constraints"
+        "file://database/constraints",
+        "file://database/indexes"
     ]
 
     migration {

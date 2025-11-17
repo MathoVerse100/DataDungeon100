@@ -14,6 +14,7 @@ from lib.parse_comment_tree import parse_comment_tree
 
 
 class CreateComment(BaseModel):
+    session_token: str
     content: Annotated[
         str,
         StringConstraints(max_length=10000),
@@ -84,12 +85,11 @@ def generator(app: FastAPI) -> None:
 
 
     @app.post('/api/communities/posts/{community_title}/{post_id}/comments')
-    async def community_post_comments(community_title: str, post_id: int, create_comment: CreateComment, request: Request) -> Response:
-        session_user_data = request.session.get('session_user_data', None)
-        if not session_user_data:
-            raise HTTPException(status_code=401, detail="Unauthorized: User is not logged in")
-
-        user: bytes = await redis_db0.get(f"session_tokens:{session_user_data.get('session_token', None)}")
+    async def community_post_comments(community_title: str, post_id: int, create_comment: CreateComment) -> Response:
+        print('I AM HEREEEEEEEEEEEEE')
+        print(create_comment)
+        
+        user: bytes = await redis_db0.get(f"session_tokens:{create_comment.session_token}")
 
         if not user:
             raise HTTPException(status_code=401, detail="Unauthorized: User is not logged in")

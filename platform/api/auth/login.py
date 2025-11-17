@@ -56,8 +56,6 @@ def generator(app: FastAPI) -> None:
             "user_info": user_info
         }}
 
-        print(data)
-
         await operations.execute(f"""
             UPDATE USER_AUTH
             SET LAST_SIGN_IN = %s::timestamp

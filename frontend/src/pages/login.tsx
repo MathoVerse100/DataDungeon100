@@ -47,13 +47,11 @@ export default function Login() {
 
   if (isError) {
     console.error("Error:", error.message);
-    return <Navigate to="/communities/analytics" replace />;
+    return <Navigate to="/explore" replace />;
   }
 
   async function onSubmit(data: LoginValues) {
     try {
-      console.log(data);
-
       const response = await axios.post(
         "http://localhost:8000/spa/login",
         data,

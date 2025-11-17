@@ -1,0 +1,1 @@
+CREATE INDEX idx_community_post_info__community_id ON COMMUNITY_POST_INFO (COMMUNITY_ID);
