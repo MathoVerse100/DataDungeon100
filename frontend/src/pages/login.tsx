@@ -1,13 +1,77 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { hidePasswordLogo, showPasswordLogo } from "../assets/assets";
 import Layout from "../layouts/layout";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+
+type LoginValues = {
+  usernameOrEmail: string;
+  password: string;
+};
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [passwordVisibility, setPasswordVisibility] = useState({
     type: "password",
     logo: hidePasswordLogo,
   });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm<LoginValues>();
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["getLogin"],
+    queryFn: async () => {
+      const response = await axios.get("http://localhost:8000/spa/login", {
+        withCredentials: true,
+      });
+      return response.data;
+    },
+    retry: false,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    console.error("Error:", error.message);
+    return <Navigate to="/communities/analytics" replace />;
+  }
+
+  async function onSubmit(data: LoginValues) {
+    try {
+      console.log(data);
+
+      const response = await axios.post(
+        "http://localhost:8000/spa/login",
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(response.data);
+      navigate("/explore", { replace: true });
+    } catch (error: any) {
+      console.log(error.response.data);
+      setError("password", {
+        type: "server",
+        message: error.response.data.detail,
+      });
+    }
+  }
 
   function togglePasswordVisibility() {
     if (passwordVisibility.type === "password") {
@@ -41,9 +105,12 @@ export default function Login() {
                   Login
                 </header>
 
-                {/* {% if verify_message %}
-                          <span className="mt-[2em] text-xs text-green-500 font-sans font-bold self-start">{{ verify_message }}</span>
-                      {% endif %} */}
+                {data.verify_message && (
+                  <span className="mt-[2em] text-xs text-green-500 font-sans font-bold self-start">
+                    {data.verify_message}
+                  </span>
+                )}
+
                 <span className="mt-[2em] self-start text-white text-sm">
                   Don't have an account?{" "}
                   <Link to="/register/" className="underline text-blue-600">
@@ -52,15 +119,13 @@ export default function Login() {
                   .
                 </span>
                 <form
-                  action="/login/"
-                  method="post"
+                  onSubmit={handleSubmit(onSubmit)}
                   className="mt-[1em] w-full flex flex-col justify-stretch items-start gap-[0.5em]"
                 >
                   <label className="w-full text-white">Username or Email</label>
                   <input
+                    {...register("usernameOrEmail", { required: true })}
                     type="text"
-                    id="username_or_email"
-                    name="username_or_email"
                     placeholder="Username or Email..."
                     className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-full rounded-[0.5rem] outline-none text-black"
                   ></input>
@@ -68,9 +133,8 @@ export default function Login() {
                   <label className="mt-[1em] w-full text-white">Password</label>
                   <div className="relative w-full h-[2.5em] mb-[0.5em]">
                     <input
+                      {...register("password", { required: true })}
                       type={passwordVisibility.type}
-                      id="password"
-                      name="password"
                       placeholder="Password..."
                       className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-full rounded-[0.5rem] outline-none text-black"
                     ></input>
@@ -87,9 +151,16 @@ export default function Login() {
                       onClick={togglePasswordVisibility}
                     ></button>
                   </div>
-                  {/* <span id="password_error" className="text-xs text-red-500 font-sans">{% if login_error %}{{ login_error }}{% endif %}</span> */}
+
+                  <span
+                    id="password_error"
+                    className="text-xs text-red-500 font-sans"
+                  >
+                    {errors.password ? errors.password.message : ""}
+                  </span>
 
                   <button
+                    disabled={isSubmitting}
                     type="submit"
                     className="w-full mt-[1em] mb-[4px] p-[1em] item-center self-center bg-blue-500 rounded-[1rem] text-gray-200 font-bold shadow-[0px_4px_2px_rgb(0,0,250)] active:shadow-[0px_0px_0px] active:mt-[calc(1em+4px)] active:mb-0"
                   >
