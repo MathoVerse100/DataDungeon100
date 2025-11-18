@@ -40,7 +40,7 @@ def generator(app: FastAPI) -> None:
             )
         ):
             raise HTTPException(status_code=404, detail='Post not found')
-    
+
         query = f"""
             SELECT
                 A.ID,

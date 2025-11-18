@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from configure_templates import configure_templates
 from configure_middlewares import configure_middlewares
 # from platform.api.endpoints_temp import paths as api_paths
+from api.endpoints import paths as api_paths
 from spa.endpoints import paths as spa_paths
 from routers.endpoints import paths as router_paths
 from routers.dependencies import verify_session_token
@@ -39,8 +40,8 @@ configure_templates(app, templates)
 
 
 # API Configuration
-# for api_path in api_paths:
-#     api_path(app)
+for api_path in api_paths:
+    api_path(app)
 
 # SPA Client-API Proxy Configuration
 for spa_path in spa_paths:
