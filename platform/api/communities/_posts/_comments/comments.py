@@ -147,6 +147,13 @@ def generator(app: FastAPI):
         tree = parse_comment_tree(results)
         if tree[0]['replies']:
             tree[0]['replies'] = sorted(tree[0]['replies'], key=lambda reply: reply[filter], reverse=(True if sort == 'desc' else False))
-            # must enforce offset/limit
 
+        if offset > len(tree[0]['replies']) - 1:
+            tree[0]['replies'] = []
+        else:
+            tree[0]['replies'] = tree[0]['replies'][offset:]
+        
+        if limit <= len(tree[0]['replies']) - 1:
+            tree[0]['replies'] = tree[0]['replies'][:limit]
+        
         return JSONResponse(status_code=200, content=jsonable_encoder(tree))
