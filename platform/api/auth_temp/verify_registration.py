@@ -23,7 +23,7 @@ def generator(app: FastAPI) -> None:
                 status_code=404,
                 detail="Invalid or expired verification token."
             )
-        
+
         await redis_db0.delete(f"register_verification_tokens:{token}")
         user_dict = json.loads(user.decode('utf-8'))
 
@@ -44,7 +44,7 @@ def generator(app: FastAPI) -> None:
             (
                 user_dict['first_name'], user_dict['last_name'],
                 user_dict['username'], user_dict['email'],
-                user_dict['password']             
+                user_dict['password']
             ),
             fetch=False
         )
