@@ -22,7 +22,7 @@ class PostReaction(BaseModel):
 def generator(app: FastAPI):
 
     @app.post('/api/communities/{community_title}/posts/{post_id}/reaction', dependencies=[Depends(login_required)])
-    async def api_communities_posts_reaction(request: Request, community_title: str, post_id: str, reaction: PostReaction) -> Response:
+    async def api_communities_posts_reaction(request: Request, community_title: str, post_id: int, reaction: PostReaction) -> Response:
         if not (
             await operations.execute(
                 """SELECT TITLE FROM COMMUNITY_INFO WHERE LOWER(TITLE) = %s::text""",

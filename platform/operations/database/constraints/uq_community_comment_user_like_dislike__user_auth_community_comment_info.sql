@@ -1,0 +1,3 @@
+ALTER TABLE COMMUNITY_COMMENT_USER_LIKE_DISLIKE
+ADD CONSTRAINT uq_community_comment_user_like_dislike__user_auth_community_comment_info
+UNIQUE (COMMENT_ID, USER_ID);
