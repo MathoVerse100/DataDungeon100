@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request, Response, Depends
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, field_validator
-from pydantic.types import StringConstraints
+from pydantic import BaseModel, StringConstraints, field_validator
 from typing import Annotated
 import secrets
 import json

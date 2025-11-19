@@ -15,3 +15,6 @@ Current endpoints:
 --> GET POST /api/communities/{community_title}/posts/{post_id}/comments/{comment_id}/comments?filter=likes&sort=descending&offset=10&limit=10
 --> POST /api/communities/{community_title}/posts/{post_id}/comments/{comment_id}/comments
 --> POST /api/communities/{community_title}/posts/{post_id}/comments/{comment_id}/reaction
+
+() => Must separate fetching from non-fetching method of DB instances.
+() => Must separate community and post existence checks into their own dependency functions.
