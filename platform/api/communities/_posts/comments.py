@@ -141,14 +141,14 @@ def generator(app: FastAPI):
         user_info: dict = user_session_data.get('user_info', None)
 
         query = f"""
-            INSERT INTO COMMUNITY_COMMENT_INFO (USER_ID, POST_ID, COMMENT_TYPE, CONTENT)
-            VALUES (%s::integer, %s::integer, %s::text, %s::text)
+            INSERT INTO COMMUNITY_COMMENT_INFO (USER_ID, POST_ID, COMMENT_TYPE, CONTENT, IS_ROOT)
+            VALUES (%s::integer, %s::integer, %s::text, %s::text, %s::boolean)
         """
 
         try:
             await operations.execute(
                 query,
-                (user_info['user_id'], post_id, 'TREE', comment_body.content),
+                (user_info['user_id'], post_id, 'TREE', comment_body.content, False),
                 fetch=False
             )
         except Exception as e:
