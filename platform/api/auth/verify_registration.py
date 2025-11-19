@@ -43,5 +43,4 @@ def generator(app: FastAPI):
             fetch=False
         )
 
-        data = {"message": "Successfully Registered!"}
         return JSONResponse(status_code=200, content="Successfully Registered!")

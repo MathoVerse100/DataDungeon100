@@ -1,3 +1,0 @@
-ALTER TABLE COMMUNITY_USER_LIKE_DISLIKE
-ADD CONSTRAINT uq_community_user_like_dislike__user_auth_community_post_info
-UNIQUE (USER_ID, POST_ID);
