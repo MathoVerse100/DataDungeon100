@@ -6,7 +6,8 @@ from pydantic import BaseModel, conlist, StringConstraints, field_validator
 from typing import Annotated
 
 from initialize_dbs import operations
-from api.__dependencies__.communities import community_member_required, get_community_id, check_community_tags
+from api.__dependencies__.auth import login_required
+from api.__dependencies__.communities import check_community_member, check_community_exists, check_community_tags
 
 
 class PostBody(BaseModel):
@@ -16,13 +17,6 @@ class PostBody(BaseModel):
         str,
         StringConstraints(min_length=1)
     ]
-
-    @field_validator('tags', mode='before')
-    def remove_capitalization_tags(cls, tags):
-        if isinstance(tags, list):
-            tags = [tag.lower() for tag in tags]
-        
-        return tags
     
     @field_validator("content", mode='before')
     def strip_content(cls, content):
@@ -104,35 +98,49 @@ def generator(app: FastAPI):
 
         return JSONResponse(status_code=200, content=jsonable_encoder(results))
 
-    @app.post('/api/communities/{community_title}/posts', dependencies=[Depends(community_member_required)])
+    @app.post('/api/communities/{community_title}/posts', dependencies=[Depends(login_required)])
     async def api_communities_posts(
         request: Request,
         community_title: str,
         post_body: PostBody,
-        community_id = Depends(get_community_id)
+        community_id = Depends(check_community_exists)
     ):
-        # if not (
-        #     await operations.execute(
-        #         """SELECT TITLE FROM COMMUNITY_INFO WHERE LOWER(TITLE) = %s::text""",
-        #         (community_title,)
-        #     )
-        # ):
-        #     raise HTTPException(status_code=404, detail='Community not found')
-
-        await check_community_tags(community_id, post_body.tags)
-      
         user_session_data: dict = request.session.get('user_session_data')
         user_info: dict = user_session_data.get('user_info')
 
+        user_id = await check_community_member(user_info.get('user_id', None), community_id)
+        tags = await check_community_tags(community_id, post_body.tags)
+
         query = f"""
-            INSERT INTO COMMUNITY_POST_INFO (COMMUNITY_ID, USER_ID, TAGS, TITLE, CONTENT)
-            VALUES (%s::integer, %s::integer, (%s::text[]), %s::text, %s::text)
+            WITH
+
+            INSERT_POST AS (
+                INSERT INTO COMMUNITY_POST_INFO (COMMUNITY_ID, USER_ID, TAGS, TITLE, CONTENT)
+                VALUES (%s::integer, %s::integer, %s::text[], %s::text, %s::text)
+                RETURNING ID
+            ),
+
+            GET_POST_TAG_IDS AS (
+                SELECT B.ID AS TAG_ID, A.ID AS POST_ID
+                FROM INSERT_POST A
+                CROSS JOIN UNNEST(%s::text[]) AS TAGS
+                JOIN COMMUNITY_TAGS B
+                ON TAGS = B.TAG_NAME
+                AND B.COMMUNITY_ID = %s::integer
+            )
+
+            INSERT INTO COMMUNITY_POST_TAGS (TAG_ID, POST_ID)
+            SELECT TAG_ID, POST_ID
+            FROM GET_POST_TAG_IDS;
         """
 
         try:
             await operations.execute(
                 query,
-                (community_id, user_info.get('user_id', None), post_body.tags, post_body.title, post_body.content),
+                (
+                    community_id, user_id, tags, post_body.title, post_body.content,
+                    tags, community_id
+                ),
                 fetch=False
             )
         except Exception as e:

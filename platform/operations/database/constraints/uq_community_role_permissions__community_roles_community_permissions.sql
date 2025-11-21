@@ -1,0 +1,3 @@
+ALTER TABLE COMMUNITY_ROLE_PERMISSIONS
+ADD CONSTRAINT uq_community_role_permissions__community_roles_community_permissions
+UNIQUE (ROLE_ID, PERMISSION_ID);

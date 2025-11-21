@@ -6,7 +6,7 @@ from initialize_dbs import redis_db0
 import json
 
 
-async def login_required(request: Request):
+async def login_required(request: Request) -> dict:
     user_session_data = request.session.get('user_session_data')
 
     if not user_session_data:
@@ -21,14 +21,14 @@ async def login_required(request: Request):
 
         raise HTTPException(status_code=401, detail='Session expired')
     
-    return JSONResponse(status_code=200, content=json.loads(user_data))
+    return json.loads(user_data)
 
 
-async def logout_required(request: Request) -> Response:
+async def logout_required(request: Request) -> bool:
     user_session_data = request.session.get('user_session_data')
 
     if not user_session_data:
-        return JSONResponse(status_code=200, content='OK!')
+        return True
 
     session_token = user_session_data.get('session_token')
     user_data = await redis_db0.get(f"session_tokens:{session_token}")
@@ -37,6 +37,6 @@ async def logout_required(request: Request) -> Response:
         request.session['logged'] = False
         del request.session["user_session_data"]
 
-        return JSONResponse(status_code=200, content='OK!')
+        return True
     
     raise HTTPException(status_code=401, detail="User is logged in")    

@@ -52,9 +52,8 @@ def generator(app: FastAPI):
             (user_info.get('user_id'), post_id)
         )
 
-        user_reaction_query = None
+        reaction_query = None
         user_reaction_parameters = None
-        post_reaction_query = None
         post_reaction_parameters = (post_id,)
 
         if user_previous_reaction:
@@ -62,57 +61,74 @@ def generator(app: FastAPI):
                 (user_previous_reaction[0]['value'] == 1 and reaction.name == 'dislikes')
                 or (user_previous_reaction[0]['value'] == -1 and reaction.name == 'likes')
             ):
-                user_reaction_query = f"""
-                    UPDATE COMMUNITY_POST_USER_LIKE_DISLIKE
-                    SET VALUE = %s::integer
-                    WHERE 1=1
-                    AND USER_ID = %s::integer
-                    AND POST_ID = %s::integer
+                reaction_query = f"""
+                    WITH
+                    
+                    USER_REACTION AS (
+                        UPDATE COMMUNITY_POST_USER_LIKE_DISLIKE
+                        SET VALUE = %s::integer
+                        WHERE 1=1
+                        AND USER_ID = %s::integer
+                        AND POST_ID = %s::integer
+                    ),
+
+                    POST_REACTION AS (
+                        UPDATE COMMUNITY_POST_INFO
+                        SET LIKES = LIKES + {-1 if reaction.name == 'dislikes' else 1},
+                        DISLIKES = DISLIKES + {-1 if reaction.name == 'likes' else 1}
+                        WHERE ID = %s::integer
+                    )
+
+                    SELECT 'DONE';
                 """
                 user_reaction_parameters = (-user_previous_reaction[0]['value'], user_info.get('user_id'), post_id)
 
-                post_reaction_query = f"""
-                    UPDATE COMMUNITY_POST_INFO
-                    SET LIKES = LIKES + {-1 if reaction.name == 'dislikes' else 1},
-                    DISLIKES = DISLIKES + {-1 if reaction.name == 'likes' else 1}
-                    WHERE ID = %s::integer
-                """
-
             else:
-                user_reaction_query = f"""
-                    DELETE FROM COMMUNITY_POST_USER_LIKE_DISLIKE
-                    WHERE 1=1
-                    AND USER_ID = %s::integer
-                    AND POST_ID = %s::integer
+                reaction_query = f"""
+                    WITH
+                    
+                    USER_REACTION AS (
+                        DELETE FROM COMMUNITY_POST_USER_LIKE_DISLIKE
+                        WHERE 1=1
+                        AND USER_ID = %s::integer
+                        AND POST_ID = %s::integer
+                    ),
+
+                    POST_REACTION AS (
+                        UPDATE COMMUNITY_POST_INFO
+                        SET {reaction.name} = {reaction.name} - 1
+                        WHERE ID = %s::integer
+                    )
+
+                    SELECT 'DONE';
                 """
                 user_reaction_parameters = (user_info.get('user_id'), post_id)
-
-                post_reaction_query = f"""
-                    UPDATE COMMUNITY_POST_INFO
-                    SET {reaction.name} = {reaction.name} - 1
-                    WHERE ID = %s::integer
-                """
-
         else:
-            user_reaction_query = f"""
-                INSERT INTO COMMUNITY_POST_USER_LIKE_DISLIKE (USER_ID, POST_ID, VALUE)
-                VALUES (%s::integer, %s::integer, %s::integer)
+            reaction_query = f"""
+                WITH
+                
+                USER_REACTION AS (
+                    INSERT INTO COMMUNITY_POST_USER_LIKE_DISLIKE (USER_ID, POST_ID, VALUE)
+                    VALUES (%s::integer, %s::integer, %s::integer)
+                ),
+
+                POST_REACTION AS (
+                    UPDATE COMMUNITY_POST_INFO
+                    SET {reaction.name} = {reaction.name} + 1
+                    WHERE ID = %s::integer
+                )
+
+                SELECT 'DONE';
             """
             user_reaction_parameters = (user_info.get('user_id'), post_id, (1 if reaction.name == 'likes' else -1))
 
-            post_reaction_query = f"""
-                UPDATE COMMUNITY_POST_INFO
-                SET {reaction.name} = {reaction.name} + 1
-                WHERE ID = %s::integer
-            """ 
 
         try:
-            await operations.execute(user_reaction_query, user_reaction_parameters, fetch=False)
-        except Exception as e:
-            raise HTTPException(status_code=422, detail=str(e))
-
-        try:
-            await operations.execute(post_reaction_query, post_reaction_parameters, fetch=False)
+            await operations.execute(
+                reaction_query,
+                (*user_reaction_parameters, *post_reaction_parameters),
+                fetch=False
+            )
         except Exception as e:
             raise HTTPException(status_code=422, detail=str(e))
 
