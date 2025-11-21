@@ -220,7 +220,7 @@ def generator(app: FastAPI):
         try:
             await operations.execute(
                 query,
-                (comment_id, user_info['user_id'], post_id, 'TREE', comment_body.content, True),
+                (comment_id, user_info['user_id'], post_id, 'TREE', comment_body.content, False),
                 fetch=False
             )
         except Exception as e:
