@@ -7,7 +7,7 @@ import CommunityAside from "../__communityAside";
 import PostIdComment, { type CommentObject } from "./__postIdComment";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useState, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 
 type QueryParams = {
   filterValue: "likes" | "dislikes" | "created_at";
@@ -138,6 +138,13 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
     ascending: "↑",
     descending: "↓",
   };
+
+  const [textareaHeight, setTextareaHeight] = useState(80);
+  function handleTextareaHeight(event: ChangeEvent<HTMLTextAreaElement>) {
+    if (event.target?.scrollHeight > event.target?.clientHeight) {
+      setTextareaHeight(event.target?.scrollHeight);
+    }
+  }
 
   const params = useParams();
   const communityTitle = params.communityTitle;
@@ -272,15 +279,17 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
           <section className="flex flex-col justify-stretch items-stretch mt-[1em] mx-[2em]">
             <textarea
               onSelect={openCreateCommentSettings}
-              onInput={(event: FormEvent<HTMLTextAreaElement>) =>
+              onInput={(event: FormEvent<HTMLTextAreaElement>) => {
                 handleCreateCommentContent(
                   (event.target as HTMLTextAreaElement).value
-                )
-              }
+                );
+                handleTextareaHeight(event as ChangeEvent<HTMLTextAreaElement>);
+              }}
               className={`
                         outline-none w-full ${createCommentSettings.roundedness} bg-gray-800/50 text-white p-[1em]
                         text-sm overflow-hidden min-h-[5rem] h-[5rem]
                     `}
+              style={{ height: `${textareaHeight}px` }}
               placeholder="Create a comment..."
               value={createCommentContent}
             ></textarea>
