@@ -30,7 +30,7 @@ type PostIdCommentProps = {
 export default function PostIdComment({ comment }: PostIdCommentProps) {
   const [commentSideHighlighter, setCommentSideHighlighter] =
     useState("bg-slate-800");
-  //
+
   function changeCommentSideHighlighter() {
     if (commentSideHighlighter === "bg-slate-800") {
       setCommentSideHighlighter("bg-[oklch(55.1%_0.027_264.364)]");

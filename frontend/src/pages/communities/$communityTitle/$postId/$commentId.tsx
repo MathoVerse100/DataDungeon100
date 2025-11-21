@@ -14,7 +14,7 @@ export default function CommentId() {
       <CommunityMainLayout.Feed>
         <PostIdPostContent />
         <PostIdPostComments
-          endpoint={`http://localhost:8000/spa/communities/posts/${communityTitle}/${postId}/comments/${commentId}`}
+          endpoint={`http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments/${commentId}/comments`}
         />
       </CommunityMainLayout.Feed>
 

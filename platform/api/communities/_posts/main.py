@@ -33,7 +33,6 @@ def generator(app: FastAPI):
                 A.CONTENT,
                 A.LIKES,
                 A.DISLIKES,
-                A.ALLOW_COMMENTS,
                 A.CREATED_AT,
                 A.UPDATED_AT
             FROM COMMUNITY_POST_INFO A

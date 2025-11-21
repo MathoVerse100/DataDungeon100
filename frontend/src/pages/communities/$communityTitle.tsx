@@ -27,9 +27,9 @@ function CommunityTitlePosts() {
     queryKey: ["communityPosts"],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:8000/spa/communities/posts/${communityTitle}`,
-        { withCredentials: true }
+        `http://localhost:8000/api/communities/${communityTitle}/posts`
       );
+
       return response.data;
     },
   });

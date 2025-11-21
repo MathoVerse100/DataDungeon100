@@ -7,8 +7,8 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 type RegisterValues = {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   username: string;
   email: string;
   password: string;
@@ -25,19 +25,19 @@ export default function Register() {
 
   async function onSubmit(data: RegisterValues) {
     try {
-      await axios.post("http://localhost:8000/spa/register", data, {
+      await axios.post("http://localhost:8000/api/auth/register", data, {
         withCredentials: true,
       });
 
       navigate("/login", { replace: true });
     } catch (error: any) {
       if (error.response.status === 400) {
-        setError("firstName", {
+        setError("first_name", {
           type: "400",
           message: error.response.data.detail.first_name_error ?? "",
         });
 
-        setError("lastName", {
+        setError("last_name", {
           type: "400",
           message: error.response.data.detail.last_name_error ?? "",
         });
@@ -64,7 +64,7 @@ export default function Register() {
             : "",
         });
 
-        setError("firstName", {
+        setError("first_name", {
           type: "409",
           message: error.response.data.detail.first_last_error
             ? error.response.data.detail.first_last_error.message
@@ -77,7 +77,7 @@ export default function Register() {
   const { isLoading, isError, error } = useQuery({
     queryKey: ["getLogin"],
     queryFn: async () => {
-      const response = await axios.get("http://localhost:8000/spa/login", {
+      const response = await axios.get("http://localhost:8000/api/auth/login", {
         withCredentials: true,
       });
       return response.data;
@@ -158,10 +158,10 @@ export default function Register() {
                   onSubmit={handleSubmit(onSubmit)}
                   className="mt-[2em] w-full flex flex-col justify-stretch items-start gap-[0.5em]"
                 >
-                  {errors.firstName?.message &&
-                  errors.firstName?.type === "409" ? (
+                  {errors.first_name?.message &&
+                  errors.first_name?.type === "409" ? (
                     <span className="text-xs text-red-500 font-sans font-bold">
-                      *Error: {errors.firstName?.message}
+                      *Error: {errors.first_name?.message}
                     </span>
                   ) : (
                     <></>
@@ -180,19 +180,19 @@ export default function Register() {
                     <div className="flex-1">
                       <label className="w-full text-white">First Name</label>
                       <input
-                        {...register("firstName")}
+                        {...register("first_name")}
                         type="text"
                         placeholder="First Name..."
                         className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                       ></input>
 
-                      {errors.firstName?.message &&
-                      errors.firstName?.type === "400" ? (
+                      {errors.first_name?.message &&
+                      errors.first_name?.type === "400" ? (
                         <span
                           id="first_name_error"
                           className="text-xs text-red-500 font-sans font-bold"
                         >
-                          {errors.firstName.message}: must be 3-100 chars, A-Z,
+                          {errors.first_name.message}: must be 3-100 chars, A-Z,
                           a-z, or _
                         </span>
                       ) : (
@@ -207,19 +207,19 @@ export default function Register() {
                     <div className="flex-1">
                       <label className="w-full text-white">Last Name</label>
                       <input
-                        {...register("lastName")}
+                        {...register("last_name")}
                         type="text"
                         placeholder="Last Name..."
                         className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-[2.5em] rounded-[0.5rem] outline-none text-black"
                       ></input>
 
-                      {errors.lastName?.message &&
-                      errors.lastName?.type === "400" ? (
+                      {errors.last_name?.message &&
+                      errors.last_name?.type === "400" ? (
                         <span
                           id="last_name_error"
                           className="text-xs text-red-500 font-sans font-bold"
                         >
-                          {errors.lastName.message}: must be 3-100 chars, A-Z,
+                          {errors.last_name.message}: must be 3-100 chars, A-Z,
                           a-z, or _
                         </span>
                       ) : (

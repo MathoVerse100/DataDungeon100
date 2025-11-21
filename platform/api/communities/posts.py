@@ -28,7 +28,7 @@ class PostBody(BaseModel):
 
 def generator(app: FastAPI):
 
-    @app.get('/api/communities/{community_title}/posts')
+    @app.get('/api/communities/{community_title}/posts', dependencies=[Depends(check_community_exists)])
     async def api_communities_posts(
         community_title: str,
         filter: str = 'likes',
@@ -76,7 +76,6 @@ def generator(app: FastAPI):
                 A.CONTENT,
                 A.LIKES,
                 A.DISLIKES,
-                A.ALLOW_COMMENTS,
                 A.CREATED_AT,
                 A.UPDATED_AT
             FROM COMMUNITY_POST_INFO A

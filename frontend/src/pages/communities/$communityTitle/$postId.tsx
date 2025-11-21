@@ -6,8 +6,13 @@ import CommunityMainLayout from "../../../layouts/communityMainLayout";
 import CommunityAside from "../__communityAside";
 import PostIdComment, { type CommentObject } from "./__postIdComment";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, type FormEvent } from "react";
+
+type QueryParams = {
+  filterValue: "likes" | "dislikes" | "created_at";
+  sortValue: "ascending" | "descending";
+};
 
 export function PostIdPostContent() {
   const params = useParams();
@@ -18,7 +23,7 @@ export function PostIdPostContent() {
     queryKey: ["communityPostContent"],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:8000/spa/communities/posts/${communityTitle}/${postId}`
+        `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/main`
       );
       return response.data;
     },
@@ -123,11 +128,25 @@ export function PostIdPostContent() {
 }
 
 export function PostIdPostComments({ endpoint }: { endpoint: string }) {
-  const navigate = useNavigate();
+  const queryParamsFiltersPrettyMapping = {
+    created_at: "Creation Date",
+    likes: "Likes",
+    dislikes: "Dislikes",
+  };
+
+  const queryParamsSortsPrettyMapping = {
+    ascending: "↑",
+    descending: "↓",
+  };
 
   const params = useParams();
   const communityTitle = params.communityTitle;
   const postId = params.postId;
+
+  const [queryParams, setQueryParams] = useState<QueryParams>({
+    filterValue: "likes",
+    sortValue: "descending",
+  });
 
   const queryClient = useQueryClient();
   const [createCommentSettings, setCreateCommentSettings] = useState({
@@ -135,15 +154,19 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
     roundedness: "rounded-[1rem]",
   });
   const [createCommentContent, setCreateCommentContent] = useState("");
+  const [createCommentError, setCreateCommentError] = useState({
+    hide: true,
+    content: "",
+  });
+  const [createCommentMutating, setCreateCommentMutating] = useState(false);
 
   const submitCreateComment = useMutation({
     mutationFn: async () => {
       const response = await axios.post(
-        `http://localhost:8000/spa/communities/posts/${communityTitle}/${postId}/comments`,
-        { comment: createCommentContent },
+        `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments`,
+        { content: createCommentContent },
         { withCredentials: true }
       );
-      console.log(response);
 
       return response.data;
     },
@@ -152,16 +175,27 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
       queryClient.invalidateQueries({
         queryKey: ["communityPostComments"],
       });
-
+      setCreateCommentMutating(false);
+      setCreateCommentError({
+        hide: true,
+        content: "",
+      });
       setCreateCommentContent("");
     },
 
     onMutate: () => {
-      console.log("IS mutating");
+      setCreateCommentMutating(true);
     },
 
-    onError: () => {
-      navigate("/login", { replace: true });
+    onError: (error: any) => {
+      setCreateCommentMutating(false);
+      setCreateCommentError({
+        hide: false,
+        content:
+          typeof error.response.data.detail === "string"
+            ? "You must login to comment!"
+            : "Comment must not be empty!",
+      });
     },
   });
 
@@ -191,10 +225,22 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
     submitCreateComment.mutate();
   }
 
+  function handleQueryParams({
+    filter,
+    sort,
+  }: {
+    filter: "likes" | "dislikes" | "created_at";
+    sort: "ascending" | "descending";
+  }) {
+    setQueryParams({ filterValue: filter, sortValue: sort });
+  }
+
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["communityPostComments"],
+    queryKey: ["communityPostComments", queryParams],
     queryFn: async () => {
-      const response = await axios.get(endpoint);
+      const response = await axios.get(
+        `${endpoint}?filter=${queryParams.filterValue}&sort=${queryParams.sortValue}`
+      );
       return response.data;
     },
   });
@@ -217,71 +263,121 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
 
   return (
     <>
-      <section className="flex flex-col justify-stretch items-stretch mt-[1em] mx-[2em]">
-        <textarea
-          onSelect={openCreateCommentSettings}
-          onInput={(event: FormEvent<HTMLTextAreaElement>) =>
-            handleCreateCommentContent(
-              (event.target as HTMLTextAreaElement).value
-            )
-          }
-          className={`
+      {createCommentMutating ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <>
+          <section className="flex flex-col justify-stretch items-stretch mt-[1em] mx-[2em]">
+            <textarea
+              onSelect={openCreateCommentSettings}
+              onInput={(event: FormEvent<HTMLTextAreaElement>) =>
+                handleCreateCommentContent(
+                  (event.target as HTMLTextAreaElement).value
+                )
+              }
+              className={`
                         outline-none w-full ${createCommentSettings.roundedness} bg-gray-800/50 text-white p-[1em]
                         text-sm overflow-hidden min-h-[5rem] h-[5rem]
                     `}
-          placeholder="Create a comment..."
-          value={createCommentContent}
-        ></textarea>
-        <div
-          className={`
+              placeholder="Create a comment..."
+              value={createCommentContent}
+            ></textarea>
+            <div
+              className={`
                             ${createCommentSettings.settings}
                             self-end w-full h-[3em] bg-gray-800/50
                             flex-row justify-stretch items-stretch gap-[1em]
                             rounded-b-[1rem] p-[0.5em] border-t-[1px] border-t-gray-800
                         `}
-        >
-          <button
-            onClick={handleSubmitCreateComment}
-            className="
+            >
+              <button
+                onClick={handleSubmitCreateComment}
+                className="
                                 ml-auto mr-0 bg-blue-500 text-white font-bold text-sm rounded-[1rem] px-[1em]
                                 transition-all duration-[200ms] hover:bg-blue-800 
                             "
-          >
-            Submit
-          </button>
-          <button
-            onClick={closeCreateCommentSettings}
-            className="
+              >
+                Submit
+              </button>
+              <button
+                onClick={closeCreateCommentSettings}
+                className="
                                 bg-red-500 text-white font-bold text-sm rounded-[1rem] px-[1em]
                                 transition-all duration-[200ms] hover:bg-red-800 
                             "
+              >
+                Cancel
+              </button>
+            </div>
+          </section>
+          <div
+            className={`w-full ${
+              createCommentError.hide ? "hidden" : "inline-block"
+            }`}
           >
-            Cancel
-          </button>
-        </div>
-      </section>
+            <span className="mx-[3em] mt-[1em] text-red-500 text-xs">
+              {createCommentError.content}
+            </span>
+          </div>
+        </>
+      )}
       <Dropdown
         className="mx-[2em] mt-[2em]"
-        defaultDisplay="Likes"
+        defaultDisplay={`${
+          queryParamsFiltersPrettyMapping[queryParams.filterValue]
+        } ${queryParamsSortsPrettyMapping[queryParams.sortValue]}`}
         sections={[
+          {
+            name: "Filter By",
+            default: "Likes",
+            options: [
+              {
+                name: "Created At",
+                onClick: () =>
+                  handleQueryParams({
+                    filter: "created_at",
+                    sort: queryParams.sortValue,
+                  }),
+              },
+              {
+                name: "Likes",
+                onClick: () =>
+                  handleQueryParams({
+                    filter: "likes",
+                    sort: queryParams.sortValue,
+                  }),
+              },
+              {
+                name: "Dislikes",
+                onClick: () =>
+                  handleQueryParams({
+                    filter: "dislikes",
+                    sort: queryParams.sortValue,
+                  }),
+              },
+            ],
+          },
           {
             name: "Sort By",
             default: "Likes",
             options: [
               {
-                name: "Hot",
+                name: "Ascending",
+                onClick: () =>
+                  handleQueryParams({
+                    filter: queryParams.filterValue,
+                    sort: "ascending",
+                  }),
               },
               {
-                name: "New",
-              },
-              {
-                name: "Old",
-              },
-              {
-                name: "Likes",
-              },
-              {
-                name: "Dislikes",
+                name: "Descending",
+                onClick: () =>
+                  handleQueryParams({
+                    filter: queryParams.filterValue,
+                    sort: "descending",
+                  }),
               },
             ],
           },
@@ -305,7 +401,7 @@ export default function PostId() {
       <CommunityMainLayout.Feed>
         <PostIdPostContent />
         <PostIdPostComments
-          endpoint={`http://localhost:8000/spa/communities/posts/${communityTitle}/${postId}/comments`}
+          endpoint={`http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments`}
         />
       </CommunityMainLayout.Feed>
 

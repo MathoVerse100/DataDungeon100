@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type DropdownProps = {
   className?: string;
   defaultDisplay: string;
@@ -6,6 +8,7 @@ type DropdownProps = {
     default: string;
     options: {
       name: string;
+      onClick: () => void;
     }[];
   }[];
 };
@@ -15,14 +18,21 @@ export default function Dropdown({
   defaultDisplay,
   sections,
 }: DropdownProps) {
+  const [toggle, setToggle] = useState("hidden");
+
+  function handleToggle() {
+    setToggle(toggle === "hidden" ? "block" : "hidden");
+  }
+
   return (
     <div
       className={`
                 dropdown relative ${className ?? ""}
-                text-[0.75rem] h-[2.5em] rounded-[1rem] bg-gray-700/50 py-[0.5em] 
-                pl-[1em] pr-[3em] inline-block whitespace-nowrap appearance-none 
+                text-[0.75rem] h-[2.5em] rounded-[1rem] bg-gray-700 py-[0.5em] 
+                pl-[1em] pr-[3em] inline-block bg-gray-700/50 whitespace-nowrap appearance-none 
                 text-white font-bold outline-none
             `}
+      onClick={handleToggle}
     >
       <span
         className="
@@ -33,19 +43,16 @@ export default function Dropdown({
         {defaultDisplay}
       </span>
       <div
-        className="
-                    dropdown_view
-                    absolute top-0 left-[50%] bg-gray-800
+        className={`
+                    absolute top-0 left-[50%] bg-gray-800 z-[2] ${toggle}
                     flex flex-col -translate-x-[50%] translate-y-[calc(2.5em+1%)]
-                "
-        style={{ display: "none" }}
+                `}
       >
         {sections.map((section, index) => {
           return (
             <section key={index} className="dropdown_section">
               <header
                 className="
-                                dropdown_section_header
                                 px-[1em] py-[0.5em] hover:cursor-pointer
                                 bg-gray-900 font-bold text-white
                                 flex flex-row justify-stretch items-center
@@ -60,13 +67,13 @@ export default function Dropdown({
                   <button
                     key={index}
                     className="
-                                    dropdown_section_option
                                     px-[1em] py-[0.5em] text-white
                                     font-normal transition-all duration-[200ms]
                                     hover:bg-gray-500/25 w-full
                                     flex flex-row justify-start items-center
                                     select-none hover:cursor-pointer
                                 "
+                    onClick={option.onClick}
                   >
                     {option.name}
                   </button>

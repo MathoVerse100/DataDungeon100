@@ -22,7 +22,7 @@ function CommunityHeader() {
     queryKey: ["communityHeader"],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:8000/spa/communities/main/${communityTitle}`,
+        `http://localhost:8000/api/communities/${communityTitle}/main`,
         { withCredentials: true }
       );
       return response.data;

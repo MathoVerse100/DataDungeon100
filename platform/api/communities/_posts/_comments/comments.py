@@ -212,15 +212,23 @@ def generator(app: FastAPI):
         user_session_data: dict = request.session.get('user_session_data', None)
         user_info: dict = user_session_data.get('user_info', None)
 
+        result = await operations.execute("""
+            SELECT DEPTH
+            FROM COMMUNITY_COMMENT_INFO
+            WHERE ID = %s::integer
+        """, (comment_id,))
+
+        depth = result[0]['depth']
+
         query = f"""
-            INSERT INTO COMMUNITY_COMMENT_INFO (PARENT_ID, USER_ID, POST_ID, COMMENT_TYPE, CONTENT, IS_ROOT)
-            VALUES (%s::integer , %s::integer, %s::integer, %s::text, %s::text, %s::boolean)
+            INSERT INTO COMMUNITY_COMMENT_INFO (PARENT_ID, DEPTH, USER_ID, POST_ID, COMMENT_TYPE, CONTENT, IS_ROOT)
+            VALUES (%s::integer, %s::integer, %s::integer, %s::integer, %s::text, %s::text, %s::boolean)
         """
 
         try:
             await operations.execute(
                 query,
-                (comment_id, user_info['user_id'], post_id, 'TREE', comment_body.content, False),
+                (comment_id, depth + 1, user_info['user_id'], post_id, 'TREE', comment_body.content, False),
                 fetch=False
             )
         except Exception as e:

@@ -8,6 +8,7 @@ from typing import Annotated
 from initialize_dbs import operations
 from lib.parse_comment_tree import parse_comment_tree
 from api.__dependencies__.auth import login_required
+from api.__dependencies__.communities import check_community_exists
 
 
 class CommentBody(BaseModel):
@@ -18,6 +19,7 @@ class CommentBody(BaseModel):
 
     @field_validator("content", mode='before')
     def strip_content(cls, content):
+        print(content)
         if isinstance(content, str):
             content = content.strip()
 
@@ -112,23 +114,15 @@ def generator(app: FastAPI):
             filtered_tree = []
         else:
             filtered_tree = filtered_tree[offset:]
-        
+
         if limit <= len(filtered_tree) - 1:
             filtered_tree = filtered_tree[:limit]
 
         return JSONResponse(status_code=200, content=jsonable_encoder(filtered_tree))
-    
 
-    @app.post('/api/communities/{community_title}/posts/{post_id}/comments', dependencies=[Depends(login_required)])
-    async def api_communities_posts_comments(request: Request, community_title: str, post_id: int, comment_body : CommentBody):
-        if not (
-            await operations.execute(
-                """SELECT TITLE FROM COMMUNITY_INFO WHERE LOWER(TITLE) = %s::text""",
-                (community_title,)
-            )
-        ):
-            raise HTTPException(status_code=404, detail='Community not found')
-        
+
+    @app.post('/api/communities/{community_title}/posts/{post_id}/comments', dependencies=[Depends(login_required), Depends(check_community_exists)])
+    async def api_communities_posts_comments(request: Request, community_title: str, post_id: int, comment_body : CommentBody):        
         if not (
             await operations.execute(
                 """SELECT ID FROM COMMUNITY_POST_INFO WHERE ID = %s::integer""",
@@ -136,7 +130,7 @@ def generator(app: FastAPI):
             )
         ):
             raise HTTPException(status_code=404, detail='Post not found')
-        
+
         user_session_data: dict = request.session.get('user_session_data', None)
         user_info: dict = user_session_data.get('user_info', None)
 
@@ -148,10 +142,10 @@ def generator(app: FastAPI):
         try:
             await operations.execute(
                 query,
-                (user_info['user_id'], post_id, 'TREE', comment_body.content, True),
+                (user_info.get('user_id', None), post_id, 'TREE', comment_body.content, True),
                 fetch=False
             )
         except Exception as e:
             raise HTTPException(status_code=422, detail=str(e))
-        
+
         return JSONResponse(status_code=200, content='Comment created!')

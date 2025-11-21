@@ -7,7 +7,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 
 type LoginValues = {
-  usernameOrEmail: string;
+  username_or_email: string;
   password: string;
 };
 
@@ -29,7 +29,7 @@ export default function Login() {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["getLogin"],
     queryFn: async () => {
-      const response = await axios.get("http://localhost:8000/spa/login", {
+      const response = await axios.get("http://localhost:8000/api/auth/login", {
         withCredentials: true,
       });
       return response.data;
@@ -53,7 +53,7 @@ export default function Login() {
   async function onSubmit(data: LoginValues) {
     try {
       const response = await axios.post(
-        "http://localhost:8000/spa/login",
+        "http://localhost:8000/api/auth/login",
         data,
         {
           withCredentials: true,
@@ -122,7 +122,7 @@ export default function Login() {
                 >
                   <label className="w-full text-white">Username or Email</label>
                   <input
-                    {...register("usernameOrEmail", { required: true })}
+                    {...register("username_or_email", { required: true })}
                     type="text"
                     placeholder="Username or Email..."
                     className="bg-white mt-[0.5em] px-[1em] py-[0.5em] w-full h-full rounded-[0.5rem] outline-none text-black"
