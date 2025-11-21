@@ -7,7 +7,7 @@ from typing import Annotated
 
 from initialize_dbs import operations
 from lib.parse_comment_tree import parse_comment_tree
-from api.dependencies import login_required
+from api.__dependencies__.auth import login_required
 
 
 class CommentBody(BaseModel):

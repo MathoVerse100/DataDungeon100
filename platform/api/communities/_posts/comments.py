@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Response, Depends
+from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
 from fastapi.encoders import jsonable_encoder
@@ -7,7 +7,7 @@ from typing import Annotated
 
 from initialize_dbs import operations
 from lib.parse_comment_tree import parse_comment_tree
-from api.dependencies import login_required
+from api.__dependencies__.auth import login_required
 
 
 class CommentBody(BaseModel):

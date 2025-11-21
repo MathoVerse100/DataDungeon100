@@ -4,7 +4,7 @@ from fastapi.exceptions import HTTPException
 import json
 
 from initialize_dbs import operations, redis_db0
-from api.dependencies import logout_required
+from api.__dependencies__.auth import logout_required
 
 
 def generator(app: FastAPI):

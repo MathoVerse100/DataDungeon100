@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from lib.email_utils import is_email, normalize_email, send_email, email_verification_html_body
 from lib.password_utils import hash_password
 from initialize_dbs import operations, redis_db0
-from api.dependencies import logout_required
+from api.__dependencies__.auth import logout_required
 
 
 class UserRegisterCredentials(BaseModel):

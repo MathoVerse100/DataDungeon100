@@ -1,10 +1,8 @@
-from fastapi import FastAPI, Request, Response, Depends
+from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
-from fastapi.exceptions import HTTPException
-from fastapi.encoders import jsonable_encoder
 
-from initialize_dbs import operations, redis_db0
-from api.dependencies import login_required
+from initialize_dbs import redis_db0
+from api.__dependencies__.auth import login_required
 
 
 def generator(app: FastAPI):

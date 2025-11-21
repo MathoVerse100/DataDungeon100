@@ -1,13 +1,12 @@
 from fastapi import FastAPI, Request, Response, Depends
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
-from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 
 from initialize_dbs import operations, redis_db0
 from lib.email_utils import normalize_email, is_email
 from lib.password_utils import check_password
-from api.dependencies import logout_required
+from api.__dependencies__.auth import logout_required
 
 import json
 import secrets

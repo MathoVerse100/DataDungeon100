@@ -5,7 +5,7 @@ from pydantic import BaseModel, field_validator
 from typing import Literal
 
 from initialize_dbs import operations
-from api.dependencies import login_required
+from api.__dependencies__.auth import login_required
 
 
 class PostReaction(BaseModel):

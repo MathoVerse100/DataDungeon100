@@ -1,11 +1,16 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel
 
 from enum import Enum
 from initialize_dbs import operations
+from api.__dependencies__.auth import login_required
 
+
+class PostBody(BaseModel):
+    ...
 
 def generator(app: FastAPI):
 
@@ -78,3 +83,20 @@ def generator(app: FastAPI):
         )
 
         return JSONResponse(status_code=200, content=jsonable_encoder(results))
+
+    @app.post('/api/communities/{community_title}/posts', dependencies=[Depends(login_required)])
+    async def api_communities_posts(
+        request: Request,
+        community_title: str,
+        post_body: PostBody
+    ):
+        if not (
+            await operations.execute(
+                """SELECT TITLE FROM COMMUNITY_INFO WHERE LOWER(TITLE) = %s::text""",
+                (community_title,)
+            )
+        ):
+            raise HTTPException(status_code=404, detail='Community not found')
+
+        
+
