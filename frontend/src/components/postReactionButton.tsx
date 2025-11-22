@@ -13,6 +13,7 @@ export default function PostReactionButton({
   iconXCoordinate,
   iconYCoordinate,
   reactionValue,
+  onClick,
 }: PostReactionButtonProps) {
   return (
     <div
@@ -33,6 +34,7 @@ export default function PostReactionButton({
           backgroundPosition: `${iconXCoordinate} ${iconYCoordinate}`,
           backgroundRepeat: "no-repeat",
         }}
+        onClick={onClick ?? undefined}
       ></button>
       <span className="flex-1 self-center text-gray-300 text-xs [@media(min-width:480px)]:text-sm font-sans font-bold">
         {reactionValue}

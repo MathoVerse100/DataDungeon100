@@ -8,6 +8,8 @@ import {
 import PostReactionButton from "../../../components/postReactionButton";
 import CommunityCreateComment from "../../../components/communityCreateComment";
 import { useNavigate, useParams } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 export interface CommentObject {
   id: number;
@@ -66,6 +68,81 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
       setCreateReply("hidden");
     }
   }
+
+  const { isError, data, error } = useQuery({
+    queryKey: ["communityCommentReaction", comment.id],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments/${comment.id}/main`
+        );
+
+        return response.data;
+      } catch (error) {
+        return null;
+      }
+    },
+  });
+
+  if (isError) {
+    console.log(error);
+  }
+
+  const queryClient = useQueryClient();
+  const submitCommentLikeReaction = useMutation({
+    mutationKey: ["communityCommentLikesReaction", comment.id],
+    mutationFn: async () => {
+      const response = await axios.post(
+        `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments/${comment.id}/reaction`,
+        { name: "likes" },
+        { withCredentials: true }
+      );
+
+      console.log(response.data);
+      return response.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["communityCommentReaction", comment.id],
+      });
+    },
+
+    onMutate: () => {
+      console.log("IS mutating");
+    },
+
+    onError: () => {
+      navigate("/login");
+    },
+  });
+
+  const submitCommentDislikeReaction = useMutation({
+    mutationKey: ["communityCommentDislikesReaction", comment.id],
+    mutationFn: async () => {
+      const response = await axios.post(
+        `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments/${comment.id}/reaction`,
+        { name: "dislikes" },
+        { withCredentials: true }
+      );
+
+      return response.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["communityCommentReaction", comment.id],
+      });
+    },
+
+    onMutate: () => {
+      console.log("IS mutating");
+    },
+
+    onError: () => {
+      navigate("/login");
+    },
+  });
 
   return (
     <div className="comment flex flex-col justify-stretch items-stretch">
@@ -132,14 +209,16 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
                 logo={likesLogo}
                 iconXCoordinate="50%"
                 iconYCoordinate="40%"
-                reactionValue={comment.likes}
+                reactionValue={data?.like ?? 0}
+                onClick={() => submitCommentLikeReaction.mutate()}
               />
 
               <PostReactionButton
                 logo={dislikesLogo}
                 iconXCoordinate="50%"
                 iconYCoordinate="75%"
-                reactionValue={comment.dislikes}
+                reactionValue={data?.dislike ?? 0}
+                onClick={() => submitCommentDislikeReaction.mutate()}
               />
               <button
                 className={`

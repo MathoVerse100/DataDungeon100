@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dislikesLogo, exploreLogo, likesLogo } from "../../../assets/assets";
 import Dropdown from "../../../components/dropdown";
 import PostReactionButton from "../../../components/postReactionButton";
@@ -6,7 +6,7 @@ import CommunityMainLayout from "../../../layouts/communityMainLayout";
 import CommunityAside from "../__communityAside";
 import PostIdComment, { type CommentObject } from "./__postIdComment";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import CommunityCreateComment from "../../../components/communityCreateComment";
 
@@ -16,6 +16,8 @@ export type QueryParams = {
 };
 
 export function PostIdPostContent() {
+  const navigate = useNavigate();
+
   const params = useParams();
   const communityTitle = params.communityTitle;
   const postId = params.postId;
@@ -32,6 +34,62 @@ export function PostIdPostContent() {
         `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/main`
       );
       return response.data;
+    },
+  });
+
+  const queryClient = useQueryClient();
+  const submitPostLikeReaction = useMutation({
+    mutationKey: ["communityPostLikesReaction", postId],
+    mutationFn: async () => {
+      const response = await axios.post(
+        `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/reaction`,
+        { name: "likes" },
+        { withCredentials: true }
+      );
+
+      console.log(response.data);
+      return response.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["communityPostContent"],
+      });
+    },
+
+    onMutate: () => {
+      console.log("IS mutating");
+    },
+
+    onError: () => {
+      navigate("/login");
+    },
+  });
+
+  const submitPostDislikeReaction = useMutation({
+    mutationKey: ["communityPostDislikesReaction", postId],
+    mutationFn: async () => {
+      const response = await axios.post(
+        `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/reaction`,
+        { name: "dislikes" },
+        { withCredentials: true }
+      );
+
+      return response.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["communityPostContent"],
+      });
+    },
+
+    onMutate: () => {
+      console.log("IS mutating");
+    },
+
+    onError: () => {
+      navigate("/login");
     },
   });
 
@@ -129,6 +187,7 @@ export function PostIdPostContent() {
           iconXCoordinate="50%"
           iconYCoordinate="40%"
           reactionValue={data.likes}
+          onClick={() => submitPostLikeReaction.mutate()}
         />
 
         <PostReactionButton
@@ -136,6 +195,7 @@ export function PostIdPostContent() {
           iconXCoordinate="50%"
           iconYCoordinate="75%"
           reactionValue={data.dislikes}
+          onClick={() => submitPostDislikeReaction.mutate()}
         />
       </section>
     </div>
@@ -200,10 +260,6 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
 
   return (
     <>
-      {/* <CommunityCreateComment
-        filterValue={queryParams.filterValue}
-        sortValue={queryParams.sortValue}
-      /> */}
       <Dropdown
         className="mx-[2em] mt-[2em]"
         defaultDisplay={`${

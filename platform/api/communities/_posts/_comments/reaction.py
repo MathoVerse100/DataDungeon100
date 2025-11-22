@@ -53,6 +53,8 @@ def generator(app: FastAPI):
         ):
             raise HTTPException(status_code=404, detail='Comment not found')
         
+        print(f"I AM HERE:::::::: {comment_id}")
+
         user_session_data: dict = request.session.get('user_session_data')
         user_info: dict = user_session_data.get('user_info')
 

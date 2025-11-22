@@ -1,7 +1,6 @@
 import { exploreLogo } from "../../assets/assets";
 import CommunityPostCard from "../../components/communityPostCard";
 import CommunitySkeleton from "./__communitySkeleton";
-// import FilterDropdowns from "./__filterDropdowns";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -60,6 +59,8 @@ function CommunityTitlePosts() {
         `http://localhost:8000/api/communities/${communityTitle}/posts?filter=${queryParams.filterValue}&sort=${queryParams.sortValue}`
       );
 
+      // console.log(response.data);
+
       return response.data;
     },
   });
@@ -79,7 +80,7 @@ function CommunityTitlePosts() {
       </h1>
     );
   }
-  // sm:mt-[3rem]
+
   return (
     <>
       <div className="px-[0.5em] pb-[1em] bg-black sticky top-0 flex flex-row justify-stretch items-center border-b-[1px] border-b-gray-800">
@@ -222,8 +223,8 @@ function CommunityTitlePosts() {
             title={post.title}
             tags={post.tags}
             content={post.content}
-            likes={post.likes}
-            dislikes={post.dislikes}
+            // likes={post.likes}
+            // dislikes={post.dislikes}
           />
         );
       })}
