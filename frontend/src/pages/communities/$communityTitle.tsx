@@ -79,10 +79,10 @@ function CommunityTitlePosts() {
       </h1>
     );
   }
-
+  // sm:mt-[3rem]
   return (
     <>
-      <div className="[@media(min-width:480px)]:mt-[2rem] px-[0.5em] py-[1em] bg-black sticky top-0 flex flex-row justify-stretch items-center border-b-[1px] border-b-gray-800">
+      <div className="px-[0.5em] pb-[1em] bg-black sticky top-0 flex flex-row justify-stretch items-center border-b-[1px] border-b-gray-800">
         <CommunityFeedFilterDropdown title="" isSmallCompatible={false}>
           <Dropdown
             className="mx-[2em] mt-[0.5em]"

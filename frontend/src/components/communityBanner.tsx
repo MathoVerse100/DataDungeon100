@@ -2,7 +2,7 @@ import NavButton from "./navButton";
 
 import { moreOptionsLogo } from "../assets/assets";
 import ActionButton from "./actionButton";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -22,19 +22,26 @@ type CommunityBannerProps = {
 };
 
 export default function CommunityBanner(props: CommunityBannerProps) {
+  const navigate = useNavigate();
+
   const params = useParams();
   const communityTitle = params.communityTitle;
 
-  const { isLoading, isError, data, error } = useQuery({
+  const { isError, data, error } = useQuery({
     queryKey: ["communityJoin", communityTitle],
     queryFn: async () => {
-      const response = await axios.get(
-        `http://localhost:8000/api/communities/${communityTitle}/join`,
-        { withCredentials: true }
-      );
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/communities/${communityTitle}/join`,
+          { withCredentials: true }
+        );
 
-      return response.data;
+        return response.data;
+      } catch (error) {
+        return null;
+      }
     },
+    retry: false,
   });
 
   const queryClient = useQueryClient();
@@ -58,19 +65,10 @@ export default function CommunityBanner(props: CommunityBannerProps) {
 
     onMutate: () => {},
 
-    onError: (error) => {
-      console.error("ERROR:", error);
-      console.error("ERROR:", error.message);
+    onError: () => {
+      navigate("/login");
     },
   });
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
 
   if (isError) {
     return (
@@ -118,9 +116,6 @@ export default function CommunityBanner(props: CommunityBannerProps) {
             <span className="text-white text-3xl font-bold text-gray-200 leading-[2em] hidden [@media(min-width:480px)]:block">
               {props.communityTitle}
             </span>
-            <p className="hidden sm:block absolute text-gray-400 text-[0.75rem] w-[calc(100%-5em)] break-words text-wrap">
-              {props.communitySubtitle}
-            </p>
           </div>
         </div>
       </section>
@@ -146,14 +141,24 @@ export default function CommunityBanner(props: CommunityBannerProps) {
         />
       </section>
 
-      <section className="[@media(min-width:480px)]:mt-[3rem] mt-[4rem] px-[2em] py-[1em]">
+      <div>
+        <span className="block [@media(min-width:480px)]:hidden px-[1.25em] mt-[2em] mb-[0.5em] text-white text-3xl font-bold text-gray-200">
+          {props.communityTitle}
+        </span>
+
+        <p className="block [@media(min-width:480px)]:mt-[6em] [@media(min-width:480px)]:mb-[0.5em] px-[3em] text-gray-400 text-[0.75rem] break-words text-wrap">
+          {props.communitySubtitle}
+        </p>
+      </div>
+
+      {/* <section className="block sm:hidden px-[2em] py-[1em]">
         <span className="text-white text-3xl font-bold text-gray-200 leading-[2em] [@media(min-width:480px)]:hidden">
           {props.communityTitle}
         </span>
         <p className="block sm:hidden text-gray-400 text-[0.75rem] break-words text-wrap">
           {props.communitySubtitle}
         </p>
-      </section>
+      </section> */}
     </>
   );
 }
