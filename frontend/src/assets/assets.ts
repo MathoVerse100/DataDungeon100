@@ -35,6 +35,7 @@ import dislikesLogo from "./dislike.png";
 import gridLogo from "./grid.png";
 import hidePasswordLogo from "./hide_password.png";
 import showPasswordLogo from "./show_password.png";
+import replyLogo from "./reply.png";
 
 export {
   homeLogo,
@@ -74,4 +75,5 @@ export {
   tenLogo,
   hidePasswordLogo,
   showPasswordLogo,
+  replyLogo,
 };

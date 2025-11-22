@@ -1,6 +1,13 @@
 import { useState } from "react";
-import { dislikesLogo, exploreLogo, likesLogo } from "../../../assets/assets";
+import {
+  dislikesLogo,
+  exploreLogo,
+  likesLogo,
+  replyLogo,
+} from "../../../assets/assets";
 import PostReactionButton from "../../../components/postReactionButton";
+import CommunityCreateComment from "../../../components/communityCreateComment";
+import { Link, useParams } from "react-router-dom";
 
 export interface CommentObject {
   id: number;
@@ -28,8 +35,14 @@ type PostIdCommentProps = {
 };
 
 export default function PostIdComment({ comment }: PostIdCommentProps) {
+  const params = useParams();
+  const communityTitle = params.communityTitle;
+  const postId = params.postId;
+
   const [commentSideHighlighter, setCommentSideHighlighter] =
     useState("bg-slate-800");
+
+  const [createReply, setCreateReply] = useState("hidden");
 
   function changeCommentSideHighlighter() {
     if (commentSideHighlighter === "bg-slate-800") {
@@ -39,11 +52,19 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
     }
   }
 
+  function handleCreateReply() {
+    if (createReply === "hidden") {
+      setCreateReply("block");
+    } else {
+      setCreateReply("hidden");
+    }
+  }
+
   return (
-    <div className="comment {% if comment.depth == 0 %}mt-[2em]{% endif %} flex flex-col justify-stretch items-stretch">
+    <div className="comment flex flex-col justify-stretch items-stretch">
       <div
         className="
-                    px-[1em] [@media(min-width:480px)]:px-[2em] py-[0.5em] w-[100%]
+                    px-[1em] [@media(min-width:480px)]:px-[2em] py-[0.25em] w-[100%]
                     transition-all duration-[200ms]
                 "
       >
@@ -63,7 +84,10 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
             {comment.first_name} {comment.last_name}
           </span>
           <span className="text-gray-500 text-[0.75rem]">
-            {comment.created_at}
+            {new Date(comment.created_at)
+              .toISOString()
+              .substring(0, 16)
+              .replace("T", " | ")}
           </span>
         </section>
         <section className="flex flex-row justify-stretch items-stretch gap-[0.5em]">
@@ -98,29 +122,73 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
                 iconYCoordinate="75%"
                 reactionValue={comment.dislikes}
               />
+              <button
+                className={`
+                    flex flex-row justify-stretch items-center gap-[0.5em] p-[0.5em] h-[2.25em] hover:cursor-pointer hover:bg-gray-500/25
+                    active:bg-gray-800/50 pointer-events-auto rounded-[1rem]
+                  `}
+                onClick={handleCreateReply}
+              >
+                <img src={replyLogo} className="h-full w-auto"></img>
+                <p className="text-gray-400 text-sm font-bold font-mono">
+                  Reply
+                </p>
+              </button>
             </section>
           </div>
         </section>
 
+        {comment.depth !== 0 ? (
+          <div
+            className={`${
+              comment.depth === 2 ? "mb-[0.25em]" : ""
+            } ${createReply}`}
+          >
+            <CommunityCreateComment
+              filterValue="likes"
+              sortValue="descending"
+              endpoint={`http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments/${comment.id}/comments`}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
+
         {comment.depth === 2 ? (
-          <span className="ml-[2.5em] text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">
+          <Link
+            prefetch="intent"
+            to={`/communities/${communityTitle}/${postId}/${comment.id}`}
+            className="ml-[2.5em] text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer"
+          >
             Open replies...
-          </span>
+          </Link>
         ) : (
           <></>
         )}
 
         {comment.is_root ? (
-          <a
+          <button
             className="
-                        mx-[3em] mt-[0.5em] py-[0.25em] px-[2em] w-[12em]
+                        mx-[3em] mt-[0.5em] py-[0.25em] px-[2em] w-[12em] hover:cursor-pointer
                         rounded-[1rem] flex flex-row justify-center items-center
                         bg-gray-800 text-white text-xs font-sans font-bold transition-all
                         duration-[100ms] hover:bg-gray-500/25 active:scale-[0.95]
                     "
           >
             View full thread
-          </a>
+          </button>
+        ) : (
+          <></>
+        )}
+
+        {comment.depth === 0 ? (
+          <div className={`${createReply}`}>
+            <CommunityCreateComment
+              filterValue="likes"
+              sortValue="descending"
+              endpoint={`http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments/${comment.id}/comments`}
+            />
+          </div>
         ) : (
           <></>
         )}

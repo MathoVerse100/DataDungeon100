@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { dislikesLogo, exploreLogo, likesLogo } from "../../../assets/assets";
 import Dropdown from "../../../components/dropdown";
 import PostReactionButton from "../../../components/postReactionButton";
@@ -7,9 +7,10 @@ import CommunityAside from "../__communityAside";
 import PostIdComment, { type CommentObject } from "./__postIdComment";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useState } from "react";
+import CommunityCreateComment from "../../../components/communityCreateComment";
 
-type QueryParams = {
+export type QueryParams = {
   filterValue: "likes" | "dislikes" | "created_at";
   sortValue: "ascending" | "descending";
 };
@@ -139,98 +140,10 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
     descending: "↓",
   };
 
-  const [textareaHeight, setTextareaHeight] = useState(80);
-  function handleTextareaHeight(event: ChangeEvent<HTMLTextAreaElement>) {
-    if (event.target?.scrollHeight > event.target?.clientHeight) {
-      setTextareaHeight(event.target?.scrollHeight);
-    }
-  }
-
-  const params = useParams();
-  const communityTitle = params.communityTitle;
-  const postId = params.postId;
-
   const [queryParams, setQueryParams] = useState<QueryParams>({
     filterValue: "likes",
     sortValue: "descending",
   });
-
-  const queryClient = useQueryClient();
-  const [createCommentSettings, setCreateCommentSettings] = useState({
-    settings: "hidden",
-    roundedness: "rounded-[1rem]",
-  });
-  const [createCommentContent, setCreateCommentContent] = useState("");
-  const [createCommentError, setCreateCommentError] = useState({
-    hide: true,
-    content: "",
-  });
-  const [createCommentMutating, setCreateCommentMutating] = useState(false);
-
-  const submitCreateComment = useMutation({
-    mutationFn: async () => {
-      const response = await axios.post(
-        `http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments`,
-        { content: createCommentContent },
-        { withCredentials: true }
-      );
-
-      return response.data;
-    },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["communityPostComments"],
-      });
-      setCreateCommentMutating(false);
-      setCreateCommentError({
-        hide: true,
-        content: "",
-      });
-      setCreateCommentContent("");
-    },
-
-    onMutate: () => {
-      setCreateCommentMutating(true);
-    },
-
-    onError: (error: any) => {
-      setCreateCommentMutating(false);
-      setCreateCommentError({
-        hide: false,
-        content:
-          typeof error.response.data.detail === "string"
-            ? "You must login to comment!"
-            : "Comment must not be empty!",
-      });
-    },
-  });
-
-  function handleCreateCommentContent(content: string) {
-    setCreateCommentContent(content);
-  }
-
-  function openCreateCommentSettings() {
-    if (createCommentSettings.settings === "hidden") {
-      setCreateCommentSettings({
-        settings: "flex",
-        roundedness: "rounded-t-[1rem] border-b-[1px] border-b-gray-800",
-      });
-    }
-  }
-
-  function closeCreateCommentSettings() {
-    if (createCommentSettings.settings === "flex") {
-      setCreateCommentSettings({
-        settings: "hidden",
-        roundedness: "rounded-[1rem]",
-      });
-    }
-  }
-
-  function handleSubmitCreateComment() {
-    submitCreateComment.mutate();
-  }
 
   function handleQueryParams({
     filter,
@@ -270,68 +183,10 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
 
   return (
     <>
-      {createCommentMutating ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      ) : (
-        <>
-          <section className="flex flex-col justify-stretch items-stretch mt-[1em] mx-[2em]">
-            <textarea
-              onSelect={openCreateCommentSettings}
-              onInput={(event: FormEvent<HTMLTextAreaElement>) => {
-                handleCreateCommentContent(
-                  (event.target as HTMLTextAreaElement).value
-                );
-                handleTextareaHeight(event as ChangeEvent<HTMLTextAreaElement>);
-              }}
-              className={`
-                        outline-none w-full ${createCommentSettings.roundedness} bg-gray-800/50 text-white p-[1em]
-                        text-sm overflow-hidden min-h-[5rem] h-[5rem]
-                    `}
-              style={{ height: `${textareaHeight}px` }}
-              placeholder="Create a comment..."
-              value={createCommentContent}
-            ></textarea>
-            <div
-              className={`
-                            ${createCommentSettings.settings}
-                            self-end w-full h-[3em] bg-gray-800/50
-                            flex-row justify-stretch items-stretch gap-[1em]
-                            rounded-b-[1rem] p-[0.5em] border-t-[1px] border-t-gray-800
-                        `}
-            >
-              <button
-                onClick={handleSubmitCreateComment}
-                className="
-                                ml-auto mr-0 bg-blue-500 text-white font-bold text-sm rounded-[1rem] px-[1em]
-                                transition-all duration-[200ms] hover:bg-blue-800 
-                            "
-              >
-                Submit
-              </button>
-              <button
-                onClick={closeCreateCommentSettings}
-                className="
-                                bg-red-500 text-white font-bold text-sm rounded-[1rem] px-[1em]
-                                transition-all duration-[200ms] hover:bg-red-800 
-                            "
-              >
-                Cancel
-              </button>
-            </div>
-          </section>
-          <div
-            className={`w-full ${
-              createCommentError.hide ? "hidden" : "inline-block"
-            }`}
-          >
-            <span className="mx-[3em] mt-[1em] text-red-500 text-xs">
-              {createCommentError.content}
-            </span>
-          </div>
-        </>
-      )}
+      {/* <CommunityCreateComment
+        filterValue={queryParams.filterValue}
+        sortValue={queryParams.sortValue}
+      /> */}
       <Dropdown
         className="mx-[2em] mt-[2em]"
         defaultDisplay={`${
@@ -409,6 +264,11 @@ export default function PostId() {
     <CommunityMainLayout>
       <CommunityMainLayout.Feed>
         <PostIdPostContent />
+        <CommunityCreateComment
+          filterValue="likes"
+          sortValue="descending"
+          endpoint={`http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments`}
+        />
         <PostIdPostComments
           endpoint={`http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments`}
         />

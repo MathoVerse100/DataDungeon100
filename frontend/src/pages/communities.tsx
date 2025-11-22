@@ -44,6 +44,42 @@ export default function Communities() {
           ]}
         />
         <SidebarMenuGroup
+          header_content="Recently Opened"
+          buttons={[
+            {
+              type: "expand",
+              logo: homeLogo,
+              iconSize: "cover",
+              content: "Analytics",
+              url: "/communities/analytics",
+            },
+            {
+              type: "expand",
+              logo: exploreLogo,
+              iconSize: "cover",
+              content: "Community 2",
+            },
+            {
+              type: "expand",
+              logo: studyZoneLogo,
+              iconSize: "cover",
+              content: "Community 3",
+            },
+            {
+              type: "expand",
+              logo: communitiesLogo,
+              iconSize: "cover",
+              content: "Community 4",
+            },
+            {
+              type: "expand",
+              logo: projectsLogo,
+              iconSize: "cover",
+              content: "View All",
+            },
+          ]}
+        />
+        <SidebarMenuGroup
           header_content="Favorites"
           buttons={[
             {
@@ -75,41 +111,6 @@ export default function Communities() {
               logo: settingsLogo,
               iconSize: "cover",
               content: "View Al;",
-            },
-          ]}
-        />
-        <SidebarMenuGroup
-          header_content="Recently Opened"
-          buttons={[
-            {
-              type: "expand",
-              logo: homeLogo,
-              iconSize: "cover",
-              content: "Community 1",
-            },
-            {
-              type: "expand",
-              logo: exploreLogo,
-              iconSize: "cover",
-              content: "Community 2",
-            },
-            {
-              type: "expand",
-              logo: studyZoneLogo,
-              iconSize: "cover",
-              content: "Community 3",
-            },
-            {
-              type: "expand",
-              logo: communitiesLogo,
-              iconSize: "cover",
-              content: "Community 4",
-            },
-            {
-              type: "expand",
-              logo: projectsLogo,
-              iconSize: "cover",
-              content: "View All",
             },
           ]}
         />
