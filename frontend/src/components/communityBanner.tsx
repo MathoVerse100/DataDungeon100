@@ -77,7 +77,7 @@ export default function CommunityBanner(props: CommunityBannerProps) {
         />
       </section>
 
-      <section className="mt-[3rem] px-[2em] py-[1em]">
+      <section className="[@media(min-width:480px)]:mt-[3rem] mt-[4rem] px-[2em] py-[1em]">
         <span className="text-white text-3xl font-bold text-gray-200 leading-[2em] [@media(min-width:480px)]:hidden">
           {props.communityTitle}
         </span>

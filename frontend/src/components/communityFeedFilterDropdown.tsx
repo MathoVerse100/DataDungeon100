@@ -22,7 +22,7 @@ export default function CommunityFeedFilterDropdown({
                     : "flex [@media(min-width:480px)]:hidden"
                 }
                 ${classNames ?? ""}
-                flex-col justify-stretch items-start gap-[0.5em]
+                flex-col justify-stretch items-center gap-[0]
             `}
     >
       <span className="text-[0.75rem] text-gray-500 font-bold">{title}</span>

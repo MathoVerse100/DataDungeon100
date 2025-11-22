@@ -162,7 +162,6 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
                   navigate(
                     `/communities/${communityTitle}/${postId}/${comment.id}`
                   );
-                  console.log(comment.id);
                 }}
               >
                 <img src={replyLogo} className="h-full w-auto"></img>
@@ -173,6 +172,21 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
             </section>
           </div>
         </section>
+
+        {comment.depth === 2 ? (
+          <button
+            onClick={() => {
+              navigate(
+                `/communities/${communityTitle}/${postId}/${comment.id}`
+              );
+            }}
+            className="ml-[2.5em] mt-[0.25em] w-full flex flex-row justify-start items-stretch text-blue-600 underline hover:cursor-pointer hover:text-blue-600"
+          >
+            <span className="text-sm">Open Replies...</span>
+          </button>
+        ) : (
+          <></>
+        )}
 
         {comment.depth !== 0 ? (
           <div
