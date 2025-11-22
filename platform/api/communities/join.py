@@ -9,6 +9,31 @@ from api.__dependencies__.communities import check_community_exists
 
 def generator(app: FastAPI):
 
+    @app.get('/api/communities/{community_title}/join', dependencies=[Depends(login_required)])
+    async def api_communities_join(
+        request: Request,
+        community_title: str,
+        community_id: int = Depends(check_community_exists)
+    ) -> Response:
+        user_session_data: dict = request.session.get('user_session_data', None)
+        user_info: dict = user_session_data.get('user_info', None)
+
+        if (
+            await operations.execute(
+                """
+                    SELECT USER_ID
+                    FROM USER_COMMUNITY
+                    WHERE USER_ID = %s::integer
+                    AND COMMUNITY_ID = %s::integer
+                """,
+                (user_info.get('user_id', None), community_id)
+            )
+        ):
+            return JSONResponse(status_code=200, content=True)
+
+        return JSONResponse(status_code=200, content=False) 
+
+
     @app.post('/api/communities/{community_title}/join', dependencies=[Depends(login_required)])
     async def api_communities_join(
         request: Request,

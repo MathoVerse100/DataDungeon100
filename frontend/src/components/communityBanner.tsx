@@ -2,6 +2,9 @@ import NavButton from "./navButton";
 
 import { moreOptionsLogo } from "../assets/assets";
 import ActionButton from "./actionButton";
+import { useParams } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 type CommunityBannerProps = {
   bannerClassNames?: string;
@@ -19,6 +22,64 @@ type CommunityBannerProps = {
 };
 
 export default function CommunityBanner(props: CommunityBannerProps) {
+  const params = useParams();
+  const communityTitle = params.communityTitle;
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["communityJoin", communityTitle],
+    queryFn: async () => {
+      const response = await axios.get(
+        `http://localhost:8000/api/communities/${communityTitle}/join`,
+        { withCredentials: true }
+      );
+
+      return response.data;
+    },
+  });
+
+  const queryClient = useQueryClient();
+  const submitJoinCommunityRequest = useMutation({
+    mutationFn: async () => {
+      const response = await axios.post(
+        `http://localhost:8000/api/communities/${communityTitle}/join`,
+        { content: null },
+        { withCredentials: true }
+      );
+
+      return response.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["communityJoin", communityTitle],
+        exact: false,
+      });
+    },
+
+    onMutate: () => {},
+
+    onError: (error) => {
+      console.error("ERROR:", error);
+      console.error("ERROR:", error.message);
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <h1 className="text-white font-roboto text-lg font-bold">
+        Error! {error.message}
+      </h1>
+    );
+  }
+
   return (
     <>
       <section
@@ -65,8 +126,16 @@ export default function CommunityBanner(props: CommunityBannerProps) {
       </section>
 
       <section className="absolute right-[2em] sm:right-0 mt-2 p-2 flex flex-row justify-end items-center gap-[1em]">
-        <ActionButton content="Join" />
-        <ActionButton content="On" />
+        <ActionButton
+          content={data ? "Joined" : "Join"}
+          classNames={
+            data
+              ? "bg-green-600 hover:bg-green-800"
+              : "bg-red-500 hover:bg-red-800"
+          }
+          onClick={() => submitJoinCommunityRequest.mutate()}
+        />
+        <ActionButton content="On" classNames="bg-red-500" />
 
         <NavButton
           type="circle"
