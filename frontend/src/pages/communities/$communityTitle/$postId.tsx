@@ -20,6 +20,11 @@ export function PostIdPostContent() {
   const communityTitle = params.communityTitle;
   const postId = params.postId;
 
+  const [fullText, setFullText] = useState(false);
+  function handleFullText() {
+    setFullText(!fullText);
+  }
+
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["communityPostContent"],
     queryFn: async () => {
@@ -100,14 +105,23 @@ export function PostIdPostContent() {
         </div>
         <article
           className="
-                        text-sm text-gray-400 break-words text-wrap line-clamp-5
+                        text-sm text-gray-400 break-words text-wrap
                     "
         >
-          {data.content}
+          {data.content.length <= 600 || fullText
+            ? data.content
+            : `${data.content.slice(0, 600)}.....`}
         </article>
-        <span className="text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer">
-          Read more...
-        </span>
+        {data.content.length > 600 ? (
+          <button
+            className="text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer"
+            onClick={handleFullText}
+          >
+            {fullText ? "Collapse" : "Read more..."}
+          </button>
+        ) : (
+          <></>
+        )}
       </section>
       <section className="w-[100%] flex flex-row justify-start items-center gap-[1em]">
         <PostReactionButton
@@ -135,6 +149,9 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
     dislikes: "Dislikes",
   };
 
+  const params = useParams();
+  const commentId = params.commentId ?? 0;
+
   const queryParamsSortsPrettyMapping = {
     ascending: "↑",
     descending: "↓",
@@ -156,7 +173,7 @@ export function PostIdPostComments({ endpoint }: { endpoint: string }) {
   }
 
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["communityPostComments", queryParams],
+    queryKey: ["communityPostComments", commentId, queryParams],
     queryFn: async () => {
       const response = await axios.get(
         `${endpoint}?filter=${queryParams.filterValue}&sort=${queryParams.sortValue}`

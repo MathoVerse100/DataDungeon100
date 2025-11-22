@@ -38,13 +38,7 @@ export default function CommunityCreateComment(
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [
-          "communityPostComments",
-          {
-            filterValue: adjustedQueryParams.filterValue,
-            sortValue: adjustedQueryParams.sortValue,
-          },
-        ],
+        queryKey: ["communityPostComments"],
         exact: false,
       });
       setCreateCommentMutating(false);

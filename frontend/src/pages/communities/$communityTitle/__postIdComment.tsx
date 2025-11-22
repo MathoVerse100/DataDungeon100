@@ -7,7 +7,7 @@ import {
 } from "../../../assets/assets";
 import PostReactionButton from "../../../components/postReactionButton";
 import CommunityCreateComment from "../../../components/communityCreateComment";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export interface CommentObject {
   id: number;
@@ -38,6 +38,13 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
   const params = useParams();
   const communityTitle = params.communityTitle;
   const postId = params.postId;
+
+  const navigate = useNavigate();
+
+  const [fullText, setFullText] = useState(false);
+  function handleFullText() {
+    setFullText(!fullText);
+  }
 
   const [commentSideHighlighter, setCommentSideHighlighter] =
     useState("bg-slate-800");
@@ -106,8 +113,20 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
                                 text-sm text-gray-400 font-sans break-words text-wrap whitespace-pre-wrap
                             "
             >
-              {comment.content}
+              {comment.content.length <= 600 || fullText
+                ? comment.content
+                : `${comment.content.slice(0, 600)}.....`}
             </article>
+            {comment.content.length > 600 ? (
+              <button
+                className="text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer"
+                onClick={handleFullText}
+              >
+                {fullText ? "Collapse" : "Read more..."}
+              </button>
+            ) : (
+              <></>
+            )}
             <section className="mt-[0.5em] w-[100%] flex flex-row justify-start items-center gap-[1em]">
               <PostReactionButton
                 logo={likesLogo}
@@ -134,6 +153,23 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
                   Reply
                 </p>
               </button>
+              <button
+                className={`
+                    flex flex-row justify-stretch items-center gap-[0.5em] p-[0.5em] h-[2.25em] hover:cursor-pointer hover:bg-gray-500/25
+                    active:bg-gray-800/50 pointer-events-auto rounded-[1rem]
+                  `}
+                onClick={() => {
+                  navigate(
+                    `/communities/${communityTitle}/${postId}/${comment.id}`
+                  );
+                  console.log(comment.id);
+                }}
+              >
+                <img src={replyLogo} className="h-full w-auto"></img>
+                <p className="text-gray-400 text-sm font-bold font-mono">
+                  View All
+                </p>
+              </button>
             </section>
           </div>
         </section>
@@ -150,18 +186,6 @@ export default function PostIdComment({ comment }: PostIdCommentProps) {
               endpoint={`http://localhost:8000/api/communities/${communityTitle}/posts/${postId}/comments/${comment.id}/comments`}
             />
           </div>
-        ) : (
-          <></>
-        )}
-
-        {comment.depth === 2 ? (
-          <Link
-            prefetch="intent"
-            to={`/communities/${communityTitle}/${postId}/${comment.id}`}
-            className="ml-[2.5em] text-blue-700 hover:underline hover:text-blue-500 hover:cursor-pointer"
-          >
-            Open replies...
-          </Link>
         ) : (
           <></>
         )}
