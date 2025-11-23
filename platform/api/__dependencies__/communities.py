@@ -50,3 +50,16 @@ async def check_community_tags(community_id: int, tags: list[str]) -> list[str]:
         raise HTTPException(status_code=404, detail='One or more provided tags do not belong to this community!')
     
     return tags
+
+
+async def check_community_post_exists(post_id: int) -> int:
+    results = await operations.execute(
+        """SELECT ID FROM COMMUNITY_POST_INFO WHERE ID = %s::integer""",
+        (post_id,)
+    )
+    
+    if not results:
+        raise HTTPException(status_code=404, detail='Post not found')
+    
+    return results[0]['id']
+

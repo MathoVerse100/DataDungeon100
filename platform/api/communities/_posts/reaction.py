@@ -6,6 +6,7 @@ from typing import Literal
 
 from initialize_dbs import operations
 from api.__dependencies__.auth import login_required
+from api.__dependencies__.communities import check_community_exists, check_community_post_exists
 
 
 class PostReaction(BaseModel):
@@ -21,23 +22,20 @@ class PostReaction(BaseModel):
 
 def generator(app: FastAPI):
 
-    @app.post('/api/communities/{community_title}/posts/{post_id}/reaction', dependencies=[Depends(login_required)])
-    async def api_communities_posts_reaction(request: Request, community_title: str, post_id: int, reaction: PostReaction) -> Response:
-        if not (
-            await operations.execute(
-                """SELECT TITLE FROM COMMUNITY_INFO WHERE LOWER(TITLE) = %s::text""",
-                (community_title,)
-            )
-        ):
-            raise HTTPException(status_code=404, detail='Community not found')
-
-        if not (
-            await operations.execute(
-                """SELECT ID FROM COMMUNITY_POST_INFO WHERE ID = %s::integer""",
-                (post_id,)
-            )
-        ):
-            raise HTTPException(status_code=404, detail='Post not found')
+    @app.post(
+        '/api/communities/{community_title}/posts/{post_id}/reaction',
+        dependencies=[
+            Depends(login_required),
+            Depends(check_community_exists),
+            Depends(check_community_post_exists)
+        ]
+    )
+    async def api_communities_posts_reaction(
+        request: Request,
+        community_title: str,
+        post_id: int,
+        reaction: PostReaction,
+    ) -> Response:
 
         user_session_data: dict = request.session.get('user_session_data')
         user_info: dict = user_session_data.get('user_info')

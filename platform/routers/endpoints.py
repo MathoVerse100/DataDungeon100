@@ -16,21 +16,21 @@ from routers.help.endpoints import paths as help_paths
 from routers.explore.endpoints import paths as explore_paths
 
 
-paths = [
-    *auth_paths,
-    *home_paths,
-    *communities_paths,
-    *university_paths,
-    *projects_paths,
-    *storage_paths,
-    *settings_paths,
-    *profile_paths,
-    *find_people_paths,
-    *monk_paths,
-    *library_paths,
-    *study_zone_paths,
-    *tos_paths,
-    *history_paths,
-    *help_paths,
-    *explore_paths,
-]
+# paths = [
+#     *auth_paths,
+#     *home_paths,
+#     *communities_paths,
+#     *university_paths,
+#     *projects_paths,
+#     *storage_paths,
+#     *settings_paths,
+#     *profile_paths,
+#     *find_people_paths,
+#     *monk_paths,
+#     *library_paths,
+#     *study_zone_paths,
+#     *tos_paths,
+#     *history_paths,
+#     *help_paths,
+#     *explore_paths,
+# ]
