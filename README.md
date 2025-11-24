@@ -16,5 +16,8 @@ Current endpoints:
 --> POST /api/communities/{community_title}/posts/{post_id}/comments/{comment_id}/comments
 --> POST /api/communities/{community_title}/posts/{post_id}/comments/{comment_id}/reaction
 
+Next goal:
+-> Begin Real time Chat system
+
 () => Must separate fetching from non-fetching method of DB instances.
 () => Must separate community and post existence checks into their own dependency functions.
