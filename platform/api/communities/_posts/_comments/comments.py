@@ -218,7 +218,7 @@ def generator(app: FastAPI):
             WHERE ID = %s::integer
         """, (comment_id,))
 
-        depth = result[0]['depth']
+        depth = result[0].get('depth', None)
 
         query = f"""
             INSERT INTO COMMUNITY_COMMENT_INFO (PARENT_ID, DEPTH, USER_ID, POST_ID, COMMENT_TYPE, CONTENT, IS_ROOT)
